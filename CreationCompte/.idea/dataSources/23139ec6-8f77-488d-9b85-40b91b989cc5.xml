@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Oracle - @localhost">
+  <database-model serializer="dbm" dbms="ORACLE" family-id="ORACLE" format-version="4.20">
+    <root id="1">
+      <ServerVersion>11.2.0.2.0</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="ANONYMOUS">
+      <ObjectId>35</ObjectId>
+    </schema>
+    <schema id="3" parent="1" name="APEX_040000">
+      <ObjectId>47</ObjectId>
+    </schema>
+    <schema id="4" parent="1" name="APEX_PUBLIC_USER">
+      <ObjectId>45</ObjectId>
+    </schema>
+    <schema id="5" parent="1" name="APPQOSSYS">
+      <ObjectId>30</ObjectId>
+    </schema>
+    <schema id="6" parent="1" name="CTXSYS">
+      <ObjectId>32</ObjectId>
+    </schema>
+    <schema id="7" parent="1" name="DBSNMP">
+      <ObjectId>29</ObjectId>
+    </schema>
+    <schema id="8" parent="1" name="DIP">
+      <ObjectId>14</ObjectId>
+    </schema>
+    <schema id="9" parent="1" name="FLOWS_FILES">
+      <ObjectId>44</ObjectId>
+    </schema>
+    <schema id="10" parent="1" name="HADJ">
+      <ObjectId>56</ObjectId>
+      <IntrospectionVersion>200820</IntrospectionVersion>
+      <IntrospectionTimestamp>2021-03-20.15:42:14</IntrospectionTimestamp>
+    </schema>
+    <schema id="11" parent="1" name="HR">
+      <ObjectId>43</ObjectId>
+    </schema>
+    <schema id="12" parent="1" name="MAHDI">
+      <ObjectId>48</ObjectId>
+      <CreatedTimestamp>2021-01-12.21:49:20</CreatedTimestamp>
+      <ModifiedTimestamp>2021-02-15.22:10:53</ModifiedTimestamp>
+      <IntrospectionVersion>200820</IntrospectionVersion>
+      <IntrospectionTimestamp>2021-03-18.14:24:27</IntrospectionTimestamp>
+    </schema>
+    <schema id="13" parent="1" name="MDSYS">
+      <ObjectId>42</ObjectId>
+    </schema>
+    <schema id="14" parent="1" name="ORACLE_OCM">
+      <ObjectId>21</ObjectId>
+    </schema>
+    <schema id="15" parent="1" name="OUTLN">
+      <ObjectId>9</ObjectId>
+    </schema>
+    <schema id="16" parent="1" name="PFA">
+      <ObjectId>59</ObjectId>
+      <CreatedTimestamp>2021-03-16.00:55:50</CreatedTimestamp>
+      <ModifiedTimestamp>2021-03-20.15:42:11</ModifiedTimestamp>
+      <IntrospectionVersion>200820</IntrospectionVersion>
+      <IntrospectionTimestamp>2021-03-20.15:42:15</IntrospectionTimestamp>
+      <Current>1</Current>
+    </schema>
+    <schema id="17" parent="1" name="PUBLIC">
+      <ObjectId>1</ObjectId>
+      <CreatedTimestamp>2014-05-29.16:10:42</CreatedTimestamp>
+      <ModifiedTimestamp>2014-05-29.16:31:03</ModifiedTimestamp>
+      <IntrospectionVersion>200820</IntrospectionVersion>
+    </schema>
+    <schema id="18" parent="1" name="REVISION">
+      <ObjectId>49</ObjectId>
+    </schema>
+    <schema id="19" parent="1" name="SASSI">
+      <ObjectId>57</ObjectId>
+    </schema>
+    <schema id="20" parent="1" name="SCOTT">
+      <ObjectId>58</ObjectId>
+    </schema>
+    <schema id="21" parent="1" name="SYS">
+      <ObjectId>0</ObjectId>
+    </schema>
+    <schema id="22" parent="1" name="SYSTEM">
+      <ObjectId>5</ObjectId>
+    </schema>
+    <schema id="23" parent="1" name="TPADMIN">
+      <ObjectId>55</ObjectId>
+    </schema>
+    <schema id="24" parent="1" name="USER1">
+      <ObjectId>50</ObjectId>
+    </schema>
+    <schema id="25" parent="1" name="USER2">
+      <ObjectId>51</ObjectId>
+    </schema>
+    <schema id="26" parent="1" name="XDB">
+      <ObjectId>34</ObjectId>
+    </schema>
+    <schema id="27" parent="1" name="XS$NULL">
+      <ObjectId>2147483638</ObjectId>
+    </schema>
+    <user id="28" parent="1" name="ANONYMOUS">
+      <ObjectId>35</ObjectId>
+    </user>
+    <user id="29" parent="1" name="APEX_040000">
+      <ObjectId>47</ObjectId>
+    </user>
+    <user id="30" parent="1" name="APEX_PUBLIC_USER">
+      <ObjectId>45</ObjectId>
+    </user>
+    <user id="31" parent="1" name="APPQOSSYS">
+      <ObjectId>30</ObjectId>
+    </user>
+    <user id="32" parent="1" name="CTXSYS">
+      <ObjectId>32</ObjectId>
+    </user>
+    <user id="33" parent="1" name="DBSNMP">
+      <ObjectId>29</ObjectId>
+    </user>
+    <user id="34" parent="1" name="DIP">
+      <ObjectId>14</ObjectId>
+    </user>
+    <user id="35" parent="1" name="FLOWS_FILES">
+      <ObjectId>44</ObjectId>
+    </user>
+    <user id="36" parent="1" name="HADJ">
+      <ObjectId>56</ObjectId>
+    </user>
+    <user id="37" parent="1" name="HR">
+      <ObjectId>43</ObjectId>
+    </user>
+    <user id="38" parent="1" name="MAHDI">
+      <ObjectId>48</ObjectId>
+    </user>
+    <user id="39" parent="1" name="MDSYS">
+      <ObjectId>42</ObjectId>
+    </user>
+    <user id="40" parent="1" name="ORACLE_OCM">
+      <ObjectId>21</ObjectId>
+    </user>
+    <user id="41" parent="1" name="OUTLN">
+      <ObjectId>9</ObjectId>
+    </user>
+    <user id="42" parent="1" name="PFA">
+      <ObjectId>59</ObjectId>
+    </user>
+    <user id="43" parent="1" name="REVISION">
+      <ObjectId>49</ObjectId>
+    </user>
+    <user id="44" parent="1" name="SASSI">
+      <ObjectId>57</ObjectId>
+    </user>
+    <user id="45" parent="1" name="SCOTT">
+      <ObjectId>58</ObjectId>
+    </user>
+    <user id="46" parent="1" name="SYS">
+      <ObjectId>0</ObjectId>
+    </user>
+    <user id="47" parent="1" name="SYSTEM">
+      <ObjectId>5</ObjectId>
+    </user>
+    <user id="48" parent="1" name="TPADMIN">
+      <ObjectId>55</ObjectId>
+    </user>
+    <user id="49" parent="1" name="USER1">
+      <ObjectId>50</ObjectId>
+    </user>
+    <user id="50" parent="1" name="USER2">
+      <ObjectId>51</ObjectId>
+    </user>
+    <user id="51" parent="1" name="XDB">
+      <ObjectId>34</ObjectId>
+    </user>
+    <user id="52" parent="1" name="XS$NULL">
+      <ObjectId>2147483638</ObjectId>
+    </user>
+    <table id="53" parent="12" name="CLI">
+      <ObjectId>20147</ObjectId>
+      <CreatedTimestamp>2021-01-12.21:49:20</CreatedTimestamp>
+      <ModifiedTimestamp>2021-02-15.22:10:53</ModifiedTimestamp>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="54" parent="16" name="COUNTS">
+      <ObjectId>21833</ObjectId>
+      <CreatedTimestamp>2021-03-18.14:22:05</CreatedTimestamp>
+      <ModifiedTimestamp>2021-03-20.15:42:11</ModifiedTimestamp>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <column id="55" parent="53" name="NUMCLI">
+      <Position>1</Position>
+      <DataType>NUMBER(5 digit)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="56" parent="53" name="NOMCLI">
+      <Position>2</Position>
+      <DataType>VARCHAR2(30 byte)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="57" parent="53" name="ADR">
+      <Position>3</Position>
+      <DataType>VARCHAR2(30 byte)|0s</DataType>
+    </column>
+    <column id="58" parent="53" name="AGE">
+      <Position>4</Position>
+      <DataType>NUMBER(2 digit)|0s</DataType>
+    </column>
+    <column id="59" parent="53" name="TEL">
+      <Position>5</Position>
+      <DataType>NUMBER(10 digit)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="60" parent="53" name="SYS_C007085">
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2021-01-12.21:49:20</ModifiedTimestamp>
+      <ColNames>NUMCLI</ColNames>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <UnderlyingIndexName>SYS_C007085</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="61" parent="54" name="CIN">
+      <Position>1</Position>
+      <DataType>NUMBER(*)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="54" name="PASS">
+      <Position>2</Position>
+      <DataType>VARCHAR2(30 byte)|0s</DataType>
+    </column>
+    <index id="63" parent="54" name="SYS_C007644">
+      <ObjectId>21834</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <CreatedTimestamp>2021-03-18.14:22:05</CreatedTimestamp>
+      <ModifiedTimestamp>2021-03-20.15:42:11</ModifiedTimestamp>
+      <TablespaceName>USERS</TablespaceName>
+      <ColNames>CIN</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="64" parent="54" name="SYS_C007644">
+      <NameSurrogate>1</NameSurrogate>
+      <ModifiedTimestamp>2021-03-18.14:22:05</ModifiedTimestamp>
+      <ColNames>CIN</ColNames>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <UnderlyingIndexName>SYS_C007644</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

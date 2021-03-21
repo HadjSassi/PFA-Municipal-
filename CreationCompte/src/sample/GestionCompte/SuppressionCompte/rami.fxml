@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="311.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GestionCompte.CreationCompte.ControllerCreationCompte">
+    <children>
+        <Button layoutX="67.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Delete" textFill="RED" />
+        <Button layoutX="182.0" layoutY="153.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="72.0" text="Cancel" />
+        <Label alignment="CENTER" graphicTextGap="8.0" layoutX="34.0" layoutY="80.0" prefHeight="44.0" prefWidth="249.0" text="Are you sure you want to delete this task?" textAlignment="CENTER" />
+    </children>
+</AnchorPane>

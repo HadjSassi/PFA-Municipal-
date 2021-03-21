@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GestionCompte.SuppressionCompte.ControllerSuppressionCompte">
+   <children>
+      <Label fx:id="lbl" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="35.0" prefHeight="37.0" prefWidth="388.0" text="Voulez-vous vraiment supprimer ce compte ?" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Gabriola" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="ouiButton" layoutX="83.0" layoutY="102.0" mnemonicParsing="false" onAction="#oui" prefHeight="37.0" prefWidth="108.0" text="oui">
+         <font>
+            <Font name="Gabriola" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="nonButton" layoutX="218.0" layoutY="102.0" mnemonicParsing="false" onAction="#non" prefHeight="37.0" prefWidth="108.0" text="non">
+         <font>
+            <Font name="Gabriola" size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
