@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchorpane1" prefHeight="576.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.gInterfaceController">
+    <children>
+      <AnchorPane fx:id="anchorpane2" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="794.0" AnchorPane.topAnchor="0.0">
+         <children>
+                <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #252628;">
+                    <children>
+                        <ImageView fitHeight="73.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/icon.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="50.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <Label text="Foulen Ben Foulen" textFill="#e7e5e5">
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksPersonnels" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des personnels" textFill="#e7e5e5">
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/personnels.png" />
+                           </image>
+                        </ImageView>
+                            </graphic>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Button>
+                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="10.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleClicksComptes" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des comptes" textFill="#e7e5e5">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/comptes.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </Button>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksMateriels" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des materiels">
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/materiels.png" />
+                           </image>
+                        </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksEquipe" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des équipe">
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/equipe.png" />
+                           </image>
+                        </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksDepenses" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des dépenses">
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/depense.png" />
+                           </image>
+                        </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksRevenus" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestion des revenus">
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/revenue.png" />
+                           </image>
+                        </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Button>
+                  <ImageView fitHeight="69.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleClicksRetour" prefHeight="50.0" prefWidth="148.0" stylesheets="@../css/style.css" text=" Retour">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                    </children>
+                </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane3" layoutX="256.0" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    </children>
+</AnchorPane>

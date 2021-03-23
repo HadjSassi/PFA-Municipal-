@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SceneBuilder-15.0.1-all">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/SceneBuilder-15.0.1-all.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/SceneBuilder-15.0.1-all.jar!/" />
+    </SOURCES>
+  </library>
+</component>
