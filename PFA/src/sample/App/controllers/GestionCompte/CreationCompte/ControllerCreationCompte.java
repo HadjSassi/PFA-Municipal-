@@ -10,11 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.App.model.Compte;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
@@ -39,48 +38,99 @@ public class ControllerCreationCompte {
     @FXML
     private PasswordField passwordField;
 
+
+    String query = null;
+    Connection connection = null;
+    ResultSet resultSet = null;
+    PreparedStatement preparedStatement;
+    Compte compte = null;
     private boolean update;
+    String  compteId;
+
 
     public void confirmerButton (ActionEvent event) {
+        if (update == false) {
+            {
+                String cin = cinTextField.getText();
+                String pass = passwordField.getText();
+
+                if (verifier(cin)) {
+                    if (find(cin)) {
+
+                        int cins = Integer.parseInt(cin);
+
+                        try {
+                            Connection connection = getOracleConnection();
+                            String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
+
+                            Statement statement = connection.createStatement();
+                            statement.execute(insertion);
+                            statement.execute("commit");
+
+                            System.out.println("parfaitement ajouté");
+                            lbl.setText("");
+                            lbl2.setText("Ajout avec succée");
+                            clean();
+                        } catch (SQLException e) {
+                            System.out.println("1000000 dawa7");
+                        }
 
 
-        String cin = cinTextField.getText();
-        String pass = passwordField.getText();
+                    } else {
+                        System.out.println("la carte d'identité déjà existe");
+                        lbl2.setText("");
+                        lbl.setText("la carte d'identité déjà existe");
+                    }
+                } else {
 
-        if (verifier(cin)) {
-            if (find(cin)) {
-
-                int cins = Integer.parseInt(cin);
-
-                try {
-                    Connection connection = getOracleConnection();
-                    String insertion = "insert into COUNTS  values (" + "\'" + cin +"\'"+ "," + "\'" + pass + "\'" + ")";
-
-                    Statement statement = connection.createStatement();
-                    statement.execute(insertion);
-                    statement.execute("commit");
-
-                    System.out.println("parfaitement ajouté");
-                    lbl.setText("");
-                    lbl2.setText("Ajout avec succée");
-                } catch (SQLException e) {
-                    System.out.println("1000000 dawa7");
+                    System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
+                    lbl2.setText("");
+                    lbl.setText("Numéro carte d'indentité Invalide");
                 }
-
-
-            }
-
-            else {
-                System.out.println("la carte d'identité déjà existe");
-                lbl2.setText("");
-                lbl.setText("la carte d'identité déjà existe");
             }
         }
         else{
+            {
+                String cin = cinTextField.getText();
+                String pass = passwordField.getText();
 
-            System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
-            lbl2.setText("");
-            lbl.setText("Numéro carte d'indentité Invalide");
+                if (verifier(cin)) {
+                    if (true) {
+
+                        int cins = Integer.parseInt(cin);
+
+                        try {
+                            Connection connection = getOracleConnection();
+                            //String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
+                            String updating = "update counts set " +
+                                    "cin = "+"\'"+cin+"\'," +
+                                    "pass ="+"\'"+pass+"\' where cin = "+"\'"+compteId+"\'";
+
+                            Statement statement = connection.createStatement();
+                            statement.execute(updating);
+                            statement.execute("commit");
+
+                            System.out.println("parfaitement modifé");
+                            lbl.setText("");
+                            lbl2.setText("Modification avec succée");
+                            clean();
+                        } catch (SQLException e) {
+                            System.out.println("1000000 dawa7");
+                        }
+
+
+                    } else {
+                        System.out.println("la carte d'identité déjà existe");
+                        lbl2.setText("");
+                        lbl.setText("la carte d'identité déjà existe");
+                    }
+                } else {
+
+                    System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
+                    lbl2.setText("");
+                    lbl.setText("Numéro carte d'indentité Invalide");
+                }
+            }
         }
     }
 
@@ -137,15 +187,20 @@ public class ControllerCreationCompte {
         stage.close();
     }
 
+    @FXML
+    private void clean() {
+        cinTextField.setText(null);
+        passwordField.setText(null);
+    }
+
+    public void setTextField(String compteId, String cin, String pass) {
+        this.compteId = compteId ;
+        this.passwordField.setText(pass);
+        this.cinTextField.setText(cin);
+    }
 
     public void setUpdate(boolean b) {
         this.update = b;
-
-    }
-    public void setTextField(String cin, String pass) {
-
-        this.cinTextField.setText(String.valueOf(cin));
-        this.passwordField.setText(String.valueOf(pass));
 
     }
 

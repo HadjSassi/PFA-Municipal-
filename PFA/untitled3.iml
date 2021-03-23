@@ -13,5 +13,7 @@
     <orderEntry type="library" name="Maven: com.oracle:ojdbc6:11.2.0" level="project" />
     <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
     <orderEntry type="library" name="SceneBuilder-15.0.1-all" level="project" />
+    <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
+    <orderEntry type="library" name="fontawesomefx-glyphsbrowser-all-1.0" level="project" />
   </component>
 </module>

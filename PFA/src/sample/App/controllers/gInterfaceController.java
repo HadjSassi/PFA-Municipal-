@@ -96,4 +96,36 @@ public class gInterfaceController implements Initializable {
         anchorpane3.getChildren().setAll(view);
 
     }
+
+    public AnchorPane getAnchorpane1() {
+        return anchorpane1;
+    }
+
+    public void setAnchorpane1(AnchorPane anchorpane1) {
+        this.anchorpane1 = anchorpane1;
+    }
+
+    public AnchorPane getAnchorpane3() {
+        return anchorpane3;
+    }
+
+    public void setAnchorpane3(AnchorPane anchorpane3) {
+        this.anchorpane3 = anchorpane3;
+    }
+
+    public AnchorPane getAnchorpane2() {
+        return anchorpane2;
+    }
+
+    public void setAnchorpane2(AnchorPane anchorpane2) {
+        this.anchorpane2 = anchorpane2;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

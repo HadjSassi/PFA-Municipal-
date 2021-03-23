@@ -1,11 +1,15 @@
 package sample.App.controllers.GestionCompte.ConsultationCompte;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import sample.App.FxmlLoader;
 import sample.App.model.Compte;
 import javafx.collections.FXCollections;
@@ -31,7 +35,6 @@ import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
@@ -67,6 +70,8 @@ public class ControllerConsulterCompte implements Initializable {
     private TextField filterField;
 
 
+    private sample.App.controllers.gInterfaceController it ;
+
     String query = null;
     Connection connection = null ;
     PreparedStatement preparedStatement = null ;
@@ -81,7 +86,6 @@ public class ControllerConsulterCompte implements Initializable {
         loadData();
         filter();
     }
-
 
     
     private void filter(){
@@ -158,7 +162,115 @@ public class ControllerConsulterCompte implements Initializable {
                 new PropertyValueFactory<>("pass")
         );
 
-        //modifierCol.setCellValueFactory(new PropertyValueFactory<>("update"));
+        //modifierCol.setCellValueFactory(new PropertyValueFactory<>("modify"));
+
+
+        //add cell of button edit
+        Callback<TableColumn<Compte, String>, TableCell<Compte, String>> cellFoctory = (TableColumn<Compte, String> param) -> {
+            // make cell containing buttons
+            final TableCell<Compte, String> cell = new TableCell<Compte, String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+
+                        FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                        FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
+
+                        deleteIcon.setStyle(
+                                " -fx-cursor: hand ;"
+                                        + "-glyph-size:28px;"
+                                        + "-fx-fill:#ff1744;"
+                        );
+                        editIcon.setStyle(
+                                " -fx-cursor: hand ;"
+                                        + "-glyph-size:28px;"
+                                        + "-fx-fill:#00E676;"
+                        );
+                        deleteIcon.setOnMouseClicked((MouseEvent event) -> {
+
+                            try {
+                                compte = tableView.getSelectionModel().getSelectedItem();
+                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
+                                Connection connection= getOracleConnection();
+                                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                                preparedStatement.execute();
+                                refresh();
+
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+
+
+
+
+                        });
+                        editIcon.setOnMouseClicked((MouseEvent event) ->{
+
+                            compte = tableView.getSelectionModel().getSelectedItem();
+                            FXMLLoader loader = new FXMLLoader ();
+                            loader.setLocation(getClass().getResource("../../../view/CreationCompte.fxml"));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            ControllerCreationCompte addCompteController = loader.getController();
+                            addCompteController.setUpdate(true);
+                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            Parent parent = loader.getRoot();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.initStyle(StageStyle.UTILITY);
+                            stage.show();
+
+                        });/*{
+
+                            try {
+                                compte = tableView.getSelectionModel().getSelectedItem();
+                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
+
+                                Connection connection= getOracleConnection();
+                                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                                preparedStatement.execute();
+                                refresh();
+
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+
+
+
+
+                        });*/
+
+                        HBox managebtn = new HBox(editIcon,deleteIcon);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+
+                        setGraphic(managebtn);
+
+                        setText(null);
+
+                    }
+                }
+
+            };
+
+            return cell;
+        };
+        modifierCol.setCellFactory(cellFoctory);
+
+
         col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
     }
 
@@ -196,11 +308,15 @@ public class ControllerConsulterCompte implements Initializable {
 
     @FXML
     public void refresh(ActionEvent event){
-
         loadData();
 
     }
 
+    @FXML
+    public void refresh(){
+        loadData();
+
+    }
 
 
 

@@ -16,6 +16,7 @@ public class Compte {
     public Compte(String cin, String pass,String value){
         this.cin = new String(cin);
         this.pass = new String(pass);
+        this.modify = new Button("Modifier");
         this.check = new CheckBox();
     }
 
