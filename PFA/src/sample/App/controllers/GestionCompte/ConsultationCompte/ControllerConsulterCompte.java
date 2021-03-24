@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import sample.App.FxmlLoader;
+import sample.App.controllers.GestionCompte.AfficherCompte.ControllerAfficherCompte;
 import sample.App.model.Compte;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -179,20 +180,39 @@ public class ControllerConsulterCompte implements Initializable {
 
                     } else {
 
-                        FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                        FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.EYE);
                         FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
 
-                        deleteIcon.setStyle(
+                        viewIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:#ff1744;"
+                                        + "-fx-fill:#2E79BD;"
                         );
                         editIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:#00E676;"
+                                        + "-fx-fill:#FFC273;"
                         );
-                        deleteIcon.setOnMouseClicked((MouseEvent event) -> {
+                        viewIcon.setOnMouseClicked((MouseEvent event) -> {
+
+                            compte = tableView.getSelectionModel().getSelectedItem();
+                            FXMLLoader loader = new FXMLLoader ();
+                            loader.setLocation(getClass().getResource("../../../view/CompteAfficher.fxml"));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            ControllerAfficherCompte addCompteController = loader.getController();
+                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            Parent parent = loader.getRoot();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.initStyle(StageStyle.UNDECORATED);
+                            stage.show();
+
+                        });/*{
 
                             try {
                                 compte = tableView.getSelectionModel().getSelectedItem();
@@ -205,17 +225,12 @@ public class ControllerConsulterCompte implements Initializable {
                             } catch (SQLException ex) {
                                 Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
-
-
-
-
-                        });
+                        });*/
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
 
                             compte = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/CreationCompte.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/CompteCreation.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
@@ -228,7 +243,7 @@ public class ControllerConsulterCompte implements Initializable {
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UTILITY);
+                            stage.initStyle(StageStyle.UNDECORATED);
                             stage.show();
 
                         });/*{
@@ -252,9 +267,9 @@ public class ControllerConsulterCompte implements Initializable {
 
                         });*/
 
-                        HBox managebtn = new HBox(editIcon,deleteIcon);
+                        HBox managebtn = new HBox(editIcon,viewIcon);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+                        HBox.setMargin(viewIcon, new Insets(2, 2, 0, 3));
                         HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
 
                         setGraphic(managebtn);
@@ -296,13 +311,14 @@ public class ControllerConsulterCompte implements Initializable {
         Stage primaryStage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../../view/CreationCompte.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../../../view/CompteCreation.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         primaryStage.setTitle("Municipal");
         assert root != null;
         primaryStage.setScene(new Scene(root));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 
@@ -318,6 +334,26 @@ public class ControllerConsulterCompte implements Initializable {
 
     }
 
+    @FXML
+    public void supprimer(){
+
+        ObservableList<Compte> list = tableView.getItems();
+        for (Compte item : list){
+            if (item.getCheck().isSelected()){
+                try {
+                    query = "DELETE FROM counts WHERE cin  ="+item.getCin();
+                    Connection connection= getOracleConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.execute();
+                    refresh();
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
 
 
 }
