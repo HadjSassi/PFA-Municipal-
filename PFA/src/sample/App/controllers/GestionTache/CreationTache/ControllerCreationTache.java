@@ -1,8 +1,5 @@
-package sample.App.controllers.GestionCompte.CreationCompte;
+package sample.App.controllers.GestionTache.CreationTache;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,12 +10,11 @@ import javafx.stage.Stage;
 import sample.App.model.Compte;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 
-public class ControllerCreationCompte {
+public class ControllerCreationTache {
 
     @FXML
     private Label lbl ;
@@ -197,7 +193,7 @@ public class ControllerCreationCompte {
         passwordField.setText(null);
     }
 
-    public void setTextField(String compteId, String cin, String pass) {
+    public void setTextField(String idTache, String compteId, String cin, String pass, Date dateDebut, Date dateFin) {
         this.compteId = compteId ;
         this.passwordField.setText(pass);
         this.cinTextField.setText(cin);

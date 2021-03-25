@@ -1,62 +1,63 @@
-package sample.App.controllers.GestionCompte.ConsultationCompte;
+package sample.App.controllers.GestionTache.ConsultationTache;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import sample.App.FxmlLoader;
-import sample.App.controllers.GestionCompte.AfficherCompte.ControllerAfficherCompte;
-import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprimerCompte;
-import sample.App.model.Compte;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import sample.App.controllers.GestionCompte.CreationCompte.ControllerCreationCompte;
 import sample.App.model.Compte;
-import sample.App.model.Personnel;
+import sample.App.controllers.GestionTache.AfficherTache.ControllerAfficherTache;
+import sample.App.controllers.GestionTache.CreationTache.ControllerCreationTache;
+import sample.App.model.Tache;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
-public class ControllerConsulterCompte implements Initializable {
+public class ControllerConsulterTache implements Initializable {
 
 
     static public boolean  itsokay = false ;
     @FXML
-    TableView<Compte> tableView;
+    TableView<Tache> tableView;
 
     @FXML
-    TableColumn <Compte,String> cinCol ;
+    TableColumn <Tache,String> IdCol ;
     @FXML
-    TableColumn <Compte,String> passCol ;
+    TableColumn <Tache,String> nomCol ;
     @FXML
-    TableColumn <Compte,String> modifierCol ;
+    TableColumn <Tache,Date> debutCol ;
+    @FXML
+    TableColumn <Tache,Date> finCol ;
+    @FXML
+    TableColumn <Tache,String> modifierCol ;
 
     @FXML
-    private TableColumn<Compte, CheckBox> col_select;
+    TableColumn<Tache, CheckBox> col_select;
 
     @FXML
     Button addButton ;
@@ -81,10 +82,10 @@ public class ControllerConsulterCompte implements Initializable {
     Connection connection = null ;
     PreparedStatement preparedStatement = null ;
     ResultSet rs = null ;
-    Compte compte = null ;
+    Tache tache = null ;
 
-    ObservableList<Compte> items;
-    ObservableList<Compte> oblist;
+    ObservableList<Tache> items;
+    ObservableList<Tache> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTable();
@@ -94,25 +95,26 @@ public class ControllerConsulterCompte implements Initializable {
 
     
     private void filter(){
-        FilteredList<Compte> filteredData = new FilteredList<>(oblist, b -> true);
+        FilteredList<Tache> filteredData = new FilteredList<>(oblist, b -> true);
 
-        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(compte -> {
+        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(tache -> {
 
             if(newValue == null || newValue.isEmpty()){
                 return true;
             }
 
-            //Comparer le nom et le prenom avec tous les comptes aves filterField
+            //Comparer le nom et le prenom avec tous les taches aves filterField
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (compte.getCin().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter nom
-            }else if (compte.getPass().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter prenom
-            }else
+            if (tache.getIdTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) {return true; }
+            else if (tache.getNomTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            else if (tache.getDescriptionTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            else if (tache.getDateDebut().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            else if (tache.getDateFin().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            else
                 return false;//doesn't match
         });});
-        SortedList<Compte> sortedData= new SortedList<>(filteredData);
+        SortedList<Tache> sortedData= new SortedList<>(filteredData);
 
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
@@ -124,7 +126,7 @@ public class ControllerConsulterCompte implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 items = tableView.getItems();
-                for (Compte item : items){
+                for (Tache item : items){
                     if(check_selAll.isSelected())
                         item.getCheck().setSelected(true);
                     else
@@ -139,18 +141,6 @@ public class ControllerConsulterCompte implements Initializable {
     }
 
 
-    private void uncheckAll(){
-        for (Compte item : items){
-            item.getCheck().selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(!item.getCheck().isSelected())
-                        check_selAll.setSelected(false);
-                }
-            });
-        }}
-
-
     private void initTable(){
         initCols();
         checkAll();
@@ -160,20 +150,25 @@ public class ControllerConsulterCompte implements Initializable {
 
     private void initCols(){
 
-        cinCol.setCellValueFactory(
-                new PropertyValueFactory<>("cin")
+        IdCol.setCellValueFactory(
+                new PropertyValueFactory<>("IdTache")
         );
-        passCol.setCellValueFactory(
-                new PropertyValueFactory<>("pass")
+        nomCol.setCellValueFactory(
+                new PropertyValueFactory<>("NomTache")
+        );
+        debutCol.setCellValueFactory(
+                new PropertyValueFactory<>("DateDebut")
         );
 
-        //modifierCol.setCellValueFactory(new PropertyValueFactory<>("modify"));
+        finCol.setCellValueFactory(
+                new PropertyValueFactory<>("DateFin")
+        );
 
 
         //add cell of button edit
-        Callback<TableColumn<Compte, String>, TableCell<Compte, String>> cellFoctory = (TableColumn<Compte, String> param) -> {
+        Callback<TableColumn<Tache, String>, TableCell<Tache, String>> cellFoctory = (TableColumn<Tache, String> param) -> {
             // make cell containing buttons
-            final TableCell<Compte, String> cell = new TableCell<Compte, String>() {
+            final TableCell<Tache, String> cell = new TableCell<Tache, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -199,17 +194,17 @@ public class ControllerConsulterCompte implements Initializable {
                         );
                         viewIcon.setOnMouseClicked((MouseEvent event) -> {
 
-                            compte = tableView.getSelectionModel().getSelectedItem();
+                            tache = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/CompteAfficher.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/TacheAfficher.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ControllerConsulterTache.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            ControllerAfficherCompte addCompteController = loader.getController();
-                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            ControllerAfficherTache addTacheController = loader.getController();
+                            addTacheController.setTextField(tache.getIdTache(), tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -217,34 +212,21 @@ public class ControllerConsulterCompte implements Initializable {
                             stage.initStyle(StageStyle.UNDECORATED);
                             stage.showAndWait();
 
-                        });/*{
-
-                            try {
-                                compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
-                                Connection connection= getOracleConnection();
-                                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                                preparedStatement.execute();
-                                refresh();
-
-                            } catch (SQLException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        });*/
+                        });
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
 
-                            compte = tableView.getSelectionModel().getSelectedItem();
+                            tache = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/CompteCreation.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/TacheCreation.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ControllerConsulterTache.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            ControllerCreationCompte addCompteController = loader.getController();
-                            addCompteController.setUpdate(true);
-                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            ControllerCreationTache addTacheController = loader.getController();
+                            addTacheController.setUpdate(true);
+                            addTacheController.setTextField(tache.getIdTache(), tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -254,26 +236,7 @@ public class ControllerConsulterCompte implements Initializable {
                             stage.showAndWait();
                             refresh();
 
-                        });/*{
-
-                            try {
-                                compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
-
-                                Connection connection= getOracleConnection();
-                                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                                preparedStatement.execute();
-                                refresh();
-
-                            } catch (SQLException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-
-
-
-
-                        });*/
+                        });
 
                         HBox managebtn = new HBox(editIcon,viewIcon);
                         managebtn.setStyle("-fx-alignment:center");
@@ -299,12 +262,19 @@ public class ControllerConsulterCompte implements Initializable {
 
 
     private void loadData(){
+
         oblist = FXCollections.observableArrayList();
         try {
+
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select * from COUNTS ");
+            ResultSet rs = connection.createStatement().executeQuery("select * from Tache ");
+
+
             while(rs.next()){
-                oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+
+                oblist.add(new Tache(rs.getString("IdTache"),rs.getString("NomTache"),rs.getString("DescriptionTache"),rs.getDate("DateFin"),rs.getDate("DateDebut"),""));
+                System.out.println("test");
+                System.out.println(rs.getString("IdTache")+rs.getString("NomTache")+rs.getString("DescriptionTache")+rs.getDate("DateFin")+rs.getDate("DateDebut")+"");
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -320,7 +290,7 @@ public class ControllerConsulterCompte implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../../view/CompteCreation.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../../../view/TacheCreation.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -330,6 +300,7 @@ public class ControllerConsulterCompte implements Initializable {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.showAndWait();
         refresh();
+        filter();
     }
 
     @FXML
@@ -349,11 +320,11 @@ public class ControllerConsulterCompte implements Initializable {
 
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../../../view/CompteDelete.fxml"));
+        loader.setLocation(getClass().getResource("../../../view/TacheDelete.fxml"));
         try {
             loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ControllerConsulterTache.class.getName()).log(Level.SEVERE, null, ex);
         }
         Parent parent = loader.getRoot();
         Stage stage = new Stage();
@@ -363,18 +334,18 @@ public class ControllerConsulterCompte implements Initializable {
 
 
         if (itsokay) {
-            ObservableList<Compte> list = tableView.getItems();
-            for (Compte item : list) {
+            ObservableList<Tache> list = tableView.getItems();
+            for (Tache item : list) {
                 if (item.getCheck().isSelected()) {
                     try {
-                        query = "DELETE FROM counts WHERE cin  =" + item.getCin();
+                        query = "DELETE FROM counts WHERE cin  =" + item.getIdTache();
                         Connection connection = getOracleConnection();
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.execute();
                         refresh();
 
                     } catch (SQLException ex) {
-                        Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ControllerConsulterTache.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

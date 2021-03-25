@@ -12,7 +12,7 @@ public class TestConnection {
 
     public static void main(String[] args)throws SQLException {
 
-        String selectTableSQL = "select * from personnel";
+        String selectTableSQL = "select * from Tache";
 
         Statement statement = null;
 
@@ -31,9 +31,12 @@ public class TestConnection {
             //fetch data
 
             while(rs.next()){
-                String field = rs.getString("NOM");
+                String field = rs.getString("IdTache");
+                String field1 = rs.getString("NomTache");
+                String field2 = rs.getString("DescriptionTache");
 
-                System.out.println("field : "+field);
+
+                System.out.println("field : "+field+ field1 + field2);
             }
             rs.close();
 

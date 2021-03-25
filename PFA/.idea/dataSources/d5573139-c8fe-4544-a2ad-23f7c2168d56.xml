@@ -59,9 +59,9 @@
     <schema id="18" parent="1" name="PFA">
       <ObjectId>59</ObjectId>
       <CreatedTimestamp>2021-03-16.00:55:50</CreatedTimestamp>
-      <ModifiedTimestamp>2021-03-22.21:32:38</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-03-24.19:23:54</ModifiedTimestamp>
       <IntrospectionVersion>200820</IntrospectionVersion>
-      <IntrospectionTimestamp>2021-03-22.21:32:51</IntrospectionTimestamp>
+      <IntrospectionTimestamp>2021-03-24.19:23:55</IntrospectionTimestamp>
       <Current>1</Current>
     </schema>
     <schema id="19" parent="1" name="PUBLIC">
@@ -273,13 +273,13 @@
     <table id="71" parent="18" name="COMPTE">
       <ObjectId>21730</ObjectId>
       <CreatedTimestamp>2021-03-16.13:52:27</CreatedTimestamp>
-      <ModifiedTimestamp>2021-03-22.21:32:38</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-03-24.19:23:33</ModifiedTimestamp>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
     <table id="72" parent="18" name="COUNTS">
       <ObjectId>21833</ObjectId>
       <CreatedTimestamp>2021-03-18.14:22:05</CreatedTimestamp>
-      <ModifiedTimestamp>2021-03-20.15:42:11</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-03-24.19:23:54</ModifiedTimestamp>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
     <table id="73" parent="18" name="DEMO_CUSTOMERS">
@@ -29717,13 +29717,12 @@ SECTION_ID</ColNames>
     </index>
     <column id="4388" parent="71" name="CIN">
       <Position>1</Position>
-      <DataType>NUMBER(8 digit)|0s</DataType>
+      <DataType>NUMBER(*)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="4389" parent="71" name="PASS">
       <Position>2</Position>
       <DataType>VARCHAR2(30 byte)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <index id="4390" parent="71" name="PK_COMPTE">
       <ObjectId>21731</ObjectId>
@@ -29750,7 +29749,7 @@ SECTION_ID</ColNames>
     </foreign-key>
     <column id="4393" parent="72" name="CIN">
       <Position>1</Position>
-      <DataType>NUMBER(*)|0s</DataType>
+      <DataType>VARCHAR2(9 byte)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="4394" parent="72" name="PASS">
@@ -29761,7 +29760,7 @@ SECTION_ID</ColNames>
       <ObjectId>21834</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <CreatedTimestamp>2021-03-18.14:22:05</CreatedTimestamp>
-      <ModifiedTimestamp>2021-03-20.15:42:11</ModifiedTimestamp>
+      <ModifiedTimestamp>2021-03-24.19:23:54</ModifiedTimestamp>
       <TablespaceName>USERS</TablespaceName>
       <ColNames>CIN</ColNames>
       <Unique>1</Unique>
