@@ -60,6 +60,16 @@ public class InterfaceController implements Initializable {
 
     @FXML
     void handleClicksParametre(ActionEvent event) {
+        /*FxmlLoader object = new FxmlLoader();
+        Parent view = object.getPane("settings");
+        anchorpane1.getChildren().removeAll();
+        anchorpane1.getChildren().setAll(view);*/
+
+        FxmlLoader object = new FxmlLoader();
+        AnchorPane view = object.getPane("settings");
+        view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        anchorpane3.getChildren().removeAll();
+        anchorpane3.getChildren().setAll(view);
 
     }
 
