@@ -71,13 +71,6 @@ public class Tache {
         return DescriptionTache;
     }
 
-    public Date getDateDebut() {
-        return DateDebut;
-    }
-
-    public Date getDateFin() {
-        return DateFin;
-    }
 
     public void setIdTache(String idTache) {
         IdTache = idTache;
@@ -97,5 +90,13 @@ public class Tache {
 
     public void setDateFin(Date dateFin) {
         DateFin = dateFin;
+    }
+
+    public Date getDateDebut() {
+        return DateDebut;
+    }
+
+    public Date getDateFin() {
+        return DateFin;
     }
 }

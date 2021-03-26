@@ -108,9 +108,9 @@ public class ControllerConsulterTache implements Initializable {
 
             if (tache.getIdTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) {return true; }
             else if (tache.getNomTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
-            else if (tache.getDescriptionTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
-            else if (tache.getDateDebut().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
-            else if (tache.getDateFin().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            //else if (tache.getDescriptionTache().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+            //else if (tache.getDateDebut().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
+           // else if (tache.getDateFin().toLowerCase().indexOf(lowerCaseFilter)!= -1) { return true; }
             else
                 return false;//doesn't match
         });});
@@ -267,14 +267,13 @@ public class ControllerConsulterTache implements Initializable {
         try {
 
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select * from Tache ");
+            ResultSet rs = connection.createStatement().executeQuery("select * from TACHE ");
 
 
             while(rs.next()){
 
-                oblist.add(new Tache(rs.getString("IdTache"),rs.getString("NomTache"),rs.getString("DescriptionTache"),rs.getDate("DateFin"),rs.getDate("DateDebut"),""));
-                System.out.println("test");
-                System.out.println(rs.getString("IdTache")+rs.getString("NomTache")+rs.getString("DescriptionTache")+rs.getDate("DateFin")+rs.getDate("DateDebut")+"");
+                oblist.add(new Tache(rs.getString("IdTache"),rs.getString("NomTache"),rs.getString("Description"),rs.getDate("Debut"),rs.getDate("Fin"),""));
+
             }
             rs.close();
         } catch (SQLException throwables) {

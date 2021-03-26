@@ -29,16 +29,16 @@
                </columns>
             </TableView>
             <TextField fx:id="filterField" layoutX="711.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #202020; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" AnchorPane.rightAnchor="17.0" />
+            <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Taches" textFill="#f2f0f0">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
             <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="753.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0">
                <image>
                   <Image url="@../../images/icons8_Search_52px.png" />
                </image>
             </ImageView>
-            <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Comptes" textFill="#f2f0f0">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
             <Button fx:id="refresh" layoutX="711.0" layoutY="457.0" mnemonicParsing="false" onAction="#refresh" prefHeight="51.0" prefWidth="66.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="134.0">
                <graphic>
                   <ImageView fitHeight="39.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
