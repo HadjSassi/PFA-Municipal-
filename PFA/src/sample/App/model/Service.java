@@ -1,5 +1,5 @@
 package sample.App.model;
 
 public enum Service {
-    Administration,Ouvrier,terrain,direction
+    Administration,Ouvrier,Terrain,Direction
 }

@@ -3,34 +3,40 @@ package sample.App.model;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Personnel {
-    private int id;
+    private String matricule;
+    private String cin;
     private String nom;
     private String prenom;
     private int tel;
     private String service;
-    private Date naissance;
+    private String naissance;
     private String sex;
-    private float salaire;
+    private Float salaire;
     private CheckBox check;
+    private String description;
 
-    Button update;
-    Button modify;
-    Button delete;
+    private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
+            new Locale("fr","FR"));
 
-
-
-    public Personnel(int id, String nom, String prenom, int tel, String service, Date naissance, float salaire, String sex,String value) {
-        this.id = id;
+    public Personnel(String matricule,String cin, String nom, String prenom,Date naissance, Float salaire, String sex, int tel, String service,String description ,String value) {
+        this.matricule=matricule;
+        this.cin = cin;
         this.nom = nom;
-        this.prenom = prenom;
-        this.tel = tel;
+        this.prenom = prenom;this.tel = tel;
         this.service = service;
-        this.naissance = naissance;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        this.naissance= formatD.format(naissance);
         this.sex = sex;
         this.salaire = salaire;
+        this.tel = tel;
+        this.service = service;
+        this.description=description;
         this.check = new CheckBox();
     }
     public CheckBox getCheck() {
@@ -40,12 +46,12 @@ public class Personnel {
     public void setCheck(CheckBox check) {
         this.check = check;
     }
-    public int getId() {
-        return id;
+    public String getCin() {
+        return cin;
     }
 
-    public void setId(int cin) {
-        this.id = cin;
+    public void setCin(String cin) {
+        this.cin = cin;
     }
 
     public String getNom() {
@@ -72,12 +78,30 @@ public class Personnel {
         this.service = service;
     }
 
-    public Date getNaissance() {
+
+
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getNaissance() {
         return naissance;
     }
 
     public void setNaissance(Date naissance) {
-        this.naissance = naissance;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.naissance= formatter.format(naissance);
     }
 
     public String getSex() {
@@ -96,35 +120,12 @@ public class Personnel {
         this.tel = tel;
     }
 
-    public float getSalaire() {
+    public Float getSalaire() {
         return salaire;
     }
 
-    public void setSalaire(float salaire) {
+    public void setSalaire(Float salaire) {
         this.salaire = salaire;
     }
 
-    public Button getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Button update) {
-        this.update = update;
-    }
-
-    public Button getModify() {
-        return modify;
-    }
-
-    public void setModify(Button modify) {
-        this.modify = modify;
-    }
-
-    public Button getDelete() {
-        return delete;
-    }
-
-    public void setDelete(Button delete) {
-        this.delete = delete;
-    }
 }

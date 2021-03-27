@@ -22,7 +22,7 @@ public class borderController implements Initializable {
     private Pane border;
 
     @FXML
-    private Pane mainscreen;
+    private AnchorPane mainscreen;
 
     @FXML
     void handleClicksClose(ActionEvent event) {
@@ -45,7 +45,7 @@ public class borderController implements Initializable {
         mainscreen.setOnMouseDragged((event) -> {
             Main.stage.setX(event.getScreenX() - xOffSet);
             Main.stage.setY(event.getScreenY() - yOffSet);
-            Main.stage.setOpacity(0.8f);
+            Main.stage.setOpacity(0.9f);
         });
         mainscreen.setOnDragDone((event) -> {
             Main.stage.setOpacity(1.0f);
@@ -60,7 +60,7 @@ public class borderController implements Initializable {
         border.setOnMouseDragged((event) -> {
             Main.stage.setX(event.getScreenX() - xOffSet);
             Main.stage.setY(event.getScreenY() - yOffSet);
-            Main.stage.setOpacity(0.8f);
+            Main.stage.setOpacity(0.9f);
         });
         border.setOnDragDone((event) -> {
             Main.stage.setOpacity(1.0f);
@@ -70,10 +70,11 @@ public class borderController implements Initializable {
         });}
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-            makeStageDragable();
+        makeStageDragable();
         FxmlLoader object = new FxmlLoader();
         AnchorPane view = object.getPane("Interface");
         mainscreen.getChildren().removeAll();
         mainscreen.getChildren().setAll(view);
+        makeStageDragable();
     }
 }

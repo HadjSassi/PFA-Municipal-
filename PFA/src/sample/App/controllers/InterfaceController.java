@@ -38,7 +38,7 @@ public class InterfaceController implements Initializable {
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
 
-        }
+    }
     @FXML
     void handleClicksDeconnecter(ActionEvent event) {
         stage = (Stage) anchorpane1.getScene().getWindow();
@@ -60,7 +60,7 @@ public class InterfaceController implements Initializable {
 
     @FXML
     void handleClicksParametre(ActionEvent event) {
-        /*FxmlLoader object = new FxmlLoader();
+             /*FxmlLoader object = new FxmlLoader();
         Parent view = object.getPane("settings");
         anchorpane1.getChildren().removeAll();
         anchorpane1.getChildren().setAll(view);*/
@@ -70,7 +70,6 @@ public class InterfaceController implements Initializable {
         view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
-
     }
 
 

@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="604.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.borderController">
+<AnchorPane prefHeight="604.0" prefWidth="1050.0" style="-fx-background-radius: 1em;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.borderController">
    <children>
-      <Pane fx:id="border" prefHeight="31.0" prefWidth="1050.0" style="-fx-background-color: linear-gradient(#424141 20%, #e7e5e5 80%);" AnchorPane.bottomAnchor="573.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="border" prefHeight="31.0" prefWidth="1050.0" style="-fx-background-color: linear-gradient(to right, #212121, #272727, #2d2d2d, #333333, #393939, #484848, #585858, #696969, #888888, #a9a9a9, #cbcbcb, #eeeeee);" AnchorPane.bottomAnchor="573.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="31.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/municipalite-tunis.png" />
                </image>
             </ImageView>
-            <Label layoutX="38.0" layoutY="-1.0" prefHeight="31.0" prefWidth="129.0" text="Municipale">
+            <Label layoutX="38.0" layoutY="-1.0" prefHeight="31.0" prefWidth="129.0" text="Municipale" textFill="WHITE">
                <font>
                   <Font name="Cambria" size="21.0" />
                </font>
             </Label>
-            <Button layoutX="979.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleClicksMinimize" prefHeight="20.0" prefWidth="20.0" styleClass="button1" stylesheets="@../css/style.css">
+            <Button layoutX="979.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleClicksMinimize" prefHeight="20.0" prefWidth="20.0" stylesheets="@../css/style.css">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -31,7 +31,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="1011.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleClicksClose" prefHeight="20.0" prefWidth="20.0" styleClass="button1" stylesheets="@../css/style.css">
+            <Button layoutX="1011.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleClicksClose" prefHeight="20.0" prefWidth="20.0" stylesheets="@../css/style.css">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -41,6 +41,6 @@
                </graphic>
             </Button>
          </children></Pane>
-      <Pane fx:id="mainscreen" layoutY="31.0" prefHeight="573.0" prefWidth="1050.0" style="-fx-background-color: BBBBBB;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0" />
+      <AnchorPane fx:id="mainscreen" layoutY="31.0" prefHeight="573.0" prefWidth="1050.0" style="-fx-background-color: BBBBBB;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0" />
    </children>
 </AnchorPane>
