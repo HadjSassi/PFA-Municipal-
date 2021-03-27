@@ -13,26 +13,26 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.gPersonnelController">
    <children>
-      <AnchorPane prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: #202020;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="table_info" layoutX="5.0" layoutY="97.0" prefHeight="349.0" prefWidth="784.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="97.0">
+            <TableView fx:id="table_info" layoutX="20.0" layoutY="107.0" prefHeight="363.0" prefWidth="755.0" style="-fx-background-color: transparent;" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="107.0">
+               <columns>
+                  <TableColumn fx:id="col_id" text="Matricule" />
+                  <TableColumn fx:id="col_nom" text="Nom" />
+                  <TableColumn fx:id="col_prenom" text="Prenom" />
+                  <TableColumn fx:id="col_cin" text="CIN" />
+                  <TableColumn fx:id="col_service" prefWidth="100.0" text="Service" />
+                  <TableColumn fx:id="col_salaire" text="Salaire" />
+                  <TableColumn fx:id="col_sex" prefWidth="50.0" text="Sex" />
+                  <TableColumn fx:id="col_naissance" text="Naissance" />
+                  <TableColumn fx:id="col_edit" prefWidth="100.0" text="Gerer" />
+                  <TableColumn fx:id="col_select" prefWidth="53.0" text="Select" />
+               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
-               <columns>
-                  <TableColumn fx:id="col_id" prefWidth="136.0" text="Id" />
-                  <TableColumn fx:id="col_nom" prefWidth="97.0" text="Nom" />
-                  <TableColumn fx:id="col_prenom" prefWidth="82.0" text="Prenom" />
-                  <TableColumn fx:id="col_service" prefWidth="75.0" text="Service" />
-                  <TableColumn fx:id="col_salaire" prefWidth="78.0" text="Salaire" />
-                  <TableColumn fx:id="col_sex" prefWidth="95.0" text="Sex" />
-                  <TableColumn fx:id="col_tel" prefWidth="87.0" text="N°Tel" />
-                  <TableColumn fx:id="col_naissance" prefWidth="105.0" text="Naissance" />
-                  <TableColumn fx:id="col_edit" prefWidth="123.0" text="Gerer" />
-                  <TableColumn fx:id="col_select" prefWidth="44.0" text="Select" />
-               </columns>
             </TableView>
-            <TextField fx:id="filterField" layoutX="711.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #202020; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" AnchorPane.rightAnchor="17.0" />
+            <TextField fx:id="filterField" layoutX="711.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="Recherche" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 2em;" stylesheets="@../css/style.css" AnchorPane.rightAnchor="17.0" />
             <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="753.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0">
                <image>
                   <Image url="@../../images/icons8_Search_52px.png" />
@@ -52,7 +52,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="786.0" layoutY="457.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="66.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="65.0">
+            <Button layoutX="786.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleClicksDeleteSelected" prefHeight="51.0" prefWidth="66.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="65.0">
                <graphic>
                   <ImageView fitHeight="43.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,11 +62,20 @@
                </graphic>
             </Button>
             <CheckBox fx:id="check_selAll" layoutX="789.0" layoutY="72.0" mnemonicParsing="false" stylesheets="@../css/style.css" text="Selectionner Tout" textFill="WHITE" AnchorPane.rightAnchor="8.0" />
-            <Button layoutX="47.0" layoutY="457.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="139.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="47.0">
+            <Button layoutX="47.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleAjoutPersonnel" prefHeight="51.0" prefWidth="139.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="47.0">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/addpersonn.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="522.0" layoutY="494.0" mnemonicParsing="false" onAction="#handleClicksRefresh" prefHeight="51.0" prefWidth="66.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="203.0">
+               <graphic>
+                  <ImageView fitHeight="43.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/refresh6.png" />
                      </image>
                   </ImageView>
                </graphic>
