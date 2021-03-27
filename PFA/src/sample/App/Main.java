@@ -4,14 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.awt.*;
-import java.io.File;
-import java.net.URL;
-import java.util.Scanner;
 
 public class Main extends Application {
 
@@ -28,7 +22,7 @@ public class Main extends Application {
         this.stage=primaryStage;
         window.setScene(new Scene(root));
         //set stage borderless
-       window.initStyle(StageStyle.UNDECORATED);
+        window.initStyle(StageStyle.UNDECORATED);
 
         //drag it here
         root.setOnMousePressed(event -> {
@@ -41,7 +35,6 @@ public class Main extends Application {
             window.setY(event.getScreenY() - y);
 
         });
-        primaryStage.getIcons().add((new Image( getClass().getResource("../images/municipalite-tunis.png").toURI().toString())));
         primaryStage.show();
     }
 

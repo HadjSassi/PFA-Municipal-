@@ -1,7 +1,7 @@
 .button
 {
--fx-background-color :  transparent;
--fx-text-fill : #e7e5e5;
+    -fx-background-color :  transparent;
+    -fx-text-fill : #e7e5e5;
 }
 
 .text-field{
@@ -12,11 +12,11 @@
 }
 
 .button:hover{
--fx-background-color : #616161;
+    -fx-background-color : #616161;
 }
 .button:pressed
 {
--fx-background-color : #9E9E9E;
+    -fx-background-color : #9E9E9E;
 }
 .table-view {
     -fx-background-color: transparent;

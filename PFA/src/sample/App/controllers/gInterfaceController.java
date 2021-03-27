@@ -26,7 +26,7 @@ public class gInterfaceController implements Initializable {
     void handleClicksDepenses(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
         AnchorPane view = object.getPane("gDepense");
-       // view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        // view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
     }
@@ -97,7 +97,7 @@ public class gInterfaceController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FxmlLoader object = new FxmlLoader();
-        AnchorPane view = object.getPane("gPersonnel");
+        AnchorPane view = object.getPane("CompteConsultation");
         view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
