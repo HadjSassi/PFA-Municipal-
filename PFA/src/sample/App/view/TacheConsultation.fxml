@@ -28,7 +28,7 @@
                   <TableColumn fx:id="col_select" maxWidth="700.0" prefWidth="55.0" text="Select" />
                </columns>
             </TableView>
-            <TextField fx:id="filterField" layoutX="711.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="search" style="-fx-background-color: #202020; -fx-border-color: #B7C3D7; -fx-border-radius: 2em;" AnchorPane.rightAnchor="17.0" />
+            <TextField fx:id="filterField" layoutX="594.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="Recherche" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 2em;" stylesheets="@../css/style.css" />
             <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Taches" textFill="#f2f0f0">
                <font>
                   <Font size="28.0" />

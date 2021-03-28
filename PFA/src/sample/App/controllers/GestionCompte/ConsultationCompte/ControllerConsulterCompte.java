@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import sample.App.FxmlLoader;
 import sample.App.controllers.GestionCompte.AfficherCompte.ControllerAfficherCompte;
 import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprimerCompte;
+import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
 import sample.App.model.Compte;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +50,7 @@ public class ControllerConsulterCompte implements Initializable {
     TableView<Compte> tableView;
 
     @FXML
-    TableColumn <Compte,String> cinCol ;
+    TableColumn <Compte,String> matriculeCol ;
     @FXML
     TableColumn <Compte,String> passCol ;
     @FXML
@@ -105,7 +106,7 @@ public class ControllerConsulterCompte implements Initializable {
             //Comparer le nom et le prenom avec tous les comptes aves filterField
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (compte.getCin().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            if (compte.getMatricule().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter nom
             }else if (compte.getPass().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter prenom
@@ -160,8 +161,8 @@ public class ControllerConsulterCompte implements Initializable {
 
     private void initCols(){
 
-        cinCol.setCellValueFactory(
-                new PropertyValueFactory<>("cin")
+        matriculeCol.setCellValueFactory(
+                new PropertyValueFactory<>("matricule")
         );
         passCol.setCellValueFactory(
                 new PropertyValueFactory<>("pass")
@@ -209,7 +210,7 @@ public class ControllerConsulterCompte implements Initializable {
                             }
 
                             ControllerAfficherCompte addCompteController = loader.getController();
-                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            addCompteController.setTextField(compte.getMatricule(), compte.getMatricule(),compte.getPass());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -221,7 +222,7 @@ public class ControllerConsulterCompte implements Initializable {
 
                             try {
                                 compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
+                                query = "DELETE FROM COMPTE WHERE matricule  ="+compte.getMatricule();
                                 Connection connection= getOracleConnection();
                                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                                 preparedStatement.execute();
@@ -235,16 +236,16 @@ public class ControllerConsulterCompte implements Initializable {
 
                             compte = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/CompteCreation.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/CompteUpdate.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
                                 Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            ControllerCreationCompte addCompteController = loader.getController();
+                            ControllerUpdateCompte addCompteController = loader.getController();
                             addCompteController.setUpdate(true);
-                            addCompteController.setTextField(compte.getCin(), compte.getCin(),compte.getPass());
+                            addCompteController.setTextField(compte.getMatricule(), compte.getMatricule(),compte.getPass());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -258,7 +259,7 @@ public class ControllerConsulterCompte implements Initializable {
 
                             try {
                                 compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM counts WHERE cin  ="+compte.getCin();
+                                query = "DELETE FROM COMPTE WHERE matricule  ="+compte.getMatricule();
 
                                 Connection connection= getOracleConnection();
                                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -302,9 +303,9 @@ public class ControllerConsulterCompte implements Initializable {
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select * from COUNTS ");
+            ResultSet rs = connection.createStatement().executeQuery("select * from COMPTE ");
             while(rs.next()){
-                oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+                oblist.add(new Compte(rs.getString("matricule"),rs.getString("pass"),""));
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -367,7 +368,7 @@ public class ControllerConsulterCompte implements Initializable {
             for (Compte item : list) {
                 if (item.getCheck().isSelected()) {
                     try {
-                        query = "DELETE FROM counts WHERE cin  =" + item.getCin();
+                        query = "DELETE FROM COMPTE WHERE matricule  =" + item.getMatricule();
                         Connection connection = getOracleConnection();
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.execute();

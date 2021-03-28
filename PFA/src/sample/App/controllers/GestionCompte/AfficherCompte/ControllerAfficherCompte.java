@@ -23,17 +23,17 @@ public class ControllerAfficherCompte {
     private Button buttonFermer;
 
     @FXML
-    private Label lblCin;
+    private Label lblMatricule;
 
     @FXML
     private Label lblPass;
 
 
 
-    public void setTextField(String compteId, String cin, String pass) {
+    public void setTextField(String compteId, String Matricule, String pass) {
         this.compteId = compteId ;
         this.lblPass.setText(pass);
-        this.lblCin.setText(cin);
+        this.lblMatricule.setText(Matricule);
     }
 
     public void fermerButton (ActionEvent event){

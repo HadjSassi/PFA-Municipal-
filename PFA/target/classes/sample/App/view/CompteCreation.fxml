@@ -25,7 +25,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="cinTextField" prefHeight="26.0" prefWidth="161.0" promptText="Matricule" stylesheets="@../css/addStyle.css">
+            <TextField fx:id="matriculeTextField" prefHeight="26.0" prefWidth="161.0" promptText="Matricule" stylesheets="@../css/addStyle.css">
                <tooltip>
                   <Tooltip text="Champ de numero de matricule composé de 8 chiffres" />
                </tooltip>
