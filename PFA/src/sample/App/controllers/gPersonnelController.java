@@ -68,104 +68,104 @@ public class gPersonnelController implements Initializable {
     @FXML
     private TableColumn<Personnel, Date> col_naissance;
 
-    @FXML
-    private TableColumn<Personnel, String> col_sex;
+   @FXML
+   private TableColumn<Personnel, String> col_sex;
 
-    @FXML
-    private TableColumn<Personnel, String> col_cin;
+   @FXML
+   private TableColumn<Personnel, String> col_cin;
 
-    @FXML
-    private TableColumn<Personnel, String> col_edit;
+   @FXML
+   private TableColumn<Personnel, String> col_edit;
 
-    @FXML
-    private TableColumn<Personnel, CheckBox> col_select;
+   @FXML
+   private TableColumn<Personnel, CheckBox> col_select;
 
-    @FXML
-    private CheckBox check_selAll;
+   @FXML
+   private CheckBox check_selAll;
 
-    @FXML
-    private TextField  filterField;
+   @FXML
+   private TextField  filterField;
     private double x, y;
     private boolean s=true;
     private Personnel personnel=null;
-    @FXML
+   @FXML
     void handleAjoutPersonnel(ActionEvent event) throws IOException {
-        if (s){Parent root = FXMLLoader.load(getClass().getResource("../view/gPerAdd.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-                if (!stage.isShowing()){
-                    loadData();
-                }
+       if (s){Parent root = FXMLLoader.load(getClass().getResource("../view/gPerAdd.fxml"));
+       Scene scene = new Scene(root);
+       Stage stage = new Stage();
+       stage.setScene(scene);
+       stage.initStyle(StageStyle.TRANSPARENT);
+       stage.initModality(Modality.APPLICATION_MODAL);
+           stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
+               if (!stage.isShowing()){
+                   loadData();
+               }
 
 
-            });
-            //drag it here
-            root.setOnMousePressed(event1 -> {
-                x = event1.getSceneX();
-                y = event1.getSceneY();
-            });
-            root.setOnMouseDragged(event1 -> {
+           });
+       //drag it here
+       root.setOnMousePressed(event1 -> {
+           x = event1.getSceneX();
+           y = event1.getSceneY();
+       });
+       root.setOnMouseDragged(event1 -> {
 
-                stage.setX(event1.getScreenX() - x);
-                stage.setY(event1.getScreenY() - y);
+           stage.setX(event1.getScreenX() - x);
+           stage.setY(event1.getScreenY() - y);
 
-            });
-            stage.show();
-        }}
-    @FXML
+       });
+       stage.show();
+    }}
+   @FXML
     void handleClicksRefresh(ActionEvent event) {
         loadData();
         filter();
         check_selAll.setSelected(false);
 
     }
-    @FXML
-    void handleClicksDeleteSelected(ActionEvent event) throws URISyntaxException {
-        String s="";
-        String s1 = null;
-        for(Personnel per:oblist){
+   @FXML
+   void handleClicksDeleteSelected(ActionEvent event) throws URISyntaxException {
+       String s="";
+       String s1 = null;
+       for(Personnel per:oblist){
             if(per.getCheck().isSelected()){
                 s+=per.getMatricule()+"///";
                 s1=per.getMatricule();
-            }}int so=0;
-        AtomicBoolean del = new AtomicBoolean(true);
-        for(Personnel per:oblist){
+       }}int so=0;
+       AtomicBoolean del = new AtomicBoolean(true);
+       for(Personnel per:oblist){
 
-            if(per.getCheck().isSelected() && so==0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.setHeaderText(null);
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer le personnel  de n°: ///"+s);
-                alert.setGraphic(new ImageView(getClass().getResource("../../images/delete.png").toURI().toString() ));
-                alert.showAndWait().ifPresent(type -> {
-                    if (type == okButton) {
-                        del.set(true);
-                    } else if (type == noButton) {
-                        del.set(false);
-                    }
-                });
-                so++;
-            }
-            if(per.getCheck().isSelected() && del.get()){
-                try {
-                    Connection connection= getOracleConnection();
-                    ResultSet rs = connection.createStatement().executeQuery("delete from PERSONNEL where "+per.getMatricule()+"=matricule");
-                    connection.close();
-                }catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-        }
-        loadData();
-        check_selAll.setSelected(false);
-    }
+           if(per.getCheck().isSelected() && so==0){
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.initStyle(StageStyle.UNDECORATED);
+               alert.setHeaderText(null);
+               ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+               ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+               alert.getButtonTypes().setAll(okButton, noButton);
+               alert.setContentText("Etes-vous sure de supprimer le personnel  de n°: ///"+s);
+               alert.setGraphic(new ImageView(getClass().getResource("../../images/delete.png").toURI().toString() ));
+               alert.showAndWait().ifPresent(type -> {
+                   if (type == okButton) {
+                       del.set(true);
+                   } else if (type == noButton) {
+                       del.set(false);
+                   }
+               });
+               so++;
+           }
+           if(per.getCheck().isSelected() && del.get()){
+               try {
+                   Connection connection= getOracleConnection();
+                   ResultSet rs = connection.createStatement().executeQuery("delete from PERSONNEL where "+per.getMatricule()+"=matricule");
+                   connection.close();
+               }catch (SQLException throwables) {
+                   throwables.printStackTrace();
+               }
+           }
+       }
+       loadData();
+       check_selAll.setSelected(false);
+   }
 
     ObservableList<Personnel> oblist;
     @Override
@@ -216,8 +216,8 @@ public class gPersonnelController implements Initializable {
                 for (Personnel item : oblist){
                     if(check_selAll.isSelected())
                         item.getCheck().setSelected(true);
-                    else
-                        item.getCheck().setSelected(false);
+                   else
+                       item.getCheck().setSelected(false);
                 }}});
     }
 
@@ -237,7 +237,7 @@ public class gPersonnelController implements Initializable {
         col_edit.setCellValueFactory(new PropertyValueFactory<Personnel, String>("update"));
         col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
 
-        //add cell of button edit
+        //add cell of button edit 
         Callback<TableColumn<Personnel, String>, TableCell<Personnel, String>> cellFoctory = (TableColumn<Personnel, String> param) -> {
             // make cell containing buttons
             final TableCell<Personnel, String> cell = new TableCell<Personnel, String>() {
@@ -336,5 +336,5 @@ public class gPersonnelController implements Initializable {
 
         table_info.setItems(oblist);
         filter();
+        }
     }
-}

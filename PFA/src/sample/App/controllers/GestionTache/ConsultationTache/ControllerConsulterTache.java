@@ -185,12 +185,12 @@ public class ControllerConsulterTache implements Initializable {
                         viewIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:#2E79BD;"
+                                        + "-fx-fill:linear-gradient(#0288D1 17%, #e7e5e5 100%);"
                         );
                         editIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:#FFC273;"
+                                        + "-fx-fill:linear-gradient(#4E342E 17%, #e7e5e5 100%);"
                         );
                         viewIcon.setOnMouseClicked((MouseEvent event) -> {
 

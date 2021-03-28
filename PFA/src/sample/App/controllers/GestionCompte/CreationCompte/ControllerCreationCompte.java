@@ -27,6 +27,11 @@ public class ControllerCreationCompte {
     private Label lbl2 ;
 
     @FXML
+    private Label lbl1 ;
+
+
+
+    @FXML
     private Button buttonConfirmer ;
 
     @FXML
@@ -54,38 +59,46 @@ public class ControllerCreationCompte {
                 String cin = cinTextField.getText();
                 String pass = passwordField.getText();
 
-                if (verifier(cin) && notemptyPass(pass) ) {
-                    if (find(cin)) {
+                if (verifier(cin) ) {
+                    if (notemptyPass(pass)) {
+                        if (find(cin)) {
 
-                        int cins = Integer.parseInt(cin);
 
-                        try {
-                            Connection connection = getOracleConnection();
-                            String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
+                            try {
+                                Connection connection = getOracleConnection();
+                                String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
 
-                            Statement statement = connection.createStatement();
-                            statement.execute(insertion);
-                            statement.execute("commit");
+                                Statement statement = connection.createStatement();
+                                statement.execute(insertion);
+                                statement.execute("commit");
 
-                            System.out.println("parfaitement ajouté");
-                            lbl.setText("");
-                            lbl2.setText("Ajout avec succée");
-                            clean();
-                        } catch (SQLException e) {
-                            System.out.println("1000000 dawa7");
+                                System.out.println("parfaitement ajouté");
+                                lbl2.setText("");
+                                lbl1.setText("");
+                                lbl.setText("Ajout avec succée");
+                                clean();
+                            } catch (SQLException e) {
+                                System.out.println("1000000 dawa7");
+                            }
+
+
+                        } else {
+                            System.out.println("la matricule déjà existe");
+                            lbl2.setText("");
+                            lbl1.setText("la matricule déjà existe");
                         }
-
-
-                    } else {
-                        System.out.println("la carte d'identité déjà existe");
-                        lbl2.setText("");
-                        lbl.setText("la carte d'identité déjà existe");
                     }
-                } else {
+                    else {
+                        System.out.println("passe invalide");
+                        lbl1.setText("");
+                        lbl2.setText("Mot de Passe invalide");
+                    }
+                }
+                else {
 
                     System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
                     lbl2.setText("");
-                    lbl.setText("Donnée Invalide");
+                    lbl1.setText("Matricule doit être 8 numéro");
                 }
             }
         }
@@ -93,44 +106,57 @@ public class ControllerCreationCompte {
             {
                 String cin = cinTextField.getText();
                 String pass = passwordField.getText();
+                String cns = cin ;
 
-                if (verifier(cin) && notemptyPass(pass)) {
-                    if (true) {
+                if (verifier(cin)) {
+                    if (notemptyPass(pass)) {
+                        if (true) {
 
-                        int cins = Integer.parseInt(cin);
+                            try {
+                                Connection connection = getOracleConnection();
+                                //String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
+                                String updating = "update counts set " +
+                                        "cin = " + "\'" + cin + "\'," +
+                                        "pass =" + "\'" + pass + "\' where cin = " + "\'" + compteId + "\'";
 
-                        try {
-                            Connection connection = getOracleConnection();
-                            //String insertion = "insert into COUNTS  values (" + "\'" + cin + "\'" + "," + "\'" + pass + "\'" + ")";
-                            String updating = "update counts set " +
-                                    "cin = "+"\'"+cin+"\'," +
-                                    "pass ="+"\'"+pass+"\' where cin = "+"\'"+compteId+"\'";
+                                Statement statement = connection.createStatement();
+                                statement.execute(updating);
+                                statement.execute("commit");
 
-                            Statement statement = connection.createStatement();
-                            statement.execute(updating);
-                            statement.execute("commit");
+                                System.out.println("parfaitement modifé");
+                                lbl1.setText("");
+                                lbl2.setText("");
+                                lbl.setText("Modification avec succée");
+                                Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
+                                // do what you have to do
+                                stage.close();
+                            } catch (SQLException e) {
+                                System.out.println("1000000 dawa7");
+                                System.out.println("la carte d'identité déjà existe");
+                                lbl2.setText("");
+                                lbl1.setText("la carte d'identité déjà existe");
+                            }
 
-                            System.out.println("parfaitement modifé");
-                            lbl.setText("");
-                            lbl2.setText("Modification avec succée");
-                            clean();
-                        } catch (SQLException e) {
-                            System.out.println("1000000 dawa7");
                         }
-
-
+                        else{
+                            System.out.println("la carte d'identité déjà existe");
+                            lbl2.setText("");
+                            lbl1.setText("la carte d'identité déjà existe");
+                        }
                     } else {
-                        System.out.println("la carte d'identité déjà existe");
-                        lbl2.setText("");
-                        lbl.setText("la carte d'identité déjà existe");
-                    }
-                } else {
 
+                        System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
+                        lbl1.setText("");
+                        lbl2.setText("Mot de Passe invalide");
+                    }
+                }
+                else{
                     System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
                     lbl2.setText("");
-                    lbl.setText("Donnée Invalide");
+                    lbl1.setText("Matricule doit être 8 numéro");
                 }
             }
+
         }
     }
 
