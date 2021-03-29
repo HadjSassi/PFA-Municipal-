@@ -63,7 +63,7 @@ public class gPersonnelController implements Initializable {
     private TableColumn<Personnel, String> col_service;
 
     @FXML
-    private TableColumn<Personnel, Integer> col_salaire;
+    private TableColumn<Personnel, Float> col_salaire;
 
     @FXML
     private TableColumn<Personnel, Date> col_naissance;

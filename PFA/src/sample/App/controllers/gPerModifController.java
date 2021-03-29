@@ -99,7 +99,7 @@ public class gPerModifController implements Initializable {
     @FXML
     private TextArea DescriptionFiled;
     public boolean isAlpha(String name) {
-        return name.matches("[a-zA-Z]+");
+        return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
     }
     public static boolean isNumeric(String string) {
         return string.matches("[0-9]+");
@@ -107,9 +107,22 @@ public class gPerModifController implements Initializable {
     public static boolean isFloat(String string) {
         try {
             Float.parseFloat(string);
-            return true;
-        }catch(NumberFormatException e){
+            if (string.length() >=3){
 
+                try {
+                    String[] p = string.split("\\.");
+                    if (p[0].length() <= 4 && p[1].length()<=3)
+                        return true;
+                     else {
+                        return false;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    return true;
+                }
+        }
+            else
+                return true;
+        }catch(NumberFormatException e){
         }
         return false;
     }
