@@ -25,7 +25,7 @@ public class ControllerAfficherTache {
 
 
 
-    public void setTextField(String idTache, String compteId, String cin, String pass, Date dateDebut, Date dateFin) {
+    public void setTextField(String idTache, String compteId, String cin, String pass, String dateDebut, String dateFin) {
         this.compteId = compteId ;
         this.lblPass.setText(pass);
         this.lblCin.setText(cin);

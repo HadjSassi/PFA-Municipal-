@@ -60,38 +60,38 @@ public class ControllerUpdateCompte {
 
 
 
-                        if (notemptyPass(pass)) {
+                if (notemptyPass(pass)) {
 
-                            try {
-                                Connection connection = getOracleConnection();
-                                //String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
-                                String updating = "update COMPTE set " +
-                                        "pass =" + "\'" + pass + "\' where matricule = " + "\'" + compteId + "\'";
+                    try {
+                        Connection connection = getOracleConnection();
+                        //String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
+                        String updating = "update COMPTE set " +
+                                "pass =" + "\'" + pass + "\' where matricule = " + "\'" + compteId + "\'";
 
-                                Statement statement = connection.createStatement();
-                                statement.execute(updating);
-                                statement.execute("commit");
-                                System.out.println("parfaitement modifé");
-                                lbl1.setText("");
-                                lbl2.setText("");
-                                lbl.setText("Modification avec succée");
-                                Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
-                                // do what you have to do
-                                stage.close();
-                            } catch (SQLException e) {
-                                System.out.println("1000000 dawa7");
-                                System.out.println("la carte d'identité déjà existe");
-                                lbl2.setText("");
-                                lbl1.setText("la carte d'identité déjà existe");
-                            }
-
-                        }
-                        else{
-                            System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
-                            lbl1.setText("");
-                            lbl2.setText("Mot de Passe invalide");
-                        }
+                        Statement statement = connection.createStatement();
+                        statement.execute(updating);
+                        statement.execute("commit");
+                        System.out.println("parfaitement modifé");
+                        lbl1.setText("");
+                        lbl2.setText("");
+                        lbl.setText("Modification avec succée");
+                        Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
+                        // do what you have to do
+                        stage.close();
+                    } catch (SQLException e) {
+                        System.out.println("1000000 dawa7");
+                        System.out.println("la carte d'identité déjà existe");
+                        lbl2.setText("");
+                        lbl1.setText("la carte d'identité déjà existe");
                     }
+
+                }
+                else{
+                    System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
+                    lbl1.setText("");
+                    lbl2.setText("Mot de Passe invalide");
+                }
+            }
 
 
 

@@ -93,7 +93,7 @@ public class ControllerConsulterCompte implements Initializable {
         filter();
     }
 
-    
+
     private void filter(){
         FilteredList<Compte> filteredData = new FilteredList<>(oblist, b -> true);
 

@@ -5,15 +5,26 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sample.App.controllers.GestionCompte.ConsultationCompte.ControllerConsulterCompte;
+import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprimerCompte;
+import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
+import sample.App.controllers.gPerAddController;
 import sample.App.model.Compte;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
@@ -44,17 +55,11 @@ public class ControllerCreationCompte {
     private PasswordField passwordField;
 
 
-    String query = null;
-    Connection connection = null;
-    ResultSet resultSet = null;
-    PreparedStatement preparedStatement;
-    Compte compte = null;
-    private boolean update;
     String  compteId;
 
 
-    public void confirmerButton (ActionEvent event) {
-        if (update == false) {
+    public void confirmerButton (ActionEvent event) throws URISyntaxException {
+        {
             {
                 String matricule = matriculeTextField.getText();
                 String pass = passwordField.getText();
@@ -89,6 +94,45 @@ public class ControllerCreationCompte {
                             System.out.println("la matricule n'existe pas dans la table personnel");
                             lbl2.setText("");
                             lbl1.setText("Aucun personnel avec cette matricule");
+
+                            FXMLLoader loader = new FXMLLoader ();
+                            loader.setLocation(getClass().getResource("../../../view/CompteDelete.fxml"));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            ControllerSupprimerCompte addCompteController = loader.getController();
+                            addCompteController.message.setText("Voulez vous ajouter Un personnel");
+                            Parent parent = loader.getRoot();
+
+                            Stage stage = new Stage();
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.setScene(new Scene(parent));
+                            stage.initStyle(StageStyle.UNDECORATED);
+                            stage.showAndWait();
+                            if(addCompteController.isItsokay()){
+                                stage.close();
+                                FXMLLoader loader2 = new FXMLLoader ();
+                                loader2.setLocation(getClass().getResource("../../../view/gPerAdd.fxml"));
+                                try {
+                                    loader2.load();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                gPerAddController addper = loader2.getController();
+                                addper.MatriculeField.setText(matriculeTextField.getText());
+
+                                Parent parent2 = loader2.getRoot();
+
+                                Stage stage2 = new Stage();
+                                stage2.initModality(Modality.APPLICATION_MODAL);
+                                stage2.setScene(new Scene(parent2));
+                                stage2.initStyle(StageStyle.UNDECORATED);
+                                stage2.showAndWait();
+                            }
                         }
                     }
                     else {
@@ -105,62 +149,7 @@ public class ControllerCreationCompte {
                 }
             }
         }
-        else{
-            {
-                String matricule = matriculeTextField.getText();
-                String pass = passwordField.getText();
-                String cns = matricule ;
 
-                if (verifier(matricule)) {
-                    if (notemptyPass(pass)) {
-                        if (true) {
-
-                            try {
-                                Connection connection = getOracleConnection();
-                                //String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
-                                String updating = "update COMPTE set " +
-                                        "matricule = " + "\'" + matricule + "\'," +
-                                        "pass =" + "\'" + pass + "\' where matricule = " + "\'" + compteId + "\'";
-
-                                Statement statement = connection.createStatement();
-                                statement.execute(updating);
-                                statement.execute("commit");
-
-                                System.out.println("parfaitement modifé");
-                                lbl1.setText("");
-                                lbl2.setText("");
-                                lbl.setText("Modification avec succée");
-                                Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
-                                // do what you have to do
-                                stage.close();
-                            } catch (SQLException e) {
-                                System.out.println("1000000 dawa7");
-                                System.out.println("la carte d'identité déjà existe");
-                                lbl2.setText("");
-                                lbl1.setText("la carte d'identité déjà existe");
-                            }
-
-                        }
-                        else{
-                            System.out.println("la carte d'identité déjà existe");
-                            lbl2.setText("");
-                            lbl1.setText("la carte d'identité déjà existe");
-                        }
-                    } else {
-
-                        System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
-                        lbl1.setText("");
-                        lbl2.setText("Mot de Passe invalide");
-                    }
-                }
-                else{
-                    System.out.println("verifier que le numéro carte d'indentité contient seulement 8 numéros");
-                    lbl2.setText("");
-                    lbl1.setText("Matricule doit être 8 numéro");
-                }
-            }
-
-        }
     }
 
     private boolean verifier(String matricule){
@@ -251,15 +240,7 @@ public class ControllerCreationCompte {
         passwordField.setText(null);
     }
 
-    public void setTextField(String compteId, String matricule, String pass) {
-        this.compteId = compteId ;
-        this.passwordField.setText(pass);
-        this.matriculeTextField.setText(matricule);
-    }
 
-    public void setUpdate(boolean b) {
-        this.update = b;
 
-    }
 
 }

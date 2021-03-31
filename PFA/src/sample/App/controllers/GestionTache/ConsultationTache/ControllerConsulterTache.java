@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.controllers.GestionTache.UpdateTache.ControllerUpdateTache;
 import sample.App.model.Compte;
 import sample.App.controllers.GestionTache.AfficherTache.ControllerAfficherTache;
 import sample.App.controllers.GestionTache.CreationTache.ControllerCreationTache;
@@ -204,7 +205,7 @@ public class ControllerConsulterTache implements Initializable {
                             }
 
                             ControllerAfficherTache addTacheController = loader.getController();
-                            addTacheController.setTextField(tache.getIdTache(), tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
+                            //addTacheController.setTextField(tache.getIdTache(), tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -217,16 +218,19 @@ public class ControllerConsulterTache implements Initializable {
 
                             tache = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/TacheCreation.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/tache/UpdateTache.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
                                 Logger.getLogger(ControllerConsulterTache.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            ControllerCreationTache addTacheController = loader.getController();
-                            addTacheController.setUpdate(true);
-                            addTacheController.setTextField(tache.getIdTache(), tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
+                            ControllerUpdateTache addTacheController = loader.getController();
+                            //addTacheController.setUpdate(true);
+
+                            System.out.println(tache.getDateDebut());
+                            System.out.println(tache.getDateFin());
+                            addTacheController.setTextField(tache.getIdTache(),tache.getNomTache(),tache.getDescriptionTache(),tache.getDateDebut(),tache.getDateFin());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -272,7 +276,7 @@ public class ControllerConsulterTache implements Initializable {
 
             while(rs.next()){
 
-                oblist.add(new Tache(rs.getString("IdTache"),rs.getString("NomTache"),rs.getString("Description"),rs.getDate("Debut"),rs.getDate("Fin"),""));
+                oblist.add(new Tache(rs.getString("IdTache"),rs.getString("NomTache"),rs.getString("Description"),rs.getString("Debut"),rs.getString("Fin"),""));
 
             }
             rs.close();
@@ -289,7 +293,7 @@ public class ControllerConsulterTache implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../../view/TacheCreation.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../../../view/tache/creerTache.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -319,7 +323,7 @@ public class ControllerConsulterTache implements Initializable {
 
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../../../view/TacheDelete.fxml"));
+        loader.setLocation(getClass().getResource("../../../view/tache/SupprimerTache.fxml"));
         try {
             loader.load();
         } catch (IOException ex) {
@@ -337,7 +341,7 @@ public class ControllerConsulterTache implements Initializable {
             for (Tache item : list) {
                 if (item.getCheck().isSelected()) {
                     try {
-                        query = "DELETE FROM counts WHERE cin  =" + item.getIdTache();
+                        query = "DELETE FROM tache WHERE IDTACHE  =" + item.getIdTache();
                         Connection connection = getOracleConnection();
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.execute();

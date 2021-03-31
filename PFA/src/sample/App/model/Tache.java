@@ -10,14 +10,14 @@ public class Tache {
     private  String IdTache ;
     private  String NomTache;
     private  String DescriptionTache ;
-    private  Date DateDebut ;
-    private  Date DateFin ;
+    private  String DateDebut ;
+    private  String DateFin ;
     private CheckBox check;
     Button update;
     Button modify;
     Button delete;
 
-    public Tache(String IdTache, String NomTache, String descriptionTache, Date dateDebut, Date dateFin, String value){
+    public Tache(String IdTache, String NomTache, String descriptionTache, String dateDebut, String dateFin, String value){
         this.IdTache = new String(IdTache);
         this.NomTache = new String(NomTache);
         this.DescriptionTache = descriptionTache;
@@ -84,19 +84,19 @@ public class Tache {
         DescriptionTache = descriptionTache;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(String dateDebut) {
         DateDebut = dateDebut;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(String dateFin) {
         DateFin = dateFin;
     }
 
-    public Date getDateDebut() {
+    public String getDateDebut() {
         return DateDebut;
     }
 
-    public Date getDateFin() {
+    public String getDateFin() {
         return DateFin;
     }
 }
