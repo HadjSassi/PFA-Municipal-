@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="634.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.gPerAffichController">
+   <children>
+      <HBox layoutX="36.0" layoutY="94.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="19.0" prefWidth="92.0" stylesheets="@../css/addStyle.css" text="Matricule :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="MatriculeLabel" prefHeight="26.0" prefWidth="161.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="37.0" layoutY="127.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../css/addStyle.css" text="Nom :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="NomLabel" prefHeight="26.0" prefWidth="161.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="37.0" layoutY="161.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../css/addStyle.css" text="Prenom :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="PrenomLabel" prefHeight="26.0" prefWidth="161.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="37.0" layoutY="195.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="6.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="26.0" prefWidth="90.0" stylesheets="@../css/addStyle.css" text="Cin :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="CinLabel" prefHeight="26.0" prefWidth="161.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="37.0" layoutY="229.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="26.0" prefWidth="96.0" stylesheets="@../css/addStyle.css" text="  N°Tel :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="TelLabel" prefHeight="26.0" prefWidth="161.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="36.0" layoutY="261.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="26.0" prefWidth="94.0" stylesheets="@../css/addStyle.css" text="Sex : ">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="SexLabel" prefHeight="26.0" prefWidth="160.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="34.0" layoutY="294.0" prefHeight="26.0" prefWidth="254.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="26.0" prefWidth="93.0" stylesheets="@../css/addStyle.css" text="Naissance  : ">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="NaissanceLabel" prefHeight="26.0" prefWidth="160.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="36.0" layoutY="329.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="6.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="26.0" prefWidth="96.0" stylesheets="@../css/addStyle.css" text="Service :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="ServiceLabel" prefHeight="26.0" prefWidth="160.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="36.0" layoutY="364.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="26.0" prefWidth="144.0" stylesheets="@../css/addStyle.css" text="  Salaire : ">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="SalaireLabel" prefHeight="26.0" prefWidth="160.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Label layoutX="41.0" layoutY="408.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../css/addStyle.css" text=" Description :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="32.0" text="Info Personnel" textFill="WHITE">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" layoutX="392.0" layoutY="603.0" mnemonicParsing="false" onAction="#handleClicksPrint" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../css/addStyle.css" text="Imprimer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/printer.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="503.0" layoutY="603.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../css/addStyle.css" text="Fermer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/clo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="DescriptionFiled" layoutX="64.0" layoutY="439.0" prefHeight="153.0" prefWidth="522.0" stylesheets="@../css/addStyle.css" />
+   </children>
+</AnchorPane>

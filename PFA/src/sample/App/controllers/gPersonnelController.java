@@ -275,10 +275,45 @@ public class gPersonnelController implements Initializable {
                                 e.printStackTrace();
                             }
                             gPerModifController addController= loader.getController();
-                            DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT);
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
                             LocalDate dateTime = LocalDate.parse(personnel.getNaissance(), formatter);
                             addController.setTextFiel(personnel.getMatricule(),personnel.getNom(),personnel.getPrenom(),personnel.getCin(),personnel.getTel(),personnel.getSex(),dateTime,personnel.getService(),personnel.getSalaire(),personnel.getDescription());
+                            Parent parent=loader.getRoot();
+                            Stage stage=new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.initStyle(StageStyle.TRANSPARENT);
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
+                                if (!stage.isShowing()){
+                                    loadData();
+                                }
+                            });
+                            //drag it here
+                            parent.setOnMousePressed(event1 -> {
+                                x = event1.getSceneX();
+                                y = event1.getSceneY();
+                            });
+                            parent.setOnMouseDragged(event1 -> {
+
+                                stage.setX(event1.getScreenX() - x);
+                                stage.setY(event1.getScreenY() - y);
+
+                            });
+                            stage.show();
+                        });
+                        eye.setOnMouseClicked((MouseEvent event) -> {
+                            personnel=table_info.getSelectionModel().getSelectedItem();
+                            FXMLLoader loader = new FXMLLoader ();
+                            loader.setLocation(getClass().getResource("../view/gPerAffich.fxml"));
+                            try {
+                                loader.load();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            gPerAffichController addController= loader.getController();
+                            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
+                            //LocalDate dateTime = LocalDate.parse(personnel.getNaissance(), formatter);
+                            addController.setTextFiel(personnel.getMatricule(),personnel.getNom(),personnel.getPrenom(),personnel.getCin(),personnel.getTel(),personnel.getSex(),personnel.getNaissance(),personnel.getService(),personnel.getSalaire(),personnel.getDescription());
                             Parent parent=loader.getRoot();
                             Stage stage=new Stage();
                             stage.setScene(new Scene(parent));
