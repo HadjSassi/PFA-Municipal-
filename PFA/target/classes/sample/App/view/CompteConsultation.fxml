@@ -14,10 +14,10 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
+                  <TableColumn fx:id="col_select" maxWidth="1000.0" prefWidth="55.0" text="Select" />
                   <TableColumn fx:id="matriculeCol" prefWidth="136.0" text="Matricule" />
                   <TableColumn fx:id="passCol" prefWidth="97.0" text="Mot de passe" />
                   <TableColumn fx:id="modifierCol" maxWidth="1000.0" prefWidth="336.0" text="Modifier" />
-                  <TableColumn fx:id="col_select" maxWidth="1000.0" prefWidth="55.0" text="Select" />
                </columns>
             </TableView>
             <TextField fx:id="filterField" layoutX="594.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="Recherche" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 2em;" stylesheets="@../css/style.css" />

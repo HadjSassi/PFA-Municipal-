@@ -1,6 +1,8 @@
 CREATE TABLE  COMPTE
    (MATRICULE VARCHAR2(8) primary key,
-	PASS VARCHAR2(30)
+	PASS VARCHAR2(30),
+	image varchar2(30)
+	constraint fk_compte foreign key (MATRICULE) references personnel(MATRICULE) on delete cascade
    ) ;
 
 
@@ -17,6 +19,8 @@ CREATE TABLE  "SETTINGS"
    ) ;
 
 insert into settings(id) values (1);
+//NB. fel logo 7ot taswira par défaut okay
+insert into settings(id,logo) values (2,'C:\Users\Kerkennah\Desktop\MAHDI\new to move\156998617_444552107000301_1649654610747266930_o.jpg');
 
 
 CREATE TABLE  "PERSONNEL" 

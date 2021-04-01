@@ -305,7 +305,7 @@ public class ControllerConsulterCompte implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from COMPTE ");
             while(rs.next()){
-                oblist.add(new Compte(rs.getString("matricule"),rs.getString("pass"),""));
+                oblist.add(new Compte(rs.getString("matricule"),rs.getString("pass"),"",rs.getString("image")));
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -382,5 +382,7 @@ public class ControllerConsulterCompte implements Initializable {
 
         }
     }
+
+
 
 }

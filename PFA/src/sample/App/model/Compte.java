@@ -8,16 +8,18 @@ public class Compte {
 
     private final String matricule ;
     private final String pass;
+    private final String image ;
     private CheckBox check;
     Button update;
     Button modify;
     Button delete;
 
-    public Compte(String matricule, String pass,String value){
+    public Compte(String matricule, String pass,String value , String image){
         this.matricule = new String(matricule);
         this.pass = new String(pass);
         this.modify = new Button("Modifier");
         this.check = new CheckBox();
+        this.image = image ;
     }
 
     public String getMatricule() {
@@ -58,5 +60,9 @@ public class Compte {
 
     public void setDelete(Button delete) {
         this.delete = delete;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

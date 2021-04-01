@@ -9,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,6 +21,9 @@ import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
 import sample.App.controllers.gPerAddController;
 import sample.App.model.Compte;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -31,6 +36,9 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class ControllerCreationCompte {
 
+
+    private String URL_Logo;
+
     @FXML
     private Label lbl ;
 
@@ -40,7 +48,11 @@ public class ControllerCreationCompte {
     @FXML
     private Label lbl1 ;
 
+    @FXML
+    private ImageView logo;
 
+    @FXML
+    private Button btnselect_logo;
 
     @FXML
     private Button buttonConfirmer ;
@@ -58,7 +70,7 @@ public class ControllerCreationCompte {
     String  compteId;
 
 
-    public void confirmerButton (ActionEvent event) throws URISyntaxException {
+    public void confirmerButton (ActionEvent event) throws URISyntaxException, FileNotFoundException {
         {
             {
                 String matricule = matriculeTextField.getText();
@@ -70,8 +82,8 @@ public class ControllerCreationCompte {
                             if (find(matricule)) {
                                 try {
                                     Connection connection = getOracleConnection();
-                                    String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
-
+                                    String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ","+"\'"+URL_Logo+"\'"+")";
+                                    System.out.println(insertion);
                                     Statement statement = connection.createStatement();
                                     statement.execute(insertion);
                                     statement.execute("commit");
@@ -235,12 +247,42 @@ public class ControllerCreationCompte {
     }
 
     @FXML
-    private void clean() {
+    private void clean() throws FileNotFoundException {
         matriculeTextField.setText(null);
         passwordField.setText(null);
+        try{
+            Connection connection= getOracleConnection();
+            Statement statement = connection.createStatement();
+            String query = "select * from settings where id = 2";
+            //get data from db
+            ResultSet rs = statement.executeQuery(query);
+            //fetch data
+            while(rs.next()){
+                FileInputStream inputstream = new FileInputStream(rs.getString("logo"));
+                Image image = new Image(inputstream);
+
+                logo.setImage(image);
+            }
+            rs.close();
+        }
+        catch (SQLException | FileNotFoundException e){
+            System.out.println("Erreur!!");
+        }
     }
 
+    @FXML
+    public void cmdSelectLogo(ActionEvent event) throws IOException, SQLException {
+        FileChooser fc = new FileChooser();
 
+        File selectedDFile = (File) fc.showOpenDialog(null);
+
+        FileInputStream inputstream = new FileInputStream(selectedDFile.getAbsolutePath());
+        Image image = new Image(inputstream);
+
+        //System.out.println(selectedDFile.getAbsolutePath());
+        URL_Logo=selectedDFile.getAbsolutePath();
+        logo.setImage(image);
+    }
 
 
 }

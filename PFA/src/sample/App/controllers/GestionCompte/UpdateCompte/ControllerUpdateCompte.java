@@ -6,15 +6,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.App.model.Compte;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 
 public class ControllerUpdateCompte {
+
+
+
+    private String URL_Logo;
+
 
     @FXML
     private Label lbl ;
@@ -28,6 +40,12 @@ public class ControllerUpdateCompte {
     @FXML
     private Label loulou ;
 
+
+    @FXML
+    private ImageView logo;
+
+    @FXML
+    private Button btnselect_logo;
 
 
     @FXML
@@ -66,7 +84,7 @@ public class ControllerUpdateCompte {
                         Connection connection = getOracleConnection();
                         //String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
                         String updating = "update COMPTE set " +
-                                "pass =" + "\'" + pass + "\' where matricule = " + "\'" + compteId + "\'";
+                                "pass =" + "\'" + pass + "\' , image = "+"\'"+URL_Logo+"\'"+" where matricule = " + "\'" + compteId + "\'";
 
                         Statement statement = connection.createStatement();
                         statement.execute(updating);
@@ -191,11 +209,45 @@ public class ControllerUpdateCompte {
         this.compteId = compteId ;
         this.passwordField.setText(pass);
         this.loulou.setText(matricule);
+        try{
+            Connection connection= getOracleConnection();
+            Statement statement = connection.createStatement();
+            String query = "select * from compte where matricule = "+"\'"+compteId+"\'";
+            System.out.println(query);
+            //get data from db
+            ResultSet rs = statement.executeQuery(query);
+            //fetch data
+            while(rs.next()){
+                FileInputStream inputstream = new FileInputStream(rs.getString("image"));
+                Image image = new Image(inputstream);
+
+                logo.setImage(image);
+            }
+            rs.close();
+        }
+        catch (SQLException | FileNotFoundException e){
+            System.out.println("Erreur!!");
+        }
     }
 
     public void setUpdate(boolean b) {
         this.update = b;
 
     }
+
+    @FXML
+    public void cmdSelectLogo(ActionEvent event) throws IOException, SQLException {
+        FileChooser fc = new FileChooser();
+
+        File selectedDFile = (File) fc.showOpenDialog(null);
+
+        FileInputStream inputstream = new FileInputStream(selectedDFile.getAbsolutePath());
+        Image image = new Image(inputstream);
+
+        //System.out.println(selectedDFile.getAbsolutePath());
+        URL_Logo=selectedDFile.getAbsolutePath();
+        logo.setImage(image);
+    }
+
 
 }
