@@ -141,3 +141,10 @@
 
     -fx-background-color: #28a3f4;
 }
+.centered-table-column{
+    -fx-alignment: center;
+}
+
+.table-column{
+    -fx-alignment: center;
+}

@@ -10,14 +10,10 @@ public class Compte {
     private final String pass;
     private final String image ;
     private CheckBox check;
-    Button update;
-    Button modify;
-    Button delete;
 
     public Compte(String matricule, String pass,String value , String image){
         this.matricule = new String(matricule);
         this.pass = new String(pass);
-        this.modify = new Button("Modifier");
         this.check = new CheckBox();
         this.image = image ;
     }
@@ -36,30 +32,6 @@ public class Compte {
 
     public void setCheck(CheckBox check) {
         this.check = check;
-    }
-
-    public Button getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Button update) {
-        this.update = update;
-    }
-
-    public Button getModify() {
-        return modify;
-    }
-
-    public void setModify(Button modify) {
-        this.modify = modify;
-    }
-
-    public Button getDelete() {
-        return delete;
-    }
-
-    public void setDelete(Button delete) {
-        this.delete = delete;
     }
 
     public String getImage() {

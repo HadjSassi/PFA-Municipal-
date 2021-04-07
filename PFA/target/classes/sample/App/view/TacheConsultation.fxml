@@ -15,7 +15,7 @@
    <children>
       <AnchorPane prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b) linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tableView" layoutX="5.0" layoutY="97.0" prefHeight="349.0" prefWidth="784.0" style="-fx-background-color: transparent;" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="107.0">
+            <TableView fx:id="tableView" layoutX="5.0" layoutY="97.0" prefHeight="349.0" prefWidth="784.0" style="-fx-background-color: transparent;" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="107.0" styleClass="centered-table-column">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>

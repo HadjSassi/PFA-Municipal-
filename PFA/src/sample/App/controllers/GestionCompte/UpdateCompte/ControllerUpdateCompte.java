@@ -213,7 +213,7 @@ public class ControllerUpdateCompte {
             Connection connection= getOracleConnection();
             Statement statement = connection.createStatement();
             String query = "select * from compte where matricule = "+"\'"+compteId+"\'";
-            System.out.println(query);
+            //System.out.println(query);
             //get data from db
             ResultSet rs = statement.executeQuery(query);
             //fetch data
@@ -226,7 +226,7 @@ public class ControllerUpdateCompte {
             rs.close();
         }
         catch (SQLException | FileNotFoundException e){
-            System.out.println("Erreur!!");
+            //System.out.println("Erreur!!");
         }
     }
 

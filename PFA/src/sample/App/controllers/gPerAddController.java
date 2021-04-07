@@ -93,6 +93,8 @@ public class gPerAddController implements Initializable {
     private Label salaireLabel;
     @FXML
     private TextArea DescriptionFiled;
+
+
     public boolean isAlpha(String name) {
         return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
     }
@@ -121,6 +123,7 @@ public class gPerAddController implements Initializable {
         }
         return false;
     }
+
     private boolean vermat,vernom,verprenom,vercin,vertel=true,versal=true;
     @FXML
     void VerifTel(KeyEvent event) {

@@ -48,6 +48,26 @@ CREATE TABLE  TACHE
 
 
 
+create sequence mySeq maxvalue 100 cycle ;
+
+CREATE table "DOLEANCE" (
+    "ID"         NUMBER,
+    "TYPE"       VARCHAR2(30),
+    "NOM"        VARCHAR2(30),
+    "CIN"        VARCHAR2(8),
+    constraint  "DOLEANCE_PK" primary key ("ID")
+)
+/
+
+CREATE trigger "BI_DOLEANCE"
+  before insert on "DOLEANCE"
+  for each row
+begin
+  if :NEW."ID" is null then
+    select "MYSEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/
 
 
 

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionDoleance.CreationDoleance.ControllerCreationDoleance">
+   <children>
+      <HBox layoutX="26.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="19.0" prefWidth="92.0" stylesheets="@../../css/addStyle.css" text="ID :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblId" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="26.0" layoutY="169.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Type :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="TypeEnum" onAction="#verifService" prefHeight="17.0" prefWidth="162.0" style="-fx-background-color: white;" />
+         </children>
+      </HBox>
+      <Label layoutX="30.0" layoutY="22.0" text="Creation Doleance" textFill="WHITE">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="366.0" layoutY="561.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/addpersonn2.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttonFermer" alignment="CENTER" layoutX="487.0" layoutY="561.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/clo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblTypeError" alignment="CENTER" layoutX="274.0" layoutY="173.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNomEror" alignment="CENTER" layoutX="276.0" layoutY="234.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl" alignment="CENTER" layoutX="51.0" layoutY="577.0" prefHeight="19.0" prefWidth="248.0" textFill="#52a858">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <HBox layoutX="26.0" layoutY="230.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Nom :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nameTextField" onKeyPressed="#verifNom" onKeyReleased="#verifNom" prefHeight="25.0" prefWidth="157.0" promptText="Nom Prenom" stylesheets="@../../css/addStyle.css" />
+         </children>
+      </HBox>
+      <HBox layoutX="26.0" layoutY="297.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Cin :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="CinTextField" onKeyPressed="#verifCin" onKeyReleased="#verifCin" prefHeight="25.0" prefWidth="157.0" promptText="N°Carte d'identité" stylesheets="@../../css/addStyle.css" />
+         </children>
+      </HBox>
+      <HBox layoutX="335.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Statuts :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label id="labelStatus" fx:id="lblStatus" style="-fx-color-label-visible: 4fd0ff;" stylesheets="@../../css/addStyle.css" text="Status du doleance" textFill="#4fd0ff">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lblCinError" alignment="CENTER" layoutX="275.0" layoutY="301.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="349.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="DescriptionFiled" layoutX="70.0" layoutY="382.0" prefHeight="156.0" prefWidth="506.0" stylesheets="@../../css/addStyle.css" />
+   </children>
+</AnchorPane>

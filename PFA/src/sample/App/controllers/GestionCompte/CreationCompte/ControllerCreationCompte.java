@@ -83,7 +83,7 @@ public class ControllerCreationCompte {
                                 try {
                                     Connection connection = getOracleConnection();
                                     String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ","+"\'"+URL_Logo+"\'"+")";
-                                    System.out.println(insertion);
+                                    //System.out.println(insertion);
                                     Statement statement = connection.createStatement();
                                     statement.execute(insertion);
                                     statement.execute("commit");
@@ -266,7 +266,7 @@ public class ControllerCreationCompte {
             rs.close();
         }
         catch (SQLException | FileNotFoundException e){
-            System.out.println("Erreur!!");
+            //System.out.println("Erreur!!");
         }
     }
 

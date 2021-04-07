@@ -139,19 +139,6 @@ public class ControllerConsulterCompte implements Initializable {
         });
     }
 
-
-    private void uncheckAll(){
-        for (Compte item : items){
-            item.getCheck().selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(!item.getCheck().isSelected())
-                        check_selAll.setSelected(false);
-                }
-            });
-        }}
-
-
     private void initTable(){
         initCols();
         checkAll();

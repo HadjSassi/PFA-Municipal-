@@ -86,6 +86,15 @@ public class gInterfaceController implements Initializable {
     }
 
     @FXML
+    void handleClicksDoleance(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        AnchorPane view = object.getPane("doleance/DoleanceConsultation");
+        view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        anchorpane3.getChildren().removeAll();
+        anchorpane3.getChildren().setAll(view);
+    }
+
+    @FXML
     void handleClicksTache(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
         AnchorPane view = object.getPane("TacheConsultation");
