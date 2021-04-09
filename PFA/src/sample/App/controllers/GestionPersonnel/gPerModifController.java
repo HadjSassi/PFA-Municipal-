@@ -1,4 +1,4 @@
-package sample.App.controllers;
+package sample.App.controllers.GestionPersonnel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
@@ -98,12 +99,18 @@ public class gPerModifController implements Initializable {
     private Label salaireLabel;
     @FXML
     private TextArea DescriptionFiled;
-    public boolean isAlpha(String name) {
+    private boolean isAlpha(String name) {
         return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
     }
-    public static boolean isNumeric(String string) {
+    private static boolean isNumeric(String string) {
         return string.matches("[0-9]+");
     }
+    private static int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+        if ((birthDate != null) && (currentDate != null)) {
+            return Period.between(birthDate, currentDate).getYears();
+        } else {
+            return 0;
+        }}
     public static boolean isFloat(String string) {
         try {
             Float.parseFloat(string);
@@ -218,10 +225,15 @@ public class gPerModifController implements Initializable {
             dateLabel.setStyle("-fx-text-fill: red");
             BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
-            dateLabel.setStyle("-fx-text-fill: #32CD32");
-            dateLabel.setText("✓");
-            BirthField.setStyle("-fx-background-color:transparent;");}
-    }
+            if(calculateAge(BirthField.getValue(),LocalDate.now())<=18){
+                dateLabel.setText("🠔 Date de naissance invalide");
+                dateLabel.setStyle("-fx-text-fill: red");
+                BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+            else{
+                dateLabel.setStyle("-fx-text-fill: #32CD32");
+                dateLabel.setText("✓");
+                BirthField.setStyle("-fx-background-color:transparent;");}
+        }}
 
     @FXML
     void verifNom(KeyEvent event) {
@@ -350,7 +362,7 @@ public class gPerModifController implements Initializable {
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../images/errorinsert.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
             alert.showAndWait();
         }
         else{
@@ -380,7 +392,7 @@ public class gPerModifController implements Initializable {
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Modification avec succés");
-            alert.setGraphic(new ImageView(getClass().getResource("../../images/approved2.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString() ));
             alert.showAndWait();
             stage = (Stage) anchorpane.getScene().getWindow();
             stage.close();

@@ -1,7 +1,5 @@
 package sample.App.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 public class Compte {

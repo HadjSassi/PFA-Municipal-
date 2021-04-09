@@ -18,7 +18,7 @@ import javafx.stage.StageStyle;
 import sample.App.controllers.GestionCompte.ConsultationCompte.ControllerConsulterCompte;
 import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprimerCompte;
 import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
-import sample.App.controllers.gPerAddController;
+import sample.App.controllers.GestionPersonnel.gPerAddController;
 import sample.App.model.Compte;
 
 import java.io.File;

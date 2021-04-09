@@ -1,4 +1,4 @@
-package sample.App.controllers;
+package sample.App.controllers.GestionPersonnel;
 
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -21,11 +21,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.Main;
 import sample.App.model.Personnel;
 
 
@@ -35,7 +37,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -47,6 +48,8 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class gPersonnelController implements Initializable {
 
+    @FXML
+    private HBox salar;
     @FXML
     private TableView<Personnel> table_info;
 
@@ -90,7 +93,7 @@ public class gPersonnelController implements Initializable {
     private Personnel personnel=null;
    @FXML
     void handleAjoutPersonnel(ActionEvent event) throws IOException {
-       if (s){Parent root = FXMLLoader.load(getClass().getResource("../view/gPerAdd.fxml"));
+       if (s){Parent root = FXMLLoader.load(getClass().getResource("../../view/gPerAdd.fxml"));
        Scene scene = new Scene(root);
        Stage stage = new Stage();
        stage.setScene(scene);
@@ -121,6 +124,9 @@ public class gPersonnelController implements Initializable {
         loadData();
         filter();
         check_selAll.setSelected(false);
+        if(Main.stage.isMaximized()){
+            System.out.println("YOYOYOOY");
+            AnchorPane.setRightAnchor(salar,0.0);}
 
     }
    @FXML
@@ -143,7 +149,7 @@ public class gPersonnelController implements Initializable {
                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                alert.getButtonTypes().setAll(okButton, noButton);
                alert.setContentText("Etes-vous sure de supprimer le personnel  de n°: ///"+s);
-               alert.setGraphic(new ImageView(getClass().getResource("../../images/delete.png").toURI().toString() ));
+               alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
                alert.showAndWait().ifPresent(type -> {
                    if (type == okButton) {
                        del.set(true);
@@ -268,7 +274,7 @@ public class gPersonnelController implements Initializable {
                         editIcon.setOnMouseClicked((MouseEvent event) -> {
                             personnel=table_info.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../view/gPerModif.fxml"));
+                            loader.setLocation(getClass().getResource("../../view/gPerModif.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException e) {
@@ -304,7 +310,7 @@ public class gPersonnelController implements Initializable {
                         eye.setOnMouseClicked((MouseEvent event) -> {
                             personnel=table_info.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../view/gPerAffich.fxml"));
+                            loader.setLocation(getClass().getResource("../../view/gPerAffich.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException e) {

@@ -3,8 +3,6 @@ package sample.App.model;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
-import java.sql.Date;
-
 public class Tache {
 
     private  String IdTache ;

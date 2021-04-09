@@ -29,18 +29,6 @@ public class Main extends Application {
         window.setScene(new Scene(root));
         //set stage borderless
        window.initStyle(StageStyle.UNDECORATED);
-
-        //drag it here
-        root.setOnMousePressed(event -> {
-            x = event.getSceneX();
-            y = event.getSceneY();
-        });
-        root.setOnMouseDragged(event -> {
-
-            window.setX(event.getScreenX() - x);
-            window.setY(event.getScreenY() - y);
-
-        });
         primaryStage.getIcons().add((new Image( getClass().getResource("../images/municipalite-tunis.png").toURI().toString())));
         primaryStage.show();
     }

@@ -1,4 +1,4 @@
-package sample.App.controllers;
+package sample.App.controllers.GestionPersonnel;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
