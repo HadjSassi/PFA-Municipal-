@@ -24,15 +24,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import sample.App.controllers.GestionTache.UpdateTache.ControllerUpdateTache;
-import sample.App.model.Compte;
 import sample.App.controllers.GestionTache.AfficherTache.ControllerAfficherTache;
-import sample.App.controllers.GestionTache.CreationTache.ControllerCreationTache;
 import sample.App.model.Tache;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;

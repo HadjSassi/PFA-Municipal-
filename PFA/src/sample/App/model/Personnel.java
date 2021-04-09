@@ -1,6 +1,5 @@
 package sample.App.model;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 import java.text.DateFormat;

@@ -1,14 +1,14 @@
 package sample.App.controllers.GestionCompte.CreationCompte;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -17,17 +17,17 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.App.controllers.GestionCompte.ConsultationCompte.ControllerConsulterCompte;
 import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprimerCompte;
-import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
-import sample.App.controllers.gPerAddController;
-import sample.App.model.Compte;
+import sample.App.controllers.GestionPersonnel.gPerAddController;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionDoleance.ConsultationDoleance.ControllerConsulterDoleance">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionDoleance.ConsultationDoleance.ControllerConsulterDoleance">
    <children>
       <AnchorPane prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b) linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,7 @@
                   <TableColumn fx:id="modifierCol" maxWidth="1000.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                </columns>
             </TableView>
-            <TextField fx:id="filterField" layoutX="594.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="Recherche" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 2em;" stylesheets="@../../css/style.css" />
+            <TextField fx:id="filterField" layoutX="594.0" layoutY="23.0" prefHeight="27.0" prefWidth="183.0" promptText="Recherche" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 2em;" stylesheets="@../../css/style.css" AnchorPane.rightAnchor="17.0" />
             <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="753.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="25.0">
                <image>
                   <Image url="@../../../images/icons8_Search_52px.png" />

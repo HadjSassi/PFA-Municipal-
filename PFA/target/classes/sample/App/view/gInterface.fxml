@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorpane1" prefHeight="576.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.gInterfaceController">
+<AnchorPane fx:id="anchorpane1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.gInterfaceController">
     <children>
-      <AnchorPane fx:id="anchorpane2" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="794.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="anchorpane2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="794.0" AnchorPane.topAnchor="0.0">
          <children>
-                <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #212121;">
+                <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #212121;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <ImageView fitHeight="73.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -135,7 +135,7 @@
                         <Insets left="50.0" />
                      </padding>
                   </Button>
-                  <ImageView fitHeight="27.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="16.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleClicksRetour" prefHeight="50.0" prefWidth="148.0" stylesheets="@../css/style.css" text=" Retour">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">

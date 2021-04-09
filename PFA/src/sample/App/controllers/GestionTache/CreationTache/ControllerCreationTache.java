@@ -7,10 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import sample.App.model.Compte;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 

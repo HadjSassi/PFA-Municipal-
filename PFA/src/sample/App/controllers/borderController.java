@@ -19,20 +19,29 @@ public class borderController implements Initializable {
 
     Stage stage;
     @FXML
-    private Pane border;
+    private AnchorPane all;
+    @FXML
+    private AnchorPane  border;
 
     @FXML
     private AnchorPane mainscreen;
-
+    @FXML
+    void handleClicksMaximize(ActionEvent event) {
+        stage = (Stage) all.getScene().getWindow();
+        if(stage.isMaximized())
+            stage.setMaximized(false);
+        else
+            stage.setMaximized(true);
+    }
     @FXML
     void handleClicksClose(ActionEvent event) {
-        stage = (Stage) mainscreen.getScene().getWindow();
+        stage = (Stage) all.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     void handleClicksMinimize(ActionEvent event) {
-        stage = (Stage) mainscreen.getScene().getWindow();
+        stage = (Stage) all.getScene().getWindow();
         stage.setIconified(true);
     }
 
@@ -70,7 +79,6 @@ public class borderController implements Initializable {
         });}
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        makeStageDragable();
         FxmlLoader object = new FxmlLoader();
         AnchorPane view = object.getPane("Interface");
         mainscreen.getChildren().removeAll();
