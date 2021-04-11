@@ -35,7 +35,11 @@ public class gPerAddController implements Initializable {
     private AnchorPane anchorpane;
 
     @FXML
-    public TextField MatriculeField;
+    private TextField MatriculeField;
+
+    public TextField getMatriculeField() {
+        return MatriculeField;
+    }
 
     @FXML
     private TextField CinField;

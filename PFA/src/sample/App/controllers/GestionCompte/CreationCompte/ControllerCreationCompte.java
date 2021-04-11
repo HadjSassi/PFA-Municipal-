@@ -3,9 +3,12 @@ package sample.App.controllers.GestionCompte.CreationCompte;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,21 +23,25 @@ import sample.App.controllers.GestionCompte.SuppressionCompte.ControllerSupprime
 import sample.App.controllers.GestionCompte.UpdateCompte.ControllerUpdateCompte;
 import sample.App.controllers.GestionPersonnel.gPerAddController;
 import sample.App.model.Compte;
+import sample.App.model.Service;
+import sample.App.model.type_Doleance;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 
-public class ControllerCreationCompte {
+public class ControllerCreationCompte implements Initializable {
 
 
     private String URL_Logo;
@@ -66,6 +73,9 @@ public class ControllerCreationCompte {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private ChoiceBox<String> selRole;
+
 
     String  compteId;
 
@@ -82,7 +92,7 @@ public class ControllerCreationCompte {
                             if (find(matricule)) {
                                 try {
                                     Connection connection = getOracleConnection();
-                                    String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ","+"\'"+URL_Logo+"\'"+")";
+                                    String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ","+"\'"+URL_Logo+"\'"+","+"\'"+selRole.getValue()+"\'"+")";
                                     //System.out.println(insertion);
                                     Statement statement = connection.createStatement();
                                     statement.execute(insertion);
@@ -135,7 +145,7 @@ public class ControllerCreationCompte {
                                 }
 
                                 gPerAddController addper = loader2.getController();
-                                addper.MatriculeField.setText(matriculeTextField.getText());
+                                addper.getMatriculeField().setText(matriculeTextField.getText());
 
                                 Parent parent2 = loader2.getRoot();
 
@@ -284,5 +294,12 @@ public class ControllerCreationCompte {
         logo.setImage(image);
     }
 
-
+    ObservableList list= FXCollections.observableArrayList();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        list.removeAll();
+        list.addAll(Service.Administration.toString(),Service.Direction.toString(),Service.Financier.toString());
+        selRole.getItems().setAll(list);
+        selRole.setValue(Service.Administration.toString());
+    }
 }

@@ -343,7 +343,7 @@ public class ControllerConsulterDoleance implements Initializable {
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                 alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer le personnel  de n°: ///"+s);
+                alert.setContentText("Etes-vous sure de supprimer la doleance  de n°: ///"+s);
                 alert.setGraphic(new ImageView(getClass().getResource("../../../../images/delete.png").toURI().toString() ));
                 alert.showAndWait().ifPresent(type -> {
                     if (type == okButton) {

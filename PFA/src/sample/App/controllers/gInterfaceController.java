@@ -34,7 +34,7 @@ public class gInterfaceController implements Initializable {
     @FXML
     void handleClicksEquipe(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        AnchorPane view = object.getPane("gEquipe");
+        AnchorPane view = object.getPane("engin/EnginConsultation");
         view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);

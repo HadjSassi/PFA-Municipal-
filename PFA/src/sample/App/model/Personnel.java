@@ -27,7 +27,7 @@ public class Personnel {
         this.matricule=matricule;
         this.cin = cin;
         this.nom = nom;
-        this.prenom = prenom;this.tel = tel;
+        this.prenom = prenom;
         this.service = service;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.naissance= formatD.format(naissance);
@@ -38,6 +38,22 @@ public class Personnel {
         this.description=description;
         this.check = new CheckBox();
     }
+
+    public Personnel(String matricule){
+        this.matricule = matricule;
+        this.cin = null ;
+        this.nom = null ;
+        this.prenom = null ;
+        this.tel = 12345678 ;
+        this.service = null ;
+        this.sex = null ;
+        this.salaire = null ;
+        this.service = null ;
+        this.description = null ;
+        this.check = new CheckBox();
+        this.naissance = null ;
+    }
+
     public CheckBox getCheck() {
         return check;
     }

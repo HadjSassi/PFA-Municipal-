@@ -69,6 +69,16 @@ begin
 end;
 /
 
+alter table compte add (role varchar2(50)) ;
+
+create table Engin (
+id varchar2(50) primary key,
+type varchar2(50) ,
+dispo varchar2(10),
+marque varchar2(50));
+
+
+
 
 
 

@@ -52,6 +52,8 @@ public class ControllerConsulterCompte implements Initializable {
     @FXML
     TableColumn <Compte,String> matriculeCol ;
     @FXML
+    TableColumn <Compte,String> roleCol ;
+    @FXML
     TableColumn <Compte,String> passCol ;
     @FXML
     TableColumn <Compte,String> modifierCol ;
@@ -106,10 +108,12 @@ public class ControllerConsulterCompte implements Initializable {
             //Comparer le nom et le prenom avec tous les comptes aves filterField
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (compte.getMatricule().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            if (compte.getPer().getMatricule().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter nom
             }else if (compte.getPass().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter prenom
+            }else if (compte.getRole().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter role
             }else
                 return false;//doesn't match
         });});
@@ -154,6 +158,7 @@ public class ControllerConsulterCompte implements Initializable {
         passCol.setCellValueFactory(
                 new PropertyValueFactory<>("pass")
         );
+        roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         //modifierCol.setCellValueFactory(new PropertyValueFactory<>("modify"));
 
@@ -197,7 +202,7 @@ public class ControllerConsulterCompte implements Initializable {
                             }
 
                             ControllerAfficherCompte addCompteController = loader.getController();
-                            addCompteController.setTextField(compte.getMatricule(), compte.getMatricule(),compte.getPass());
+                            addCompteController.setTextField(compte.getPer().getMatricule(), compte.getPer().getMatricule(),compte.getPass(),compte.getRole());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -205,20 +210,7 @@ public class ControllerConsulterCompte implements Initializable {
                             stage.initStyle(StageStyle.UNDECORATED);
                             stage.showAndWait();
 
-                        });/*{
-
-                            try {
-                                compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM COMPTE WHERE matricule  ="+compte.getMatricule();
-                                Connection connection= getOracleConnection();
-                                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                                preparedStatement.execute();
-                                refresh();
-
-                            } catch (SQLException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        });*/
+                        });
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
 
                             compte = tableView.getSelectionModel().getSelectedItem();
@@ -232,7 +224,7 @@ public class ControllerConsulterCompte implements Initializable {
 
                             ControllerUpdateCompte addCompteController = loader.getController();
                             addCompteController.setUpdate(true);
-                            addCompteController.setTextField(compte.getMatricule(), compte.getMatricule(),compte.getPass());
+                            addCompteController.setTextField(compte.getPer().getMatricule(), compte.getPer().getMatricule(),compte.getPass(),compte.getRole());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -242,26 +234,7 @@ public class ControllerConsulterCompte implements Initializable {
                             stage.showAndWait();
                             refresh();
 
-                        });/*{
-
-                            try {
-                                compte = tableView.getSelectionModel().getSelectedItem();
-                                query = "DELETE FROM COMPTE WHERE matricule  ="+compte.getMatricule();
-
-                                Connection connection= getOracleConnection();
-                                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                                preparedStatement.execute();
-                                refresh();
-
-                            } catch (SQLException ex) {
-                                Logger.getLogger(ControllerConsulterCompte.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-
-
-
-
-                        });*/
+                        });
 
                         HBox managebtn = new HBox(editIcon,viewIcon);
                         managebtn.setStyle("-fx-alignment:center");
@@ -292,7 +265,7 @@ public class ControllerConsulterCompte implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from COMPTE ");
             while(rs.next()){
-                oblist.add(new Compte(rs.getString("matricule"),rs.getString("pass"),"",rs.getString("image")));
+                oblist.add(new Compte(rs.getString("matricule"),rs.getString("pass"),"",rs.getString("image"),rs.getString("role")));
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -355,7 +328,7 @@ public class ControllerConsulterCompte implements Initializable {
             for (Compte item : list) {
                 if (item.getCheck().isSelected()) {
                     try {
-                        query = "DELETE FROM COMPTE WHERE matricule  =" + item.getMatricule();
+                        query = "DELETE FROM COMPTE WHERE matricule  =" + item.getPer().getMatricule();
                         Connection connection = getOracleConnection();
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.execute();

@@ -1,27 +1,30 @@
 package sample.App.controllers.GestionCompte.UpdateCompte;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.App.model.Compte;
+import sample.App.model.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 
-public class ControllerUpdateCompte {
+public class ControllerUpdateCompte implements Initializable {
 
 
 
@@ -61,6 +64,10 @@ public class ControllerUpdateCompte {
     private PasswordField passwordField;
 
 
+    @FXML
+    private ChoiceBox<String> selRole;
+
+
     String query = null;
     Connection connection = null;
     ResultSet resultSet = null;
@@ -84,7 +91,7 @@ public class ControllerUpdateCompte {
                         Connection connection = getOracleConnection();
                         //String insertion = "insert into COMPTE  values (" + "\'" + matricule + "\'" + "," + "\'" + pass + "\'" + ")";
                         String updating = "update COMPTE set " +
-                                "pass =" + "\'" + pass + "\' , image = "+"\'"+URL_Logo+"\'"+" where matricule = " + "\'" + compteId + "\'";
+                                "pass =" + "\'" + pass + "\' , image = "+"\'"+URL_Logo+"\'"+", role ="+"\'"+selRole.getValue()+"\'"+" where matricule = " + "\'" + compteId + "\'";
 
                         Statement statement = connection.createStatement();
                         statement.execute(updating);
@@ -205,10 +212,11 @@ public class ControllerUpdateCompte {
         passwordField.setText(null);
     }
 
-    public void setTextField(String compteId, String matricule, String pass) {
+    public void setTextField(String compteId, String matricule, String pass ,String role) {
         this.compteId = compteId ;
         this.passwordField.setText(pass);
         this.loulou.setText(matricule);
+        selRole.setValue(role);
         try{
             Connection connection= getOracleConnection();
             Statement statement = connection.createStatement();
@@ -248,6 +256,12 @@ public class ControllerUpdateCompte {
         URL_Logo=selectedDFile.getAbsolutePath();
         logo.setImage(image);
     }
+    ObservableList list= FXCollections.observableArrayList();
 
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        list.removeAll();
+        list.addAll(Service.Administration.toString(),Service.Direction.toString(),Service.Financier.toString());
+        selRole.getItems().setAll(list);
+    }
 }

@@ -1,23 +1,35 @@
 package sample.App.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 public class Compte {
 
-    private final String matricule ;
+    private Personnel per ;
     private final String pass;
     private final String image ;
+    private final String role;
     private CheckBox check;
 
-    public Compte(String matricule, String pass,String value , String image){
-        this.matricule = new String(matricule);
+    public Compte(String matricule, String pass,String value , String image ,String role){
         this.pass = new String(pass);
+        this.role = role;
         this.check = new CheckBox();
         this.image = image ;
+        this.per = new Personnel(matricule);
+    }
+
+    public Personnel getPer() {
+        return per;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public String getMatricule() {
-        return matricule;
+        return getPer().getMatricule();// tout simplement pour qu'on peut affecter la column du consultation compte du matricule à cette valeur
     }
 
     public String getPass() {

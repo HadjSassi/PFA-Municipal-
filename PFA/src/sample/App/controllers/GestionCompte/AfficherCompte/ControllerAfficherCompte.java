@@ -34,12 +34,16 @@ public class ControllerAfficherCompte {
     @FXML
     private Label lblPass;
 
+    @FXML
+    private Label lblrole;
 
 
-    public void setTextField(String compteId, String Matricule, String pass) {
+
+    public void setTextField(String compteId, String Matricule, String pass , String role) {
         this.compteId = compteId ;
         this.lblPass.setText(pass);
         this.lblMatricule.setText(Matricule);
+        lblrole.setText(role);
         try{
             Connection connection= getOracleConnection();
             Statement statement = connection.createStatement();
