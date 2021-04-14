@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionEngin.ConsultationEngin">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionPermission.ConsultationPermission">
     <children>
         <AnchorPane prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b) linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -21,11 +21,11 @@
                     </columnResizePolicy>
                     <columns>
                         <TableColumn fx:id="col_select" maxWidth="400.0" prefWidth="55.0" text="Select" />
-                        <TableColumn fx:id="idCol" maxWidth="1400.0" prefWidth="136.0" style="-fx-alignement: center;" text="Série d'immatriculation" />
+                        <TableColumn fx:id="idCol" maxWidth="400.0" prefWidth="136.0" style="-fx-alignement: center;" text="ID" />
                         <TableColumn fx:id="typeCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Type" />
-                        <TableColumn fx:id="dispoCol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="Disponibilé" />
-                        <TableColumn fx:id="markCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Marque" />
-                  <TableColumn fx:id="prixcol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="Prix" />
+                        <TableColumn fx:id="cincol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="CIN" />
+                        <TableColumn fx:id="nomcol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Nom" />
+                        <TableColumn fx:id="prenomcol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Prenom" />
                         <TableColumn fx:id="modifierCol" maxWidth="600.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                     </columns>
                 </TableView>
@@ -35,7 +35,7 @@
                         <Image url="@../../../images/icons8_Search_52px.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Engins" textFill="#f2f0f0">
+                <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Permission" textFill="#f2f0f0">
                     <font>
                         <Font size="28.0" />
                     </font>

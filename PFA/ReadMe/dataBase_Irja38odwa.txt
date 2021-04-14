@@ -77,7 +77,17 @@ type varchar2(50) ,
 dispo varchar2(10),
 marque varchar2(50));
 
+alter table engin add (prix number(10,3));
 
+CREATE TABLE  "PERMISSION"
+   (	"ID" CHAR(4),
+	"TYPE" VARCHAR2(20),
+	"CIN" VARCHAR2(8),
+	"NOM" VARCHAR2(20),
+	"PRENOM" VARCHAR2(20),
+	"DESCRIPTION" VARCHAR2(100),
+	 PRIMARY KEY ("ID") ENABLE
+   ) ;
 
 
 

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionPermission.AfficherPermission">
+    <children>
+        <HBox fx:id="lbld" layoutX="23.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text=" *" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="19.0" prefWidth="92.0" stylesheets="@../../css/addStyle.css" text="ID :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+              <Label fx:id="lblid" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="160.0" text="dsfsdfd" textFill="WHITE">
+                  <font>
+                      <Font size="13.0" />
+                  </font>
+              </Label>
+            </children>
+        </HBox>
+        <HBox layoutX="358.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Type :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+              <Label fx:id="lblType" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="155.0" text="fsdfsdf" textFill="WHITE">
+                  <font>
+                      <Font size="13.0" />
+                  </font>
+              </Label>
+            </children>
+        </HBox>
+        <Label layoutX="30.0" layoutY="22.0" text="Creation Permission" textFill="WHITE">
+            <font>
+                <Font size="29.0" />
+            </font>
+        </Label>
+        <Button fx:id="buttonFermer1" alignment="CENTER" layoutX="495.0" layoutY="390.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/clo.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <HBox layoutX="23.0" layoutY="152.0" prefHeight="26.0" prefWidth="255.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Cin :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+              <Label fx:id="lblcin" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="146.0" text="sdfsdfds" textFill="WHITE">
+                  <font>
+                      <Font size="13.0" />
+                  </font>
+              </Label>
+            </children>
+        </HBox>
+        <HBox layoutX="23.0" layoutY="200.0" prefHeight="26.0" prefWidth="255.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Nom :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+              <Label fx:id="lblnom" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="154.0" text="sdfsdfsdf" textFill="WHITE">
+                  <font>
+                      <Font size="13.0" />
+                  </font>
+              </Label>
+            </children>
+        </HBox>
+        <HBox layoutX="351.0" layoutY="200.0" prefHeight="26.0" prefWidth="255.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Prenom :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+              <Label fx:id="lblprenom" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="155.0" text="sdfsdfsdfsd" textFill="WHITE">
+                  <font>
+                      <Font size="13.0" />
+                  </font>
+              </Label>
+            </children>
+        </HBox>
+        <HBox layoutX="23.0" layoutY="250.0" prefHeight="26.0" prefWidth="255.0">
+            <children>
+                <Label prefHeight="17.0" prefWidth="0.0" text="  " textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Description :">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+      <Label fx:id="lbldesc" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="115.0" layoutY="250.0" prefHeight="127.0" prefWidth="391.0" text="lsdfjsdlkfjsdq" textFill="WHITE" />
+      <Button alignment="CENTER" layoutX="384.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleClicksPrint" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" text="Imprimer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/printer.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+    </children>
+</AnchorPane>

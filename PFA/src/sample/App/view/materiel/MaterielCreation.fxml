@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionEngin.CreationEngin">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionMateriel.CreationMateriel">
     <children>
         <HBox layoutX="26.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
             <children>
@@ -19,12 +20,12 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <Label prefHeight="19.0" prefWidth="92.0" stylesheets="@../../css/addStyle.css" text="Matricule :">
+                <Label prefHeight="19.0" prefWidth="92.0" stylesheets="@../../css/addStyle.css" text="ID :">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <TextField fx:id="matrifield" onKeyPressed="#verifMatricule" onKeyReleased="#verifMatricule" prefHeight="25.0" prefWidth="157.0" promptText="serie d'Immatriculation" stylesheets="@../../css/addStyle.css" />
+                <TextField fx:id="idField" prefHeight="25.0" prefWidth="157.0" promptText="Identificateur Materiel" stylesheets="@../../css/addStyle.css" />
             </children>
         </HBox>
         <HBox layoutX="26.0" layoutY="169.0" prefHeight="26.0" prefWidth="248.0">
@@ -34,7 +35,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Type :">
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Designation :">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
@@ -42,12 +43,12 @@
                 <ChoiceBox fx:id="Typefield" onAction="#verifService" prefHeight="17.0" prefWidth="162.0" style="-fx-background-color: white;" />
             </children>
         </HBox>
-        <Label layoutX="30.0" layoutY="22.0" text="Creation Engin" textFill="WHITE">
+        <Label layoutX="30.0" layoutY="22.0" text="Creation Materiel" textFill="WHITE">
             <font>
                 <Font size="29.0" />
             </font>
         </Label>
-        <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="374.0" layoutY="402.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
+        <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="374.0" layoutY="498.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -59,7 +60,7 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="402.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
+        <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="498.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -76,7 +77,7 @@
                 <Font size="13.0" />
             </font>
         </Label>
-        <Label fx:id="lblmarque" alignment="CENTER" layoutX="276.0" layoutY="234.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+        <Label fx:id="lblqte" alignment="CENTER" layoutX="276.0" layoutY="234.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
             <font>
                 <Font size="13.0" />
             </font>
@@ -88,58 +89,33 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Marque :">
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Quantité :">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <TextField fx:id="marquefield" onKeyPressed="#verifMarque" onKeyReleased="#verifMarque" prefHeight="25.0" prefWidth="157.0" promptText="Nom du marque" stylesheets="@../../css/addStyle.css" />
+                <TextField fx:id="qtefield" prefHeight="25.0" prefWidth="157.0" promptText="Quantité Materiel" stylesheets="@../../css/addStyle.css" />
             </children>
         </HBox>
         <HBox layoutX="26.0" layoutY="297.0" prefHeight="26.0" prefWidth="248.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" text="  " textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Disponibilité :">
+                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Description :">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-            <ChoiceBox fx:id="dispofield" onAction="#verifService" prefHeight="17.0" prefWidth="162.0" style="-fx-background-color: white;" />
             </children>
         </HBox>
-        <Label fx:id="lbldispo" alignment="CENTER" layoutX="275.0" layoutY="301.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+        <Label fx:id="lblid" alignment="CENTER" layoutX="274.0" layoutY="112.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
             <font>
                 <Font size="13.0" />
             </font>
         </Label>
-      <Label fx:id="matriculelbl" alignment="CENTER" layoutX="274.0" layoutY="112.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <HBox layoutX="30.0" layoutY="369.0" prefHeight="26.0" prefWidth="248.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Prix :">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <TextField fx:id="prixfield" onKeyPressed="#verifPrix" onKeyReleased="#verifPrix" prefHeight="25.0" prefWidth="149.0" promptText="Prix d'Engin" stylesheets="@../../css/addStyle.css" />
-         </children>
-      </HBox>
-      <Label fx:id="lblprix" alignment="CENTER" layoutX="276.0" layoutY="373.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
+      <TextArea fx:id="DescriptionFiled" layoutX="116.0" layoutY="301.0" prefHeight="183.0" prefWidth="464.0" stylesheets="@../../css/addStyle.css" />
     </children>
 </AnchorPane>

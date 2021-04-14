@@ -1,4 +1,4 @@
-package sample.App.controllers.GestionEngin;
+package sample.App.controllers.GestionPermission;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -24,7 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import sample.App.model.Engin;
+import sample.App.model.Permission;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -40,30 +40,30 @@ import java.util.logging.Logger;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
-public class ConsultationEngin implements Initializable {
+public class ConsultationPermission implements Initializable {
 
 
 
 
     static public boolean  itsokay = false ;
     @FXML
-    TableView<Engin> tableView;
+    TableView<Permission> tableView;
 
     @FXML
-    TableColumn<Engin,String> idCol ;
+    TableColumn<Permission,String> idCol ;
     @FXML
-    TableColumn <Engin,String> typeCol ;
+    TableColumn <Permission,String> typeCol ;
     @FXML
-    TableColumn <Engin,String> dispoCol ;
+    TableColumn <Permission,String> cincol ;
     @FXML
-    TableColumn <Engin,String> markCol ;
+    TableColumn <Permission,String> nomcol ;
     @FXML
-    TableColumn <Engin,String> prixcol ;
+    TableColumn <Permission,String> prenomcol ;
     @FXML
-    TableColumn <Engin,String> modifierCol ;
+    TableColumn <Permission,String> modifierCol ;
 
     @FXML
-    private TableColumn<Engin, CheckBox> col_select;
+    private TableColumn<Permission, CheckBox> col_select;
 
     @FXML
     Button addButton ;
@@ -88,10 +88,10 @@ public class ConsultationEngin implements Initializable {
     Connection connection = null ;
     PreparedStatement preparedStatement = null ;
     ResultSet rs = null ;
-    Engin engin = null ;
+    Permission permission = null ;
 
-    ObservableList<Engin> items;
-    ObservableList<Engin> oblist;
+    ObservableList<Permission> items;
+    ObservableList<Permission> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTable();
@@ -101,9 +101,9 @@ public class ConsultationEngin implements Initializable {
 
 
     private void filter(){
-        FilteredList<Engin> filteredData = new FilteredList<>(oblist, b -> true);
+        FilteredList<Permission> filteredData = new FilteredList<>(oblist, b -> true);
 
-        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(Engin -> {
+        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(Permission -> {
 
             if(newValue == null || newValue.isEmpty()){
                 return true;
@@ -111,18 +111,20 @@ public class ConsultationEngin implements Initializable {
 
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (Engin.getID().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter id
-            }else if (Engin.getType().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            if (Permission.getId().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter Id
+            }else if (Permission.getType().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Engin.getDispo().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }else if (Permission.getCin().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Engin.getMarque().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }else if (Permission.getPrenom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter type
+            }else if (Permission.getNom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
             }else
                 return false;//doesn't match
         });});
-        SortedList<Engin> sortedData= new SortedList<>(filteredData);
+        SortedList<Permission> sortedData= new SortedList<>(filteredData);
 
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
@@ -134,7 +136,7 @@ public class ConsultationEngin implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 items = tableView.getItems();
-                for (Engin item : items){
+                for (Permission item : items){
                     if(check_selAll.isSelected())
                         item.getCheck().setSelected(true);
                     else
@@ -161,18 +163,18 @@ public class ConsultationEngin implements Initializable {
         typeCol.setCellValueFactory(
                 new PropertyValueFactory<>("type")
         );
-        dispoCol.setCellValueFactory(
-                new PropertyValueFactory<>("Dispo")
+        cincol.setCellValueFactory(
+                new PropertyValueFactory<>("cin")
         );
-        markCol.setCellValueFactory(
-                new PropertyValueFactory<>("Marque")
+        nomcol.setCellValueFactory(
+                new PropertyValueFactory<>("nom")
         );
 
 
         //add cell of button edit
-        Callback<TableColumn<Engin, String>, TableCell<Engin, String>> cellFoctory = (TableColumn<Engin, String> param) -> {
+        Callback<TableColumn<Permission, String>, TableCell<Permission, String>> cellFoctory = (TableColumn<Permission, String> param) -> {
             // make cell containing buttons
-            final TableCell<Engin, String> cell = new TableCell<Engin, String>() {
+            final TableCell<Permission, String> cell = new TableCell<Permission, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -198,17 +200,17 @@ public class ConsultationEngin implements Initializable {
                         );
                         viewIcon.setOnMouseClicked((MouseEvent event) -> {
 
-                            engin = tableView.getSelectionModel().getSelectedItem();
+                            permission = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../view/engin/EnginAfficher.fxml"));
+                            loader.setLocation(getClass().getResource("../../view/permission/PermissionAfficher.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
-                                Logger.getLogger(ConsultationEngin.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ConsultationPermission.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            AfficherEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
+                            AfficherPermission addPermissionController = loader.getController();
+                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -219,17 +221,17 @@ public class ConsultationEngin implements Initializable {
                         });
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
 
-                            engin = tableView.getSelectionModel().getSelectedItem();
+                            permission = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../view/engin/EnginUpdate.fxml"));
+                            loader.setLocation(getClass().getResource("../../view/permission/PermissionUpdate.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
-                                Logger.getLogger(ConsultationEngin.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ConsultationPermission.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            UpdateEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
+                            UpdatePermission addPermissionController = loader.getController();
+                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -258,10 +260,10 @@ public class ConsultationEngin implements Initializable {
         };
         modifierCol.setCellFactory(cellFoctory);
 
-        prixcol.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        prenomcol.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 
         idCol.setCellValueFactory(
-                new PropertyValueFactory<>("ID")
+                new PropertyValueFactory<>("id")
         );
 
         col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
@@ -272,9 +274,11 @@ public class ConsultationEngin implements Initializable {
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select * from Engin ");
+            ResultSet rs = connection.createStatement().executeQuery("select * from Permission ");
             while(rs.next()){
-                oblist.add(new Engin(rs.getString("id"),rs.getString("type"),rs.getString("dispo"),rs.getString("Marque"),rs.getFloat("prix")));
+                Permission per = new Permission(rs.getString("id"),rs.getString("type"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getString("description"));
+                //System.out.println(per.getPrenom());
+                oblist.add(per);
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -290,7 +294,7 @@ public class ConsultationEngin implements Initializable {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../view/engin/EnignCreation.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../../view/permission/PermissionCreation.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -318,13 +322,13 @@ public class ConsultationEngin implements Initializable {
     void supprimer(ActionEvent event) throws URISyntaxException {
         String s="";
         String s1 = null;
-        for(Engin per:oblist){
+        for(Permission per:oblist){
             if(per.getCheck().isSelected()){
-                s+=per.getID()+"///";
-                s1=per.getID();
+                s+=per.getId()+"///";
+                s1=per.getId();
             }}int so=0;
         AtomicBoolean del = new AtomicBoolean(true);
-        for(Engin per:oblist){
+        for(Permission per:oblist){
 
             if(per.getCheck().isSelected() && so==0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -333,7 +337,7 @@ public class ConsultationEngin implements Initializable {
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                 alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer l'engin  de n°: ///"+s);
+                alert.setContentText("Etes-vous sure de supprimer la permission  de n°: ///"+s);
                 alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
                 alert.showAndWait().ifPresent(type -> {
                     if (type == okButton) {
@@ -347,7 +351,7 @@ public class ConsultationEngin implements Initializable {
             if(per.getCheck().isSelected() && del.get()){
                 try {
                     Connection connection= getOracleConnection();
-                    connection.createStatement().executeQuery("delete from Engin where "+"\'"+per.getID()+"\'"+"=ID");
+                    connection.createStatement().executeQuery("delete from Permission where "+"\'"+per.getId()+"\'"+"=Id");
                     connection.close();
                 }catch (SQLException throwables) {
                     throwables.printStackTrace();
