@@ -208,7 +208,7 @@ public class ConsultationEngin implements Initializable {
                             }
 
                             AfficherEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
+                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque(),engin.getPrix());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -229,7 +229,7 @@ public class ConsultationEngin implements Initializable {
                             }
 
                             UpdateEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
+                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque(),engin.getPrix());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();

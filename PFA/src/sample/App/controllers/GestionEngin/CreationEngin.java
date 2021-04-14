@@ -115,7 +115,7 @@ public class CreationEngin implements Initializable {
         String salaire = prixfield.getText();
         if (!salaire.isEmpty()){
             if (!isFloat(salaire)) {
-                lblprix.setText("🠔 Le prix est un nombre réel!");
+                lblprix.setText("🠔 Le prix est un nombre réel! Max Valeur = 999999.999");
                 prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 lblprix.setStyle("-fx-text-fill: red");
                 versal=false;

@@ -24,7 +24,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <TextField fx:id="matrifield" onKeyPressed="#verifMatricule" onKeyReleased="#verifMatricule" prefHeight="25.0" prefWidth="157.0" promptText="serie d'Immatriculation" stylesheets="@../../css/addStyle.css" />
+                <TextField fx:id="matrifield" onKeyPressed="#verifMatricule" onKeyReleased="#verifMatricule" prefHeight="25.0" prefWidth="164.0" promptText="serie d'Immatriculation" stylesheets="@../../css/addStyle.css" />
             </children>
         </HBox>
         <HBox layoutX="26.0" layoutY="169.0" prefHeight="26.0" prefWidth="248.0">
@@ -93,7 +93,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <TextField fx:id="marquefield" onKeyPressed="#verifMarque" onKeyReleased="#verifMarque" prefHeight="25.0" prefWidth="157.0" promptText="Nom du marque" stylesheets="@../../css/addStyle.css" />
+                <TextField fx:id="marquefield" onKeyPressed="#verifMarque" onKeyReleased="#verifMarque" prefHeight="25.0" prefWidth="161.0" promptText="Nom du marque" stylesheets="@../../css/addStyle.css" />
             </children>
         </HBox>
         <HBox layoutX="26.0" layoutY="297.0" prefHeight="26.0" prefWidth="248.0">
@@ -133,7 +133,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="prixfield" onKeyPressed="#verifPrix" onKeyReleased="#verifPrix" prefHeight="25.0" prefWidth="149.0" promptText="Prix d'Engin" stylesheets="@../../css/addStyle.css" />
+            <TextField fx:id="prixfield" onKeyPressed="#verifPrix" onKeyReleased="#verifPrix" prefHeight="25.0" prefWidth="172.0" promptText="Prix d'Engin" stylesheets="@../../css/addStyle.css" />
          </children>
       </HBox>
       <Label fx:id="lblprix" alignment="CENTER" layoutX="276.0" layoutY="373.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">

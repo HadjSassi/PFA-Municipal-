@@ -39,6 +39,14 @@ public class gInterfaceController implements Initializable {
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
     }
+    @FXML
+    void handleClicksPermission(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        AnchorPane view = object.getPane("permission/PermissionConsultation");
+        view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        anchorpane3.getChildren().removeAll();
+        anchorpane3.getChildren().setAll(view);
+    }
 
     @FXML
     void handleClicksMateriels(ActionEvent event) {

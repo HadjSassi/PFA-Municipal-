@@ -22,6 +22,9 @@ public class AfficherEngin {
     @FXML
     private Label marquelbl;
 
+    @FXML
+    private Label prixlbl;
+
 
     @FXML
     private Label dispolbl;
@@ -31,11 +34,12 @@ public class AfficherEngin {
     private Button buttonFermer1;
 
 
-    public void setTextField(String id, String type, String marque, String dispo) {
+    public void setTextField(String id, String type, String marque, String dispo , Float prix) {
         this.lblId.setText(id);
         this.typelbl.setText(type);
         this.marquelbl.setText(marque);
         this.dispolbl.setText(dispo);
+        this.prixlbl.setText(String.valueOf(prix));
     }
 
     public void fermerButton (ActionEvent event){

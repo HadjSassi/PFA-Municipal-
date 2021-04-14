@@ -33,16 +33,19 @@ public class UpdateEngin implements Initializable {
     private Label lblType ;
 
     @FXML
+    private Label lblprix;
+
+    @FXML
     private Label lblmarque;
 
     @FXML
     private Label lbldispo ;
 
     @FXML
-    private TextField matrifield ;
+    private TextField marquefield ;
 
     @FXML
-    private TextField marquefield ;
+    private TextField prixfield ;
 
     @FXML
     private ChoiceBox<String> Typefield;
@@ -57,24 +60,8 @@ public class UpdateEngin implements Initializable {
     private Button buttonFermer ;
 
     private String id ;
-    private boolean matricule = false;
     private boolean marque = false ;
 
-    @FXML
-    void verifMatricule (KeyEvent event){
-        String mat = matrifield.getText();
-        if(!mat.isEmpty()){
-            matrifield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            matriculelbl.setText("✓");
-            matricule = true ;
-            matriculelbl.setStyle("-fx-text-fill: #32CD32");}
-        else{
-            matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            matriculelbl.setStyle("-fx-text-fill: red");
-            matriculelbl.setText("🠔 Remplir ce champ");
-            matricule = false ;
-        }
-    }
 
     @FXML
     void verifMarque (KeyEvent event){
@@ -109,37 +96,84 @@ public class UpdateEngin implements Initializable {
     }
 
 
+    private boolean versal = true ;
+
+    public static boolean isFloat(String string) {
+        try {
+            Float.parseFloat(string);
+            if (string.length() >=3){
+
+                try {
+                    String[] p = string.split("\\.");
+                    if (p[0].length() <= 6 && p[1].length()<=3)
+                        return true;
+                    else {
+                        return false;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    return true;
+                }
+            }
+            else
+                return true;
+        }catch(NumberFormatException e){
+        }
+        return false;
+    }
+
+
+    @FXML
+    void verifPrix (KeyEvent event){
+        versal=false;
+        String salaire = prixfield.getText();
+        if (!salaire.isEmpty()){
+            if (!isFloat(salaire)) {
+                lblprix.setText("🠔 Le prix est un nombre réel! Max Valeur = 999999.999");
+                prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblprix.setStyle("-fx-text-fill: red");
+                versal=false;
+            } else {
+                prixfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblprix.setText("✓");
+                versal=true;
+                lblprix.setStyle("-fx-text-fill: #32CD32");}}
+        else{
+            versal=true;
+            prixfield.setStyle(null);
+            lblprix.setText("");
+        }
+    }
+
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String mat = matrifield.getText();
             String mar = marquefield.getText();
             String type = Typefield.getValue();
             String dispo = dispofield.getValue();
-            if (!matricule || !marque || type == null || dispo == null) {
-                if (mat.isEmpty()) {
-                    matriculelbl.setText("🠔 Remplir ce champ");
-                    matriculelbl.setStyle("-fx-text-fill: red");
-                    matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
+            String prix = prixfield.getText();
+            if (!versal || !marque || type == null || dispo == null) {
+
+                System.out.println("test");
 
                 if (mar.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
                     lblmarque.setStyle("-fx-text-fill: red");
                     marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
-
-
-                if (!matricule && mat.isEmpty()) {
-                    matriculelbl.setText("🠔 Remplir ce champ");
-                    matriculelbl.setStyle("-fx-text-fill: red");
-                    matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                if (!versal && prix.isEmpty()) {
+                    lblmarque.setText("🠔 Remplir ce champ");
+                    lblmarque.setStyle("-fx-text-fill: red");
+                    marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
+
                 if (!marque && mar.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
                     lblmarque.setStyle("-fx-text-fill: red");
                     marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
+
+
+
                 if (type == null) {
                     lblType.setText("🠔 Selectionner le service");
                     lblType.setStyle("-fx-text-fill: red");
@@ -165,50 +199,56 @@ public class UpdateEngin implements Initializable {
                 alert.setContentText("Un des champs n'est pas correctement inserer");
                 alert.setGraphic(new ImageView(getClass().getResource("../../images/errorinsert.png").toURI().toString()));
                 alert.showAndWait();
-            } else {
+            }
+            else
+                {
                 Connection connection = null;
                 try {
                     connection = getOracleConnection();
+                    try {
+                        String insertion = "Update engin set " +
+                                "Type = "+"\'"+Typefield.getValue()+"\'"+", marque = "+"\'"+marquefield.getText()+"\'"+",prix = "+Float.parseFloat(prixfield.getText())+", dispo = "+"\'"+dispofield.getValue()+"\'"+"where ID = "+"\'"+id+"\'"+"";
+                        PreparedStatement rs = connection.prepareStatement(insertion);
+                        //System.out.println(insertion);
+                        if (isFloat(prixfield.getText()))
+                            rs.execute();
 
-                    String insertion = "Update engin set " +
-                            "Type = "+"\'"+Typefield.getValue()+"\'"+", id ="+"\'"+matrifield.getText()+"\'"+", marque = "+"\'"+marquefield.getText()+"\'"+", dispo = "+"\'"+dispofield.getValue()+"\'"+"where ID = "+"\'"+id+"\'"+"";
 
+                        //lbl.setText("Ajout avec succés");
+                        refresh();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.initStyle(StageStyle.TRANSPARENT);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ajout avec succés");
+                        alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
+                        alert.showAndWait();
+                        Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
+                        // do what you have to do
+                        stage.close();
+                    }
+                    catch (NumberFormatException e){
+                        lblprix.setText("🠔 Remplir ce champ");
+                        lblprix.setStyle("-fx-text-fill: red");
+                        prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
 
-
-                    PreparedStatement rs = connection.prepareStatement(insertion);
-                    //System.out.println(insertion);
-                    rs.execute();
-                    //lbl.setText("Ajout avec succés");
-                    refresh();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.initStyle(StageStyle.TRANSPARENT);
-                    alert.setHeaderText(null);
-                    alert.setContentText("Modification avec succés");
-                    alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
-                    alert.showAndWait();
-                    Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
-                    // do what you have to do
-                    stage.close();
+                    }
                 } catch (SQLException | URISyntaxException throwables) {
-                    //throwables.printStackTrace();
-                    matriculelbl.setText("🠔 Cette matricule existe déjà");
-                    matriculelbl.setStyle("-fx-text-fill: red");
-                    matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-
+                    throwables.printStackTrace();
                 }
 
             }
         }
         catch (NullPointerException e){
             //System.out.println("you have an error go check please mr Mahdi");
+
         }
     }
-
 
     private void refresh(){
         Typefield.setValue(null);
         dispofield.setValue(null);
-        matrifield.setText("");
+        prixfield.clear();
+        lblprix.setText("");
         marquefield.setText("");
         matriculelbl.setText("");
         lbldispo.setText("");
@@ -216,7 +256,6 @@ public class UpdateEngin implements Initializable {
         lblType.setText("");
         Typefield.setStyle("-fx-background-color:white;");
         dispofield.setStyle("-fx-background-color:white;");
-        matrifield.setStyle("-fx-background-color:white;");
         marquefield.setStyle("-fx-background-color:white;");
 
     }
@@ -244,12 +283,13 @@ public class UpdateEngin implements Initializable {
 
     }
 
-    public void setTextField(String id, String type, String dispo, String mar)  {
+    public void setTextField(String id, String type, String dispo, String mar ,Float prix)  {
         this.id = id ;
-        this.matrifield.setText(id);
+        this.matriculelbl.setText(id);
         this.marquefield.setText(mar);
         this.Typefield.setValue(type);
         this.dispofield.setValue(dispo);
+        this.prixfield.setText(String.valueOf(prix));
     }
 
 
