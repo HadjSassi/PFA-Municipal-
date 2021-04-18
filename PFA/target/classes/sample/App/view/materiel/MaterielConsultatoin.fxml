@@ -24,7 +24,6 @@
                         <TableColumn fx:id="idCol" maxWidth="1400.0" prefWidth="136.0" style="-fx-alignement: center;" text="ID materiels" />
                         <TableColumn fx:id="typeCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Type" />
                         <TableColumn fx:id="qteCol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="Quantité" />
-                        <TableColumn fx:id="prixCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="prix" />
                         <TableColumn fx:id="modifierCol" maxWidth="600.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                     </columns>
                 </TableView>

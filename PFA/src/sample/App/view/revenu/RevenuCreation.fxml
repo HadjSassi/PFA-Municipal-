@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionRevenu.CreationRevenu">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionRevenu.CreationRevenu">
     <children>
         <Label layoutX="30.0" layoutY="22.0" text="Creation Revenu" textFill="WHITE">
             <font>
@@ -52,7 +53,7 @@
             <ChoiceBox fx:id="Typefield" onAction="#verifService" prefHeight="17.0" prefWidth="162.0" style="-fx-background-color: white;" />
          </children>
       </HBox>
-      <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="373.0" layoutY="312.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
+      <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="374.0" layoutY="456.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -64,7 +65,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="buttonFermer" alignment="CENTER" layoutX="494.0" layoutY="312.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
+      <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="456.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -121,5 +122,11 @@
             <Font size="13.0" />
          </font>
       </Label>
+      <Label layoutX="30.0" layoutY="335.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="descfield" layoutX="64.0" layoutY="368.0" prefHeight="78.0" prefWidth="506.0" promptText="Description du doleance" stylesheets="@../../css/addStyle.css" />
     </children>
 </AnchorPane>

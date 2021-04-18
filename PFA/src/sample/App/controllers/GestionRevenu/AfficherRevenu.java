@@ -20,6 +20,9 @@ public class AfficherRevenu {
 
 
     @FXML
+    private Label desclbl;
+
+    @FXML
     private Label typelbl;
 
 
@@ -34,7 +37,7 @@ public class AfficherRevenu {
     private Button buttonFermer1;
 
 
-    public void setTextField(String id, String type, String prix, String date ) {
+    public void setTextField(String id, String type, String prix, String date , String desc) {
         this.lblId.setText(id);
         this.typelbl.setText(type);
         this.lblprix.setText(prix);
@@ -42,6 +45,7 @@ public class AfficherRevenu {
         LocalDate dateTime = LocalDate.parse(date, formatter);
         this.lbldate.setText(String.valueOf(dateTime));*/
         this.lbldate.setText(date);
+        this.desclbl.setText(desc);
     }
 
     public void fermerButton (ActionEvent event){

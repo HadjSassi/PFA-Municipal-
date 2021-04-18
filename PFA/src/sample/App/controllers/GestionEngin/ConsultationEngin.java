@@ -58,8 +58,6 @@ public class ConsultationEngin implements Initializable {
     @FXML
     TableColumn <Engin,String> markCol ;
     @FXML
-    TableColumn <Engin,String> prixcol ;
-    @FXML
     TableColumn <Engin,String> modifierCol ;
 
     @FXML
@@ -208,7 +206,7 @@ public class ConsultationEngin implements Initializable {
                             }
 
                             AfficherEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque(),engin.getPrix());
+                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -229,7 +227,7 @@ public class ConsultationEngin implements Initializable {
                             }
 
                             UpdateEngin addEnginController = loader.getController();
-                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque(),engin.getPrix());
+                            addEnginController.setTextField(engin.getID(), engin.getType(),engin.getDispo(),engin.getMarque());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -258,7 +256,6 @@ public class ConsultationEngin implements Initializable {
         };
         modifierCol.setCellFactory(cellFoctory);
 
-        prixcol.setCellValueFactory(new PropertyValueFactory<>("prix"));
 
         idCol.setCellValueFactory(
                 new PropertyValueFactory<>("ID")
@@ -274,7 +271,7 @@ public class ConsultationEngin implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Engin ");
             while(rs.next()){
-                oblist.add(new Engin(rs.getString("id"),rs.getString("type"),rs.getString("dispo"),rs.getString("Marque"),rs.getFloat("prix")));
+                oblist.add(new Engin(rs.getString("id"),rs.getString("type"),rs.getString("dispo"),rs.getString("Marque")));
             }
             rs.close();
         } catch (SQLException throwables) {

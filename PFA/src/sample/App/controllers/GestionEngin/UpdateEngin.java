@@ -33,9 +33,6 @@ public class UpdateEngin implements Initializable {
     private Label lblType ;
 
     @FXML
-    private Label lblprix;
-
-    @FXML
     private Label lblmarque;
 
     @FXML
@@ -44,8 +41,6 @@ public class UpdateEngin implements Initializable {
     @FXML
     private TextField marquefield ;
 
-    @FXML
-    private TextField prixfield ;
 
     @FXML
     private ChoiceBox<String> Typefield;
@@ -96,8 +91,6 @@ public class UpdateEngin implements Initializable {
     }
 
 
-    private boolean versal = true ;
-
     public static boolean isFloat(String string) {
         try {
             Float.parseFloat(string);
@@ -122,27 +115,6 @@ public class UpdateEngin implements Initializable {
     }
 
 
-    @FXML
-    void verifPrix (KeyEvent event){
-        versal=false;
-        String salaire = prixfield.getText();
-        if (!salaire.isEmpty()){
-            if (!isFloat(salaire)) {
-                lblprix.setText("🠔 Le prix est un nombre réel! Max Valeur = 999999.999");
-                prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setStyle("-fx-text-fill: red");
-                versal=false;
-            } else {
-                prixfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setText("✓");
-                versal=true;
-                lblprix.setStyle("-fx-text-fill: #32CD32");}}
-        else{
-            versal=true;
-            prixfield.setStyle(null);
-            lblprix.setText("");
-        }
-    }
 
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
@@ -150,17 +122,11 @@ public class UpdateEngin implements Initializable {
             String mar = marquefield.getText();
             String type = Typefield.getValue();
             String dispo = dispofield.getValue();
-            String prix = prixfield.getText();
-            if (!versal || !marque || type == null || dispo == null) {
+            if (!marque || type == null || dispo == null) {
 
                 System.out.println("test");
 
                 if (mar.isEmpty()) {
-                    lblmarque.setText("🠔 Remplir ce champ");
-                    lblmarque.setStyle("-fx-text-fill: red");
-                    marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
-                if (!versal && prix.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
                     lblmarque.setStyle("-fx-text-fill: red");
                     marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
@@ -207,10 +173,9 @@ public class UpdateEngin implements Initializable {
                     connection = getOracleConnection();
                     try {
                         String insertion = "Update engin set " +
-                                "Type = "+"\'"+Typefield.getValue()+"\'"+", marque = "+"\'"+marquefield.getText()+"\'"+",prix = "+Float.parseFloat(prixfield.getText())+", dispo = "+"\'"+dispofield.getValue()+"\'"+"where ID = "+"\'"+id+"\'"+"";
+                                "Type = "+"\'"+Typefield.getValue()+"\'"+", marque = "+"\'"+marquefield.getText()+"\'"+", dispo = "+"\'"+dispofield.getValue()+"\'"+"where ID = "+"\'"+id+"\'"+"";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
-                        if (isFloat(prixfield.getText()))
                             rs.execute();
 
 
@@ -227,9 +192,6 @@ public class UpdateEngin implements Initializable {
                         stage.close();
                     }
                     catch (NumberFormatException e){
-                        lblprix.setText("🠔 Remplir ce champ");
-                        lblprix.setStyle("-fx-text-fill: red");
-                        prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
 
                     }
                 } catch (SQLException | URISyntaxException throwables) {
@@ -247,8 +209,6 @@ public class UpdateEngin implements Initializable {
     private void refresh(){
         Typefield.setValue(null);
         dispofield.setValue(null);
-        prixfield.clear();
-        lblprix.setText("");
         marquefield.setText("");
         matriculelbl.setText("");
         lbldispo.setText("");
@@ -283,13 +243,12 @@ public class UpdateEngin implements Initializable {
 
     }
 
-    public void setTextField(String id, String type, String dispo, String mar ,Float prix)  {
+    public void setTextField(String id, String type, String dispo, String mar)  {
         this.id = id ;
         this.matriculelbl.setText(id);
         this.marquefield.setText(mar);
         this.Typefield.setValue(type);
         this.dispofield.setValue(dispo);
-        this.prixfield.setText(String.valueOf(prix));
     }
 
 

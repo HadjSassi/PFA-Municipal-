@@ -34,7 +34,8 @@ public class CreationRevenu implements Initializable {
 
     @FXML
     private Label lblType ;
-
+    @FXML
+    private TextArea descfield ;
     @FXML
     private Label lblprix;
 
@@ -176,7 +177,7 @@ public class CreationRevenu implements Initializable {
                     connection = getOracleConnection();
                     try {
 
-                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getValue()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+ " )";
+                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getValue()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
                         rs.execute();
@@ -186,6 +187,7 @@ public class CreationRevenu implements Initializable {
                         alert.setHeaderText(null);
                         alert.setContentText("Ajout avec succés");
                         alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved.png").toURI().toString()));
+                        alert.showAndWait();
                         refresh();
                     }
                     catch (NumberFormatException e){
@@ -215,6 +217,7 @@ public class CreationRevenu implements Initializable {
         lblType.setText("");
         datefield.setValue(null);
         prixfield.setText("");
+        descfield.clear();
         Typefield.setStyle("-fx-background-color:white;");
         datefield.setStyle("-fx-background-color:white;");
         prixfield.setStyle("-fx-background-color:white;");
@@ -256,7 +259,7 @@ public class CreationRevenu implements Initializable {
 
         ObservableList list= FXCollections.observableArrayList();
         list.removeAll();
-        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString());
+        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString(),Type.Autre.toString());
         Typefield.getItems().setAll(list);
 
     }

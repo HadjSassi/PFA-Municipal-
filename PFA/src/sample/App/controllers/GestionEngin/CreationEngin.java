@@ -39,16 +39,10 @@ public class CreationEngin implements Initializable {
     private Label lbldispo ;
 
     @FXML
-    private Label lblprix ;
-
-    @FXML
     private TextField matrifield ;
 
     @FXML
     private TextField marquefield ;
-
-    @FXML
-    private TextField prixfield ;
 
     @FXML
     private ChoiceBox<String> Typefield;
@@ -83,7 +77,6 @@ public class CreationEngin implements Initializable {
         }
     }
 
-    private boolean versal = true ;
 
     public static boolean isFloat(String string) {
         try {
@@ -108,28 +101,6 @@ public class CreationEngin implements Initializable {
         return false;
     }
 
-
-    @FXML
-    void verifPrix (KeyEvent event){
-        versal=false;
-        String salaire = prixfield.getText();
-        if (!salaire.isEmpty()){
-            if (!isFloat(salaire)) {
-                lblprix.setText("🠔 Le prix est un nombre réel! Max Valeur = 999999.999");
-                prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setStyle("-fx-text-fill: red");
-                versal=false;
-            } else {
-                prixfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setText("✓");
-                versal=true;
-                lblprix.setStyle("-fx-text-fill: #32CD32");}}
-        else{
-            versal=true;
-            prixfield.setStyle(null);
-            lblprix.setText("");
-        }
-    }
 
     @FXML
     void verifMarque (KeyEvent event){
@@ -170,8 +141,7 @@ public class CreationEngin implements Initializable {
             String mar = marquefield.getText();
             String type = Typefield.getValue();
             String dispo = dispofield.getValue();
-            String prix = prixfield.getText();
-            if (!versal||!matricule || !marque || type == null || dispo == null) {
+            if (!matricule || !marque || type == null || dispo == null) {
                 if (mat.isEmpty()) {
                     matriculelbl.setText("🠔 Remplir ce champ");
                     matriculelbl.setStyle("-fx-text-fill: red");
@@ -179,11 +149,6 @@ public class CreationEngin implements Initializable {
                 }
 
                 if (mar.isEmpty()) {
-                    lblmarque.setText("🠔 Remplir ce champ");
-                    lblmarque.setStyle("-fx-text-fill: red");
-                    marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
-                if (!versal && prix.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
                     lblmarque.setStyle("-fx-text-fill: red");
                     marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
@@ -233,10 +198,10 @@ public class CreationEngin implements Initializable {
                 try {
                     connection = getOracleConnection();
                     try {
-                        String insertion = "INSERT INTO engin values(" + "\'" + matrifield.getText() + "\'" + "," + "\'" + Typefield.getValue().toString() + "\'" + "," + "\'" + dispofield.getValue().toString() + "\'" + "," + "\'" + marquefield.getText() + "\'" + "," + Float.parseFloat(prixfield.getText()) + ")";
+                        String insertion = "INSERT INTO engin values(" + "\'" + matrifield.getText() + "\'" + "," + "\'" + Typefield.getValue().toString() + "\'" + "," + "\'" + dispofield.getValue().toString() + "\'" + "," + "\'" + marquefield.getText() + "\'" +  ")";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
-                        if (isFloat(prixfield.getText()))
+
                             rs.execute();
 
 
@@ -250,9 +215,6 @@ public class CreationEngin implements Initializable {
                     alert.showAndWait();
                     }
                     catch (NumberFormatException e){
-                        lblprix.setText("🠔 Remplir ce champ");
-                        lblprix.setStyle("-fx-text-fill: red");
-                        prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
 
                     }
                 } catch (SQLException | URISyntaxException throwables) {
@@ -280,8 +242,6 @@ public class CreationEngin implements Initializable {
         lbldispo.setText("");
         lblmarque.setText("");
         lblType.setText("");
-        prixfield.setText("");
-        lblprix.setText("");
         Typefield.setStyle("-fx-background-color:white;");
         dispofield.setStyle("-fx-background-color:white;");
         matrifield.setStyle("-fx-background-color:white;");

@@ -23,19 +23,15 @@ public class AfficherMateriel {
     private Label qtelbl;
 
 
-    @FXML
-    private Label prixlbl;
-
 
     @FXML
     private Button buttonFermer1;
 
 
-    public void setTextField(String id, String designation, String qte, String prix) {
+    public void setTextField(String id, String designation, String qte) {
         this.idlbl.setText(id);
         this.designationlbl.setText(designation);
         this.qtelbl.setText(qte);
-        this.prixlbl.setText(prix);
     }
 
     public void fermerButton (ActionEvent event){

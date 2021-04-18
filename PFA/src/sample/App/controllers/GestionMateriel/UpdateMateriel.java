@@ -59,11 +59,7 @@ public class UpdateMateriel implements Initializable {
     @FXML
     private TextField qtefield;
 
-    @FXML
-    private TextField prixfield;
 
-    @FXML
-    private Label lblprix;
 
     @FXML
     private Label idlbl;
@@ -71,7 +67,7 @@ public class UpdateMateriel implements Initializable {
     private String id;
 
 
-    private boolean verser , verqte , verprix ;
+    private boolean verser , verqte  ;
 
 
     @FXML
@@ -140,28 +136,6 @@ public class UpdateMateriel implements Initializable {
         return false;
     }
 
-    @FXML
-    void verifPrix (KeyEvent event){
-        verprix=false;
-        String salaire = prixfield.getText();
-        if (!salaire.isEmpty()){
-            if (!isFloat(salaire)) {
-                lblprix.setText("🠔 Le salaire est un nombre réel!");
-                prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setStyle("-fx-text-fill: red");
-                verprix=false;
-            } else {
-                prixfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblprix.setText("✓");
-                verprix=true;
-                lblprix.setStyle("-fx-text-fill: #32CD32");}}
-        else{
-            verprix=false;
-            lblprix.setText("🠔 Remplir ce champs");
-            lblprix.setStyle("-fx-text-fill: red");
-            prixfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
-
-    }
 
 
     @FXML
@@ -170,10 +144,9 @@ public class UpdateMateriel implements Initializable {
             String qte = qtefield.getText();
             String type = designationfield.getValue();
 
-            String prix = prixfield.getText();
 
 
-            if (!verqte || !verser || !verprix) {
+            if (!verqte || !verser) {
 
 
                 if (!verqte) {
@@ -184,11 +157,7 @@ public class UpdateMateriel implements Initializable {
 
 
 
-                if ( !verprix) {
-                    //lblprix.setText("🠔 Remplir ce champ");
-                    lblprix.setStyle("-fx-text-fill: red");
-                    prixfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
+
                 if (!verser) {
                     lbldesignation.setText("🠔 Selectionner le service");
                     lbldesignation.setStyle("-fx-text-fill: red");
@@ -213,7 +182,7 @@ public class UpdateMateriel implements Initializable {
 
 
                     String insertion = "Update Materiel set " +
-                            "DESIGNATION = "+"\'"+designationfield.getValue()+"\'"+",qte = "+"\'"+qtefield.getText()+"\'"+",prix = "+"\'"+prixfield.getText()+"\'" +" where ID = "+"\'"+ids+"\'"+"";
+                            "DESIGNATION = "+"\'"+designationfield.getValue()+"\'"+",qte = "+"\'"+qtefield.getText()+"\'"+"where ID  = "+"\'"+ids+"\'"+"";
 
 
 
@@ -266,13 +235,12 @@ public class UpdateMateriel implements Initializable {
         designationfield.getItems().setAll(list);
     }
 
-    public void setTextField(String id, String designation, int qte, String prix)  {
+    public void setTextField(String id, String designation, int qte)  {
         ids = id ;
         desi = designation;
         this.idlbl.setText(id);
         this.designationfield.setValue(designation);
         this.qtefield.setText(""+qte);
-        this.prixfield.setText(prix);
     }
 
 

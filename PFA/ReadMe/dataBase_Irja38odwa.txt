@@ -92,6 +92,9 @@ CREATE TABLE  "PERMISSION"
 
 alter table doleance add (tel varchar2(8),mail varchar2(100),adr varchar2(100));
 
+alter table Engin drop column prix;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
 drop table permission;
 
 create sequence "PERMISSIONSEQ"
@@ -126,7 +129,11 @@ begin
   end if;
 end;
 /
+*/
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
 create sequence "SEQREVENU"
 start with 1
 increment by 1
@@ -154,7 +161,12 @@ begin
   end if;
 end;
 /
+*/
+alter table Revenu add (description varchar2(1000));
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
 create sequence "MATERIELSEQ"
 start with 1
 increment by 1
@@ -184,10 +196,45 @@ begin
   end if;
 end;
 /
+*/
+
+alter table materiel drop column prix;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+create sequence "SEQDEPENSE"
+start with 1
+increment by 1
+maxvalue 1000
+nocache
+cycle
+noorder
+/
+
+CREATE table "DEPENSE" (
+    "ID"         NUMBER(5,0),
+    "TYPE"       VARCHAR2(50),
+    "PRIX"       varchar2(100),
+    "DATES"      Date,
+    constraint  "DEPENSE_PK" primary key ("ID")
+)
+/
 
 
+CREATE trigger "BI_DEPENSE"
+  before insert on "DEPENSE"
+  for each row
+begin
+  if :NEW."ID" is null then
+    select "SEQDEPENSE".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/
+*/
 
-
+alter table DEPENSE add (description varchar2(1000));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

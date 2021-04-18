@@ -1,6 +1,7 @@
 package sample.App.model;
 
 public enum Type {
+    Autre,
     Autobus,
     Trax,
     Tractor,
@@ -18,5 +19,10 @@ public enum Type {
     permission_de_sortie,
     permission_de_sortir_confinnement,
     recette_fiscale,
-    recette_non_fiscale
+    recette_non_fiscale,
+    Engin,
+    Salaire,
+    Outil,
+    Intervention,
+    Evenement
 }

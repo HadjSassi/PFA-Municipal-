@@ -60,8 +60,6 @@ public class ConsultationMateriel implements Initializable {
     @FXML
     TableColumn <Materiel,String> qteCol ;
     @FXML
-    TableColumn <Materiel,String> prixCol ;
-    @FXML
     TableColumn <Materiel,String> modifierCol ;
 
     @FXML
@@ -161,9 +159,7 @@ public class ConsultationMateriel implements Initializable {
         qteCol.setCellValueFactory(
                 new PropertyValueFactory<>("qte")
         );
-        prixCol.setCellValueFactory(
-                new PropertyValueFactory<>("prix")
-        );
+
 
 
         //add cell of button edit
@@ -205,7 +201,7 @@ public class ConsultationMateriel implements Initializable {
                             }
 
                             AfficherMateriel addMaterielController = loader.getController();
-                            addMaterielController.setTextField(materiel.getId(), materiel.getDesignation(),""+materiel.getQte(),materiel.getPrix());
+                            addMaterielController.setTextField(materiel.getId(), materiel.getDesignation(),""+materiel.getQte());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -226,7 +222,7 @@ public class ConsultationMateriel implements Initializable {
                             }
 
                             UpdateMateriel addMaterielController = loader.getController();
-                            addMaterielController.setTextField(materiel.getId(), materiel.getDesignation(),materiel.getQte(),materiel.getPrix());
+                            addMaterielController.setTextField(materiel.getId(), materiel.getDesignation(),materiel.getQte());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -273,9 +269,8 @@ public class ConsultationMateriel implements Initializable {
                 oblist.add(new Materiel(
                         rs.getString("id"),
                         rs.getString("designation"),
-                        rs.getInt("qte"),
-                        rs.getString("prix"))
-                );
+                        rs.getInt("qte")
+                ));
             }
             rs.close();
         } catch (SQLException throwables) {

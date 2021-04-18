@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionMateriel.UpdateMateriel">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="620.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionMateriel.UpdateMateriel">
     <children>
         <HBox layoutX="26.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
             <children>
@@ -51,7 +51,7 @@
                 <Font size="29.0" />
             </font>
         </Label>
-        <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="374.0" layoutY="347.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
+        <Button fx:id="buttonConfirmer" alignment="CENTER" layoutX="374.0" layoutY="270.0" mnemonicParsing="false" onAction="#confirmerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button1" stylesheets="@../../css/addStyle.css" text="Confirmer" textFill="WHITE">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -63,7 +63,7 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
+        <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="270.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -98,21 +98,6 @@
                     </font>
                 </Label>
                 <TextField fx:id="qtefield" onKeyPressed="#verifQte" onKeyReleased="#verifQte" prefHeight="26.0" prefWidth="149.0" promptText="QTE" stylesheets="@../../css/addStyle.css" />
-            </children>
-        </HBox>
-        <HBox layoutX="26.0" layoutY="297.0" prefHeight="26.0" prefWidth="248.0">
-            <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Prix :">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <TextField fx:id="prixfield" onKeyPressed="#verifPrix" onKeyReleased="#verifPrix" prefHeight="26.0" prefWidth="146.0" promptText="PRIX" stylesheets="@../../css/addStyle.css" />
             </children>
         </HBox>
         <Label fx:id="lblprix" alignment="CENTER" layoutX="275.0" layoutY="301.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">

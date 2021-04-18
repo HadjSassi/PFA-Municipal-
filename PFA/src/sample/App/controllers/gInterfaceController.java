@@ -25,7 +25,7 @@ public class gInterfaceController implements Initializable {
     @FXML
     void handleClicksDepenses(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        AnchorPane view = object.getPane("gDepense");
+        AnchorPane view = object.getPane("depense/DepenseConsultation");
        // view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);

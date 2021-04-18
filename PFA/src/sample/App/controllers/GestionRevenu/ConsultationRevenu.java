@@ -201,7 +201,7 @@ public class ConsultationRevenu implements Initializable {
                             }
 
                             AfficherRevenu addRevenuController = loader.getController();
-                            addRevenuController.setTextField(revenu.getId(), revenu.getType(),revenu.getPrix(),revenu.getDates());
+                            addRevenuController.setTextField(revenu.getId(), revenu.getType(),revenu.getPrix(),revenu.getDates(),revenu.getDescription());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -222,7 +222,7 @@ public class ConsultationRevenu implements Initializable {
                             }
 
                             UpdateRevenu addRevenuController = loader.getController();
-                            addRevenuController.setTextField(revenu.getId(), revenu.getType(),revenu.getPrix(),revenu.getDates());
+                            addRevenuController.setTextField(revenu.getId(), revenu.getType(),revenu.getPrix(),revenu.getDates(),revenu.getDescription());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -267,7 +267,7 @@ public class ConsultationRevenu implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Revenu ");
             while(rs.next()){
-                oblist.add(new Revenu(rs.getString("id"),rs.getString("type"),rs.getString("prix"),rs.getDate("dates")));
+                oblist.add(new Revenu(rs.getString("id"),rs.getString("type"),rs.getString("prix"),rs.getDate("dates"),rs.getString("description")));
             }
             rs.close();
         } catch (SQLException throwables) {

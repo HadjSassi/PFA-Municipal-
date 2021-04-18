@@ -13,18 +13,20 @@ public class Revenu {
     private final String type;
     private final String prix;
     private final String dates;
+    private final String description;
     private final CheckBox cb ;
 
     private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
             new Locale("fr","FR"));
 
-    public Revenu(String id, String type, String prix, Date dates) {
+    public Revenu(String id, String type, String prix, Date dates , String desc) {
         this.id = id;
         this.type = type;
         this.prix = prix;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.dates = formatD.format(dates);
         this.cb = new CheckBox();
+        this.description = desc;
     }
 
     public String getId() {
@@ -45,5 +47,9 @@ public class Revenu {
 
     public CheckBox getCb() {
         return cb;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

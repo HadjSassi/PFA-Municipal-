@@ -25,7 +25,6 @@
                         <TableColumn fx:id="typeCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Type" />
                         <TableColumn fx:id="dispoCol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="Disponibilé" />
                         <TableColumn fx:id="markCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Marque" />
-                  <TableColumn fx:id="prixcol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="Prix" />
                         <TableColumn fx:id="modifierCol" maxWidth="600.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                     </columns>
                 </TableView>

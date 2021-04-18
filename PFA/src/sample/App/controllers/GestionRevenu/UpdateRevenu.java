@@ -34,6 +34,11 @@ public class UpdateRevenu implements Initializable {
     @FXML
     private Label lblType ;
 
+
+    @FXML
+    private TextArea descfield ;
+
+
     @FXML
     private Label lblprix;
 
@@ -174,7 +179,7 @@ public class UpdateRevenu implements Initializable {
                     try {
 
                         String insertion = "Update revenu set " +
-                                "Type = "+"\'"+Typefield.getValue()+"\'"+", prix = "+"\'"+prixfield.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+" where ID = "+"\'"+id+"\'"+"";
+                                "Type = "+"\'"+Typefield.getValue()+"\'"+", prix = "+"\'"+prixfield.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
                         rs.execute();
@@ -219,12 +224,12 @@ public class UpdateRevenu implements Initializable {
 
         ObservableList list= FXCollections.observableArrayList();
         list.removeAll();
-        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString());
+        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString(),Type.Autre.toString());
         Typefield.getItems().setAll(list);
 
     }
 
-    public void setTextField(String id, String type, String prix, String date )  {
+    public void setTextField(String id, String type, String prix, String date, String desc )  {
         this.id = id ;
         this.matriculelbl.setText(id);
         this.Typefield.setValue(type);
@@ -233,6 +238,7 @@ public class UpdateRevenu implements Initializable {
         LocalDate dateTime = LocalDate.parse(date, formatter);
         this.datefield.setValue(dateTime);
         verdate= true;
+        this.descfield.setText(desc);
     }
 
 
