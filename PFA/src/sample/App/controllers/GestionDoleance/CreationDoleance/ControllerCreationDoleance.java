@@ -28,6 +28,14 @@ public class ControllerCreationDoleance implements Initializable {
     @FXML
     private Label lblId;
 
+
+    @FXML
+    private Label lbladr;
+    @FXML
+    private Label lbltel;
+    @FXML
+    private Label lblmail;
+
     @FXML
     private Label lblStatus ;
 
@@ -41,13 +49,20 @@ public class ControllerCreationDoleance implements Initializable {
     private Label lblCinError;
 
     @FXML
-    private Label lbl;//pour le succée s'affiche en vert
-
-    @FXML
     private ChoiceBox<String> TypeEnum;
 
     @FXML
     private TextField nameTextField ;
+
+    @FXML
+    private TextField telfield ;
+
+    @FXML
+    private TextField mailfield ;
+
+    @FXML
+    private TextField adrfield ;
+
 
     @FXML
     private TextField CinTextField ;
@@ -72,6 +87,99 @@ public class ControllerCreationDoleance implements Initializable {
     }
 
     private boolean vernom,vercin;
+
+
+
+    private boolean vertel = true ;
+
+    @FXML
+    void VerifTel(KeyEvent event) {
+        try {
+            vertel = false;
+            boolean b = false;
+            String tel = telfield.getText();
+            if (!tel.isEmpty()) {
+
+                if (!isNumeric(tel) || tel.length() != 8 || b || String.valueOf(Integer.parseInt(tel)).length() != 8) {
+                    if (b) {
+                        lbltel.setText("🠔 Ce numero de tel existe déja!");
+                        vertel = false;
+                        lbltel.setStyle("-fx-text-fill: red");
+                    } else if (!isNumeric(tel) || tel.length() != 8 || String.valueOf(Integer.parseInt(tel)).length() != 8) {
+                        lbltel.setText("🠔 C'est un nombre composé de 8 chiffres !");
+                        vertel = false;
+                        telfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                        lbltel.setStyle("-fx-text-fill: red");
+                    }
+                } else {
+                    telfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    vertel = true;
+                    lbltel.setText("✓");
+                    lbltel.setStyle("-fx-text-fill: #32CD32");
+                }
+            } else {
+                vertel = true;
+                telfield.setStyle(null);
+                lbltel.setText("");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+    }
+
+    private boolean verMail = true ;
+
+    @FXML
+    void VerifMail(KeyEvent event){
+        try {
+            verMail = false;
+            boolean b = false;
+            String ml = mailfield.getText();
+            if (!ml.isEmpty()) {
+                if (ml.matches("[a-z0-9]*@[a-z0-9]*[.][a-z0-9]*")) {
+                    verMail = true;
+                    mailfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setText("✓");
+                    lblmail.setStyle("-fx-text-fill: #32CD32");
+                } else {
+                    lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
+                    verMail = false;
+                    mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setStyle("-fx-text-fill: red");
+                }
+            }
+            else{
+                verMail = true;
+                mailfield.setStyle("-fx-text-box-border: white;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblmail.setText("");
+                lblmail.setStyle("-fx-text-fill: #32CD32");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+    }
+
+    @FXML
+    void verifAdr (KeyEvent event){
+        try {
+            String ml = adrfield.getText();
+            if(!ml.isEmpty()){
+                adrfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lbladr.setText("✓");
+                lbladr.setStyle("-fx-text-fill: #32CD32");
+            }
+            else{
+                adrfield.setStyle("-fx-text-box-border: white;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lbladr.setText("");
+                lbladr.setStyle("-fx-text-fill: #32CD32");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+    }
 
     @FXML
     void verifCin(KeyEvent event) {
@@ -145,12 +253,27 @@ public class ControllerCreationDoleance implements Initializable {
             String nom = nameTextField.getText();
             String service = TypeEnum.getValue();
             String description = DescriptionFiled.getText();
-            if (!vernom || !vercin || service == null) {
+            if (!vernom || !vercin || service == null|| !verMail || !vertel) {
                 if (nom.isEmpty()) {
                     lblNomEror.setText("🠔 Remplir ce champ");
                     lblNomEror.setStyle("-fx-text-fill: red");
                     nameTextField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
+
+                if(!verMail){
+                    lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
+                    verMail = false;
+                    mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setStyle("-fx-text-fill: red");
+                }
+
+                if(!vertel){
+                    lbltel.setText("🠔 C'est un nombre composé de 8 chiffres !");
+                    vertel = false;
+                    telfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lbltel.setStyle("-fx-text-fill: red");
+                }
+
 
                 if (cin.isEmpty()) {
                     lblCinError.setText("🠔 Remplir ce champ");
@@ -190,7 +313,7 @@ public class ControllerCreationDoleance implements Initializable {
                 try {
                     connection = getOracleConnection();
 
-                    String insertion = "INSERT INTO doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getValue()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'Initiale',"+"\'"+DescriptionFiled.getText()+"\'"+")";
+                    String insertion = "INSERT INTO doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getValue()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'Initiale',"+"\'"+DescriptionFiled.getText()+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+")";
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
                     //System.out.println(insertion);
@@ -223,6 +346,15 @@ public class ControllerCreationDoleance implements Initializable {
         lblTypeError.setText("");
         lblCinError.setText("");
         lblNomEror.setText("");
+        lblmail.setText("");
+        lbltel.setText("");
+        lbladr.setText("");
+        mailfield.clear();
+        telfield.clear();
+        adrfield.clear();
+        adrfield.setStyle("-fx-background-color:white;");
+        mailfield.setStyle("-fx-background-color:white;");
+        telfield.setStyle("-fx-background-color:white;");
         TypeEnum.setStyle("-fx-background-color:white;");
         CinTextField.setStyle("-fx-background-color:white;");
         nameTextField.setStyle("-fx-background-color:white;");

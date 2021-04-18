@@ -12,7 +12,7 @@
     <children>
         <HBox fx:id="lbld" layoutX="23.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text=" *" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -22,16 +22,16 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-              <Label fx:id="lblid" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="160.0" text="dsfsdfd" textFill="WHITE">
+              <Label fx:id="lblid" alignment="CENTER" contentDisplay="TOP" prefHeight="19.0" prefWidth="245.0" text="dsfsdfd" textFill="WHITE">
                   <font>
                       <Font size="13.0" />
                   </font>
               </Label>
             </children>
         </HBox>
-        <HBox layoutX="358.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
+        <HBox layoutX="349.0" layoutY="108.0" prefHeight="26.0" prefWidth="248.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -41,7 +41,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-              <Label fx:id="lblType" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="155.0" text="fsdfsdf" textFill="WHITE">
+              <Label fx:id="lblType" alignment="CENTER" contentDisplay="TOP" prefHeight="19.0" prefWidth="191.0" text="fsdfsdf" textFill="WHITE">
                   <font>
                       <Font size="13.0" />
                   </font>
@@ -67,7 +67,7 @@
         </Button>
         <HBox layoutX="23.0" layoutY="152.0" prefHeight="26.0" prefWidth="255.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -77,7 +77,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-              <Label fx:id="lblcin" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="146.0" text="sdfsdfds" textFill="WHITE">
+              <Label fx:id="lblcin" alignment="CENTER" contentDisplay="TOP" prefHeight="19.0" prefWidth="245.0" text="sdfsdfds" textFill="WHITE">
                   <font>
                       <Font size="13.0" />
                   </font>
@@ -86,7 +86,7 @@
         </HBox>
         <HBox layoutX="23.0" layoutY="200.0" prefHeight="26.0" prefWidth="255.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -96,16 +96,16 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-              <Label fx:id="lblnom" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="154.0" text="sdfsdfsdf" textFill="WHITE">
+              <Label fx:id="lblnom" alignment="CENTER" contentDisplay="TOP" prefHeight="19.0" prefWidth="245.0" text="sdfsdfsdf" textFill="WHITE">
                   <font>
                       <Font size="13.0" />
                   </font>
               </Label>
             </children>
         </HBox>
-        <HBox layoutX="351.0" layoutY="200.0" prefHeight="26.0" prefWidth="255.0">
+        <HBox layoutX="349.0" layoutY="200.0" prefHeight="26.0" prefWidth="255.0">
             <children>
-                <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                <Label prefHeight="17.0" prefWidth="0.0" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -115,14 +115,14 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-              <Label fx:id="lblprenom" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="19.0" prefWidth="155.0" text="sdfsdfsdfsd" textFill="WHITE">
+              <Label fx:id="lblprenom" alignment="CENTER" contentDisplay="TOP" prefHeight="19.0" prefWidth="208.0" text="sdfsdfsdfsd" textFill="WHITE">
                   <font>
                       <Font size="13.0" />
                   </font>
               </Label>
             </children>
         </HBox>
-        <HBox layoutX="23.0" layoutY="250.0" prefHeight="26.0" prefWidth="255.0">
+        <HBox layoutX="23.0" layoutY="299.0" prefHeight="26.0" prefWidth="90.0">
             <children>
                 <Label prefHeight="17.0" prefWidth="0.0" text="  " textFill="RED">
                     <font>
@@ -136,7 +136,7 @@
                 </Label>
             </children>
         </HBox>
-      <Label fx:id="lbldesc" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="115.0" layoutY="250.0" prefHeight="127.0" prefWidth="391.0" text="lsdfjsdlkfjsdq" textFill="WHITE" />
+      <Label fx:id="lbldesc" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="115.0" layoutY="299.0" prefHeight="78.0" prefWidth="391.0" text="lsdfjsdlkfjsdq" textFill="WHITE" />
       <Button alignment="CENTER" layoutX="384.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleClicksPrint" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" text="Imprimer" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -149,5 +149,47 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <HBox layoutX="349.0" layoutY="152.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Adr :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbladr" alignment="CENTER" prefHeight="19.0" prefWidth="198.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="352.0" layoutY="245.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="19.0" prefWidth="74.0" stylesheets="@../../css/addStyle.css" text="Téléphone :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbltel" alignment="CENTER" prefHeight="19.0" prefWidth="170.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="23.0" layoutY="245.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Mail :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblmail" alignment="CENTER" prefHeight="19.0" prefWidth="237.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

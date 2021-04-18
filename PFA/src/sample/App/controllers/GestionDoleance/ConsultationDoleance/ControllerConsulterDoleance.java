@@ -108,7 +108,7 @@ public class ControllerConsulterDoleance implements Initializable {
     private void filter(){
         FilteredList<Doleance> filteredData = new FilteredList<>(oblist, b -> true);
 
-        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(Doleance -> {
+        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(dol -> {
 
             if(newValue == null || newValue.isEmpty()){
                 return true;
@@ -117,17 +117,22 @@ public class ControllerConsulterDoleance implements Initializable {
             //Comparer le nom et le prenom avec tous les Doleances aves filterField
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (Doleance.getId().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            if (dol.getId().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter id
-            }else if (Doleance.getType().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }
+            else if (dol.getType().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Doleance.getNom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }
+            else if (dol.getNom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Doleance.getCin().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }
+            else if (dol.getCin().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Doleance.getStatus().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }
+            else if (dol.getStatus().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else
+            }
+            else
                 return false;//doesn't match
         });});
         SortedList<Doleance> sortedData= new SortedList<>(filteredData);
@@ -177,6 +182,7 @@ public class ControllerConsulterDoleance implements Initializable {
         );
 
 
+
         //add cell of button edit
         Callback<TableColumn<Doleance, String>, TableCell<Doleance, String>> cellFoctory = (TableColumn<Doleance, String> param) -> {
             // make cell containing buttons
@@ -216,7 +222,7 @@ public class ControllerConsulterDoleance implements Initializable {
                             }
 
                             ControllerAfficherDoleance addDoleanceController = loader.getController();
-                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus());
+                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus(),doleance.getTel(),doleance.getMail(),doleance.getAdr());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -229,15 +235,15 @@ public class ControllerConsulterDoleance implements Initializable {
 
                             doleance = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../../view/doleance/DoleanceUpdate.fxml"));
+                            loader.setLocation(getClass().getResource("../../../view/doleance/DoleanceUpdateSuper.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException ex) {
                                 Logger.getLogger(ControllerConsulterDoleance.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            ControllerUpdateDoleance addDoleanceController = loader.getController();
-                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus());
+                            ControllerUpdateDoleanceSuper addDoleanceController = loader.getController();
+                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus(),doleance.getTel(),doleance.getMail(),doleance.getAdr());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -284,7 +290,7 @@ public class ControllerConsulterDoleance implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Doleance ");
             while(rs.next()){
-                oblist.add(new Doleance(rs.getString("id"),rs.getString("type"),rs.getString("nom"),rs.getString("cin"),rs.getString("status"),rs.getString("description")));
+                oblist.add(new Doleance(rs.getString("id"),rs.getString("type"),rs.getString("nom"),rs.getString("cin"),rs.getString("status"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr")));
             }
             rs.close();
         } catch (SQLException throwables) {

@@ -219,7 +219,7 @@ public class UpdateEngin implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.initStyle(StageStyle.TRANSPARENT);
                         alert.setHeaderText(null);
-                        alert.setContentText("Ajout avec succés");
+                        alert.setContentText("Modification avec succés");
                         alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
                         alert.showAndWait();
                         Stage stage = (Stage) buttonConfirmer.getScene().getWindow();

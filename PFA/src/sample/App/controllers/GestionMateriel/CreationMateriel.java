@@ -1,5 +1,7 @@
 package sample.App.controllers.GestionMateriel;
 
+import com.gluonhq.charm.glisten.control.Chip;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +20,8 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 import sample.App.model.Type;
+
+import sample.App.model.Type;
 import sample.App.model.type_Doleance;
 
 
@@ -30,22 +34,22 @@ public class CreationMateriel implements Initializable {
     private Label lblid;
 
     @FXML
-    private Label lblType ;
+    private Label lbldesignation ;
 
     @FXML
     private Label lblqte;
 
     @FXML
-    private TextField idField ;
+    private Label lblprix;
+
+    @FXML
+    private TextField prixField;
 
     @FXML
     private TextField qtefield ;
 
     @FXML
-    private TextArea DescriptionFiled;
-
-    @FXML
-    private ChoiceBox<String> Typefield;
+    private ChoiceBox<String> designationfield;
 
     @FXML
     private Button buttonConfirmer ;
@@ -54,58 +58,131 @@ public class CreationMateriel implements Initializable {
     private Button buttonFermer ;
 
 
+    private boolean verser , verqte , verprix ;
+
     @FXML
     void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner la designation du materiel");
-            lblType.setStyle("-fx-text-fill: red");
-            Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+        if(designationfield.getValue()==null){
+            verser = false ;
+            lbldesignation.setText("🠔 Selectionner la designation du materiel");
+            lbldesignation.setStyle("-fx-text-fill: red");
+            designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
-            lblType.setStyle("-fx-text-fill: #32CD32");
-            lblType.setText("✓");
-            Typefield.setStyle("-fx-background-color:white;");}
+            verser = true ;
+            lbldesignation.setStyle("-fx-text-fill: #32CD32");
+            lbldesignation.setText("✓");
+            designationfield.setStyle("-fx-background-color:white;");}
+    }
+
+    private static boolean isNumeric(String string) {
+        return string.matches("[0-9]+");
+    }
+
+
+    @FXML
+    void verifQte(KeyEvent event){
+        verqte=false;
+        String salaire = qtefield.getText();
+        if (!salaire.isEmpty()){
+            if (!isNumeric(salaire)) {
+                lblqte.setText("🠔 Le salaire est un nombre entier!");
+                qtefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblqte.setStyle("-fx-text-fill: red");
+                verqte=false;
+            } else {
+                qtefield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblqte.setText("✓");
+                verqte=true;
+                lblqte.setStyle("-fx-text-fill: #32CD32");}}
+        else{
+            verqte=false;
+            lblqte.setText("🠔 Remplir ce champs");
+            lblqte.setStyle("-fx-text-fill: red");
+            qtefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+
+
+    }
+
+    public static boolean isFloat(String string) {
+        try {
+            Float.parseFloat(string);
+            if (string.length() >=3){
+
+                try {
+                    String[] p = string.split("\\.");
+                    if (p[0].length() <= 10 && p[1].length()<=10)
+                        return true;
+                    else {
+                        return false;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    return true;
+                }
+            }
+            else
+                return true;
+        }catch(NumberFormatException e){
+        }
+        return false;
+    }
+
+    @FXML
+    void verifPrix (KeyEvent event){
+        verprix=false;
+        String salaire = prixField.getText();
+        if (!salaire.isEmpty()){
+            if (!isFloat(salaire)) {
+                lblprix.setText("🠔 Le salaire est un nombre réel!");
+                prixField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblprix.setStyle("-fx-text-fill: red");
+                verprix=false;
+            } else {
+                prixField.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblprix.setText("✓");
+                verprix=true;
+                lblprix.setStyle("-fx-text-fill: #32CD32");}}
+        else{
+            verprix=false;
+            lblprix.setText("🠔 Remplir ce champs");
+            lblprix.setStyle("-fx-text-fill: red");
+            prixField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+
     }
 
 
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String id = idField.getText();
             String qte = qtefield.getText();
-            String type = Typefield.getValue();
-            String desc = DescriptionFiled.getText();
-            if (type == null || id == null ||qte == null) {
-                if (id.isEmpty()) {
-                    lblid.setText("🠔 Remplir ce champ");
-                    lblid.setStyle("-fx-text-fill: red");
-                    idField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
+            String type = designationfield.getValue();
 
-                if (qte.isEmpty()) {
-                    lblqte.setText("🠔 Remplir ce champ");
+            String prix = prixField.getText();
+
+
+            if (!verqte || !verser || !verprix) {
+
+
+                if (!verqte) {
+                    //lblqte.setText("🠔 Remplir ce champ");
                     lblqte.setStyle("-fx-text-fill: red");
                     qtefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
 
 
-                if ( id.isEmpty()) {
-                    lblid.setText("🠔 Remplir ce champ");
-                    lblid.setStyle("-fx-text-fill: red");
-                    idField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+
+                if ( !verprix) {
+                    //lblprix.setText("🠔 Remplir ce champ");
+                    lblprix.setStyle("-fx-text-fill: red");
+                    prixField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
-                if ( qte.isEmpty()) {
-                    lblqte.setText("🠔 Remplir ce champ");
-                    lblqte.setStyle("-fx-text-fill: red");
-                    qtefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
-                if (type == null) {
-                    lblType.setText("🠔 Selectionner le service");
-                    lblType.setStyle("-fx-text-fill: red");
-                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                if (!verser) {
+                    lbldesignation.setText("🠔 Selectionner le service");
+                    lbldesignation.setStyle("-fx-text-fill: red");
+                    designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 } else {
-                    lblType.setStyle("-fx-text-fill: #32CD32");
-                    lblType.setText("✓");
-                    Typefield.setStyle("-fx-background-color:white;");
+                    lbldesignation.setStyle("-fx-text-fill: #32CD32");
+                    lbldesignation.setText("✓");
+                    designationfield.setStyle("-fx-background-color:white;");
                 }
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -119,7 +196,10 @@ public class CreationMateriel implements Initializable {
                 try {
                     connection = getOracleConnection();
 
-                    String insertion = "INSERT INTO MATERIEL values("+"\'"+idField.getText()+"\'"+","+"\'"+Typefield.getValue().toString()+"\'"+","+qtefield.getText()+","+"\'"+DescriptionFiled.getText()+"\'"+")";
+
+                    String insertion = "INSERT INTO MATERIEL values( null ,"+"\'"+designationfield.getValue().toString()+"\'"+","+qtefield.getText()+","+"\'"+prixField.getText()+"\'"+")";
+
+
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
                     System.out.println(insertion);
@@ -139,25 +219,36 @@ public class CreationMateriel implements Initializable {
             }
         }
         catch (NullPointerException e){
-            //System.out.println("you have an error go check please mr Mahdi");
-            lblid.setText("🠔 Cette matricule existe déjà");
-            lblid.setStyle("-fx-text-fill: red");
-            idField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+
+
 
         }
     }
 
 
     private void refresh(){
-        Typefield.setValue(null);
-        idField.setText("");
+        designationfield.setValue(null);
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval from dual");
+            while(rs.next()){
+                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+                lblid.setText(rs.getString("nextval"));
+            }
+            rs.close();
+        } catch (SQLException throwables) {
+            System.out.println("1000000 dawa7");
+        }
         qtefield.setText("");
-        DescriptionFiled.setText("");
-        lblid.setText("");
-        lblType.setText("");
+        prixField.setText("");
+        lbldesignation.setText("");
         lblqte.setText("");
-        lblType.setText("");
-        Typefield.setStyle("-fx-background-color:white;");
+        lblprix.setText("");
+        lbldesignation.setText("");
+        lblqte.setText("");
+        lbldesignation.setText("");
+
+        designationfield.setStyle("-fx-background-color:white;");
     }
     @FXML
     public void fermerButton (ActionEvent event){
@@ -169,11 +260,24 @@ public class CreationMateriel implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval from dual");
+            while(rs.next()){
+                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+                lblid.setText(rs.getString("nextval"));
+            }
+            rs.close();
+        } catch (SQLException throwables) {
+            System.out.println("1000000 dawa7");
+        }
 
         ObservableList list= FXCollections.observableArrayList();
         list.removeAll();
-        list.addAll(Type.Jardinage.toString(),Type.Poubelle.toString(),Type.barriere_de_securité.toString(),Type.barwita.toString(),Type.drapeaux.toString());
-        Typefield.getItems().setAll(list);
+
+        list.addAll(Type.Jardinage.toString(),Type.Poubelle.toString(),Type.barriere_de_securite.toString(),Type.barwita.toString(),Type.drapeaux.toString());
+
+        designationfield.getItems().setAll(list);
 
     }
 

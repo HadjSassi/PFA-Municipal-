@@ -210,7 +210,7 @@ public class ConsultationPermission implements Initializable {
                             }
 
                             AfficherPermission addPermissionController = loader.getController();
-                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription());
+                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription(),permission.getTel(),permission.getMail(),permission.getAdr());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -231,7 +231,7 @@ public class ConsultationPermission implements Initializable {
                             }
 
                             UpdatePermission addPermissionController = loader.getController();
-                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription());
+                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription(),permission.getTel(),permission.getMail(),permission.getAdr());
                             Parent parent = loader.getRoot();
 
                             Stage stage = new Stage();
@@ -276,7 +276,7 @@ public class ConsultationPermission implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Permission ");
             while(rs.next()){
-                Permission per = new Permission(rs.getString("id"),rs.getString("type"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getString("description"));
+                Permission per = new Permission(rs.getString("id"),rs.getString("type"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr"));
                 //System.out.println(per.getPrenom());
                 oblist.add(per);
             }

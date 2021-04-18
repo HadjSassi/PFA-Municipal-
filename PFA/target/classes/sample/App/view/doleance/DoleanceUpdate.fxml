@@ -30,6 +30,25 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <HBox layoutX="345.0" layoutY="118.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Statuts :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label id="labelStatus" fx:id="lblStatus" stylesheets="@../../css/addStyle.css" text="Status du doleance" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
       <Button fx:id="buttonFermer" alignment="CENTER" layoutX="495.0" layoutY="557.0" mnemonicParsing="false" onAction="#fermerButton" prefHeight="50.0" prefWidth="111.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" text="Fermer" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="17.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -61,7 +80,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox layoutX="36.0" layoutY="179.0" prefHeight="26.0" prefWidth="248.0">
+      <HBox layoutX="36.0" layoutY="157.0" prefHeight="26.0" prefWidth="248.0">
          <children>
             <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
                <font>
@@ -76,17 +95,12 @@
             <ChoiceBox fx:id="TypeEnum" onAction="#verifService" prefHeight="17.0" prefWidth="162.0" style="-fx-background-color: white;" />
          </children>
       </HBox>
-      <Label fx:id="lblTypeError" alignment="CENTER" layoutX="284.0" layoutY="183.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+      <Label fx:id="lblTypeError" alignment="CENTER" layoutX="285.0" layoutY="161.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="lblNomEror" alignment="CENTER" layoutX="286.0" layoutY="244.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <HBox layoutX="36.0" layoutY="240.0" prefHeight="26.0" prefWidth="248.0">
+      <HBox layoutX="36.0" layoutY="208.0" prefHeight="26.0" prefWidth="248.0">
          <children>
             <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
                <font>
@@ -101,7 +115,12 @@
             <TextField fx:id="nameTextField" onKeyPressed="#verifNom" onKeyReleased="#verifNom" prefHeight="25.0" prefWidth="157.0" promptText="Nom Prenom" stylesheets="@../../css/addStyle.css" />
          </children>
       </HBox>
-      <HBox layoutX="36.0" layoutY="307.0" prefHeight="26.0" prefWidth="248.0">
+      <Label fx:id="lblNomEror" alignment="CENTER" layoutX="285.0" layoutY="212.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <HBox layoutX="36.0" layoutY="254.0" prefHeight="26.0" prefWidth="248.0">
          <children>
             <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
                <font>
@@ -116,35 +135,76 @@
             <TextField fx:id="CinTextField" onKeyPressed="#verifCin" onKeyReleased="#verifCin" prefHeight="25.0" prefWidth="157.0" promptText="N°Carte d'identité" stylesheets="@../../css/addStyle.css" />
          </children>
       </HBox>
-      <HBox layoutX="345.0" layoutY="118.0" prefHeight="26.0" prefWidth="248.0">
+      <Label fx:id="lblCinError" alignment="CENTER" layoutX="286.0" layoutY="258.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <HBox layoutX="36.0" layoutY="298.0" prefHeight="26.0" prefWidth="248.0">
          <children>
             <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Statuts :">
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Téléphone :">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label id="labelStatus" fx:id="lblStatus" stylesheets="@../../css/addStyle.css" text="Status du doleance" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
+            <TextField fx:id="telfield" onKeyPressed="#VerifTel" onKeyReleased="#VerifTel" prefHeight="25.0" prefWidth="157.0" promptText="N°du téléphone" stylesheets="@../../css/addStyle.css" />
          </children>
       </HBox>
-      <Label fx:id="lblCinError" alignment="CENTER" layoutX="285.0" layoutY="311.0" prefHeight="19.0" prefWidth="345.0" textFill="#da2727">
+      <HBox layoutX="38.0" layoutY="343.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Mail :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="mailfield" onKeyPressed="#VerifMail" onKeyReleased="#VerifMail" prefHeight="25.0" prefWidth="157.0" promptText="l'adresse mail" stylesheets="@../../css/addStyle.css" />
+         </children>
+      </HBox>
+      <HBox layoutX="38.0" layoutY="390.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Adresse :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="adrfield" onKeyPressed="#verifAdr" onKeyReleased="#verifAdr" prefHeight="25.0" prefWidth="157.0" promptText="l'adresse" stylesheets="@../../css/addStyle.css" />
+         </children>
+      </HBox>
+      <Label fx:id="lbltel" alignment="CENTER" layoutX="285.0" layoutY="302.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="46.0" layoutY="359.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
+      <Label fx:id="lblmail" alignment="CENTER" layoutX="286.0" layoutY="347.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbladr" alignment="CENTER" layoutX="286.0" layoutY="394.0" prefHeight="19.0" prefWidth="335.0" textFill="#da2727">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="436.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <TextArea fx:id="DescriptionFiled" layoutX="80.0" layoutY="392.0" prefHeight="156.0" prefWidth="506.0" stylesheets="@../../css/addStyle.css" />
+      <TextArea fx:id="DescriptionFiled" layoutX="74.0" layoutY="469.0" prefHeight="78.0" prefWidth="506.0" promptText="Description du doleance" stylesheets="@../../css/addStyle.css" />
    </children>
 </AnchorPane>

@@ -15,6 +15,21 @@ public class AfficherPermission {
     private Label lblid;
 
 
+
+    @FXML
+    private Label lblmail;
+
+
+
+    @FXML
+    private Label lbladr;
+
+
+
+    @FXML
+    private Label lbltel;
+
+
     @FXML
     private Label lblType;
 
@@ -38,13 +53,17 @@ public class AfficherPermission {
     private Button buttonFermer1;
 
 
-    public void setTextField(String id, String type, String nom, String prenom , String cin , String desc) {
+    public void setTextField(String id, String type, String nom, String prenom , String cin , String desc,String tel,String mail ,String adr) {
         this.lblid.setText(id);
         this.lblType.setText(type);
         this.lblnom.setText(nom);
         this.lblprenom.setText(prenom);
         this.lblcin.setText(cin);
         this.lbldesc.setText(desc);
+        this.lbladr.setText(adr);
+        this.lbltel.setText(tel);
+        this.lblmail.setText(mail);
+
     }
 
     public void fermerButton (ActionEvent event){

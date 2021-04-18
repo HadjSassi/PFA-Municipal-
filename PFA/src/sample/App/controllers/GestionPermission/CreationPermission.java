@@ -33,6 +33,25 @@ public class CreationPermission implements Initializable {
     @FXML
     private Label lblcin;
 
+
+    @FXML
+    private Label lbladr;
+    @FXML
+    private Label lbltel;
+    @FXML
+    private Label lblmail;
+
+
+    @FXML
+    private TextField telfield ;
+
+    @FXML
+    private TextField mailfield ;
+
+    @FXML
+    private TextField adrfield ;
+
+
     @FXML
     private Label lblnom ;
 
@@ -40,10 +59,7 @@ public class CreationPermission implements Initializable {
     private Label lblprenom ;
 
     @FXML
-    private Label lblid ;
-
-    @FXML
-    private TextField idfield ;
+    private Label lblid1 ;
 
     @FXML
     private TextField cinfield ;
@@ -76,27 +92,96 @@ public class CreationPermission implements Initializable {
         return string.matches("[0-9]+");
     }
 
-    @FXML
-    void verifId (KeyEvent event){
-        verifid=false;
-        String cin = idfield.getText();
-        if(!cin.isEmpty()){
+    private boolean vertel = true ;
 
-            if (!isNumeric(cin) || cin.length() != 4) {
-                lblid.setText("🠔 Le numero de cin est un nombre composé de 8 chiffres !");
-                verifid=false;
-                idfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblid.setStyle("-fx-text-fill: red");}
-            else {
-                idfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                lblid.setText("✓");
-                verifid=true;
-                lblid.setStyle("-fx-text-fill: #32CD32");}}
-        else{
-            idfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            verifid=false;
-            lblid.setText("");}
+    @FXML
+    void VerifTel(KeyEvent event) {
+        try {
+            vertel = false;
+            String tel = telfield.getText();
+            if (!tel.isEmpty()) {
+
+                if (!isNumeric(tel) || tel.length() != 8  || String.valueOf(Integer.parseInt(tel)).length() != 8) {
+                    if (false) {
+                        lbltel.setText("🠔 Ce numero de tel existe déja!");
+                        vertel = false;
+                        lbltel.setStyle("-fx-text-fill: red");
+                    } else if (!isNumeric(tel) || tel.length() != 8 || String.valueOf(Integer.parseInt(tel)).length() != 8) {
+                        lbltel.setText("🠔 C'est un nombre composé de 8 chiffres !");
+                        vertel = false;
+                        telfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                        lbltel.setStyle("-fx-text-fill: red");
+                    }
+                } else {
+                    telfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    vertel = true;
+                    lbltel.setText("✓");
+                    lbltel.setStyle("-fx-text-fill: #32CD32");
+                }
+            } else {
+                vertel = true;
+                telfield.setStyle(null);
+                lbltel.setText("");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
     }
+
+    private boolean verMail = true ;
+
+    @FXML
+    void VerifMail(KeyEvent event){
+        try {
+            verMail = false;
+            boolean b = false;
+            String ml = mailfield.getText();
+            if (!ml.isEmpty()) {
+                if (ml.matches("[a-z0-9]*@[a-z0-9]*[.][a-z0-9]*")) {
+                    verMail = true;
+                    mailfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setText("✓");
+                    lblmail.setStyle("-fx-text-fill: #32CD32");
+                } else {
+                    lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
+                    verMail = false;
+                    mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setStyle("-fx-text-fill: red");
+                }
+            }
+            else{
+                verMail = true;
+                mailfield.setStyle("-fx-text-box-border: white;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lblmail.setText("");
+                lblmail.setStyle("-fx-text-fill: #32CD32");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+    }
+
+    @FXML
+    void verifAdr (KeyEvent event){
+        try {
+            String ml = adrfield.getText();
+            if(!ml.isEmpty()){
+                adrfield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lbladr.setText("✓");
+                lbladr.setStyle("-fx-text-fill: #32CD32");
+            }
+            else{
+                adrfield.setStyle("-fx-text-box-border: white;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                lbladr.setText("");
+                lbladr.setStyle("-fx-text-fill: #32CD32");
+            }
+        }
+        catch (NullPointerException e){
+
+        }
+    }
+
 
     @FXML
     void verifCin(KeyEvent event) {
@@ -180,7 +265,6 @@ public class CreationPermission implements Initializable {
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String id = idfield.getText();
             String cin = cinfield.getText();
             String type = Typefield.getValue();
             String nom = nomfield.getText();
@@ -188,11 +272,21 @@ public class CreationPermission implements Initializable {
             String desc = descriptionfiled.getText();
 
 
-            if ( !verifid || !vercin|| !vernom || !verprenom   ||type == null || id.isEmpty() || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty()) {
-                if (id.isEmpty() && verifid) {
-                    lblid.setText("🠔 Remplir ce champ");
-                    lblid.setStyle("-fx-text-fill: red");
-                    idfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+            if ( !vercin|| !vernom || !verprenom   ||type == null  || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty() || !verMail || !vertel) {
+
+                System.out.println("test");
+                if(!verMail){
+                    lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
+                    vertel = false;
+                    mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lblmail.setStyle("-fx-text-fill: red");
+                }
+
+                if(!vertel){
+                    lbltel.setText("🠔 C'est un nombre composé de 8 chiffres !");
+                    verMail = false;
+                    telfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                    lbltel.setStyle("-fx-text-fill: red");
                 }
 
                 if (cin.isEmpty() && vercin) {
@@ -233,13 +327,14 @@ public class CreationPermission implements Initializable {
                 alert.showAndWait();
             }
             else {
+
                 Connection connection = null;
                 try {
                     connection = getOracleConnection();
                     try {
-                        String insertion = "INSERT INTO permission values(" + "\'" + id + "\'" + "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'" + ")";
+                        String insertion = "INSERT INTO permission values(" + "null "+ "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+")";
                         PreparedStatement rs = connection.prepareStatement(insertion);
-                        //System.out.println(insertion);
+                        System.out.println(insertion);
                             rs.execute();
 
 
@@ -253,7 +348,7 @@ public class CreationPermission implements Initializable {
                         alert.showAndWait();
                     }
                     catch (NumberFormatException e){
-                        System.out.println("");
+                        System.out.println(e.getMessage());
                     }
                 } catch (SQLException | URISyntaxException throwables) {
                     throwables.printStackTrace();
@@ -263,28 +358,6 @@ public class CreationPermission implements Initializable {
         }
         catch (NullPointerException e){
             //System.out.println("you have an error go check please mr Mahdi");
-            lblid.setText("🠔 Cette matricule existe déjà");
-            lblid.setStyle("-fx-text-fill: red");
-            idfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            if(idfield.getText().isEmpty())
-            {
-                lblid.setText("🠔 Remplir ce champ");
-                lblid.setStyle("-fx-text-fill: red");
-                idfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            }
-            if(cinfield.getText().isEmpty())
-            {
-                lblcin.setText("🠔 Remplir ce champ");
-                lblcin.setStyle("-fx-text-fill: red");
-                cinfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            }
-
-            if(Typefield.getValue().isEmpty())
-            {
-                lblType.setText("🠔 Remplir ce champ");
-                lblType.setStyle("-fx-text-fill: red");
-                Typefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            }
 
             if(nomfield.getText().isEmpty())
             {
@@ -301,12 +374,12 @@ public class CreationPermission implements Initializable {
             }
 
         }
+
     }
 
 
     private void refresh(){
         Typefield.setValue(null);
-        idfield.clear();
         cinfield.setText("");
         nomfield.setText("");
         prenomfield.setText("");
@@ -314,13 +387,31 @@ public class CreationPermission implements Initializable {
         lblcin.setText("");
         lblType.setText("");
         lblnom.setText("");
-        lblid.setText("");
         lblprenom.setText("");
+        lblmail.setText("");
+        lbltel.setText("");
+        lbladr.setText("");
+        mailfield.clear();
+        telfield.clear();
+        adrfield.clear();
+        adrfield.setStyle("-fx-background-color:white;");
+        mailfield.setStyle("-fx-background-color:white;");
+        telfield.setStyle("-fx-background-color:white;");
         Typefield.setStyle("-fx-background-color:white;");
         prenomfield.setStyle("-fx-background-color:white;");
         nomfield.setStyle("-fx-background-color:white;");
         cinfield.setStyle("-fx-background-color:white;");
-        idfield.setStyle("-fx-background-color:white;");
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select PERMISSIONSEQ.nextval from dual");
+            while(rs.next()){
+                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+                lblid1.setText(rs.getString("nextval"));
+            }
+            rs.close();
+        } catch (SQLException throwables) {
+            System.out.println("1000000 dawa7");
+        }
     }
     @FXML
     public void fermerButton (ActionEvent event){
@@ -332,6 +423,17 @@ public class CreationPermission implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select PERMISSIONSEQ.nextval from dual");
+            while(rs.next()){
+                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
+                lblid1.setText(rs.getString("nextval"));
+            }
+            rs.close();
+        } catch (SQLException throwables) {
+            System.out.println("1000000 dawa7");
+        }
 
         ObservableList list= FXCollections.observableArrayList();
         list.removeAll();

@@ -17,6 +17,22 @@ public class ControllerAfficherDoleance {
     private Label lblStatus;
 
 
+
+    @FXML
+    private Label lblmail;
+
+
+
+    @FXML
+    private Label lbladr;
+
+
+
+    @FXML
+    private Label lbltel;
+
+
+
     @FXML
     private Label namelbl;
 
@@ -46,13 +62,16 @@ public class ControllerAfficherDoleance {
         this.lblId1.setText(type);
     }
 
-    public void setTextField(String id, String type, String nom, String cin, String description,String Status) {
+    public void setTextField(String id, String type, String nom, String cin, String description,String Status,String tel,String mail, String adr) {
         this.CinTextField.setText(cin);
         this.lblId.setText(id);
         this.DescriptionFiled.setText(description);
         this.lblStatus.setText(Status);
         this.namelbl.setText(nom);
         this.lblId1.setText(type);
+        this.lbladr.setText(adr);
+        this.lbltel.setText(tel);
+        this.lblmail.setText(mail);
         //Initiale,Approuvé,Refusé,EnCours,Terminé
         switch (Status){
             case "Initiale" :

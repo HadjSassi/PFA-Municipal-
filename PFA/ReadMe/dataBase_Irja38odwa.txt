@@ -80,7 +80,7 @@ marque varchar2(50));
 alter table engin add (prix number(10,3));
 
 CREATE TABLE  "PERMISSION"
-   (	"ID" CHAR(4),
+   ("ID" CHAR(4),
 	"TYPE" VARCHAR2(20),
 	"CIN" VARCHAR2(8),
 	"NOM" VARCHAR2(20),
@@ -88,6 +88,107 @@ CREATE TABLE  "PERMISSION"
 	"DESCRIPTION" VARCHAR2(100),
 	 PRIMARY KEY ("ID") ENABLE
    ) ;
+
+
+alter table doleance add (tel varchar2(8),mail varchar2(100),adr varchar2(100));
+
+drop table permission;
+
+create sequence "PERMISSIONSEQ"
+start with 1
+increment by 1
+maxvalue 1000
+nocache
+cycle
+noorder
+/
+
+CREATE table "PERMISSION" (
+    "ID"          CHAR(4),
+    "TYPE"        VARCHAR2(100),
+    "CIN"         VARCHAR2(8),
+    "NOM"         VARCHAR2(20),
+    "PRENOM"      VARCHAR2(20),
+    "DESCRIPTION" VARCHAR2(100),
+    "TEL"         VARCHAR2(8),
+    "MAIL"        VARCHAR2(100),
+    "ADR"         VARCHAR2(100),
+    constraint  "PERMISSION_PK" primary key ("ID")
+)
+/
+
+CREATE trigger "BI_PERMISSION"
+  before insert on "PERMISSION"
+  for each row
+begin
+  if :NEW."ID" is null then
+    select "PERMISSIONSEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/
+
+create sequence "SEQREVENU"
+start with 1
+increment by 1
+maxvalue 1000
+nocache
+cycle
+noorder
+/
+
+CREATE table "REVENU" (
+    "ID"         NUMBER(5,0),
+    "TYPE"       VARCHAR2(50),
+    "PRIX"       varchar2(100),
+    "DATES"      Date,
+    constraint  "REVENU_PK" primary key ("ID")
+)
+/
+
+CREATE trigger "BI_REVENU"
+  before insert on "REVENU"
+  for each row
+begin
+  if :NEW."ID" is null then
+    select "SEQREVENU".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/
+
+create sequence "MATERIELSEQ"
+start with 1
+increment by 1
+maxvalue 10000
+nocache
+cycle
+noorder
+/
+
+drop table materiel
+
+CREATE table "MATERIEL" (
+    "ID	"         VARCHAR2(30),
+    "DESIGNATION" VARCHAR2(50),
+    "QTE"         NUMBER,
+    "PRIX"        VARCHAR2(50),
+    constraint  "MATERIEL_PK" primary key ("ID	")
+)
+/
+
+CREATE trigger "BI_MATERIEL"
+  before insert on "MATERIEL"
+  for each row
+begin
+  if :NEW."ID" is null then
+    select "MATERIELSEQ".nextval into :NEW."ID" from dual;
+  end if;
+end;
+/
+
+
+
+
+
 
 
 

@@ -9,11 +9,14 @@ public class Doleance {
     private final String type;
     private final String nom ;
     private final String cin ;
+    private final String tel ;
+    private final String mail ;
+    private final String adr ;
     private final String status;
     private final String description;
     private CheckBox check;
 
-    public Doleance(String id, String type, String nom, String cin,String status,String description) {
+    public Doleance(String id, String type, String nom, String cin,String status,String description , String tel ,String mail , String adr) {
         this.id = id;
         this.type = type;
         this.nom = nom;
@@ -21,11 +24,30 @@ public class Doleance {
         this.status= status;
         this.description = description;
         this.check = new CheckBox();
+        this.tel = tel ;
+        this.mail = mail;
+        this.adr = adr ;
     }
 
     public String getDescription() {
         return description;
     }
+
+
+    public String getTel() {
+        return tel;
+    }
+
+
+    public String getMail() {
+        return mail;
+    }
+
+
+    public String getAdr() {
+        return adr;
+    }
+
 
     public  String getId() {
         return id;
