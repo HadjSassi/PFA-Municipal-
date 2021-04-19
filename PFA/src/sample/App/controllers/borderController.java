@@ -3,6 +3,8 @@ package sample.App.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -10,7 +12,12 @@ import sample.App.FxmlLoader;
 import sample.App.Main;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class borderController implements Initializable {
     private double xOffSet = 0;
@@ -85,4 +92,5 @@ public class borderController implements Initializable {
         mainscreen.getChildren().setAll(view);
         makeStageDragable();
     }
+
 }

@@ -95,7 +95,7 @@ public class UpdateMateriel implements Initializable {
         String salaire = qtefield.getText();
         if (!salaire.isEmpty()){
             if (!isNumeric(salaire)) {
-                lblqte.setText("🠔 Le salaire est un nombre entier!");
+                lblqte.setText("🠔 La quantité est un nombre entier!");
                 qtefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 lblqte.setStyle("-fx-text-fill: red");
                 verqte=false;

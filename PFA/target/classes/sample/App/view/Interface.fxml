@@ -14,7 +14,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #212121;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="73.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="img" fitHeight="73.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/icon.png" />
                      </image>
@@ -22,14 +22,14 @@
                         <Insets bottom="10.0" top="50.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label text="Foulen Ben Foulen" textFill="#e7e5e5">
+                  <Label fx:id="name" text="Foulen Ben Foulen" textFill="#e7e5e5">
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksAccueil" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Accueil" textFill="#e7e5e5">
+                  <Button fx:id="g1" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksAccueil" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Accueil" textFill="#e7e5e5">
                      <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="i1" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/home2.png" />
                            </image>
@@ -45,9 +45,9 @@
                         <Insets left="50.0" />
                      </padding>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksInfo" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Info">
+                  <Button fx:id="g2" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksInfo" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Info">
                      <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="i2" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/info2.png" />
                            </image>
@@ -57,9 +57,9 @@
                         <Insets left="50.0" />
                      </padding>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksGestions" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestions">
+                  <Button fx:id="g3" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksGestions" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Gestions">
                      <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="i3" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/menu.png" />
                            </image>
@@ -69,9 +69,9 @@
                         <Insets left="50.0" />
                      </padding>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksParametre" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Paramètre">
+                  <Button fx:id="g4" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksParametre" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Paramètre">
                      <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="i4" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/parameter.png" />
                            </image>
@@ -81,9 +81,9 @@
                         <Insets left="50.0" />
                      </padding>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksDeconnecter" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Déconnecter">
+                  <Button fx:id="g5" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicksDeconnecter" prefHeight="42.0" prefWidth="259.0" stylesheets="@../css/style.css" text="Déconnecter">
                      <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="i5" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/log_out.png" />
                            </image>

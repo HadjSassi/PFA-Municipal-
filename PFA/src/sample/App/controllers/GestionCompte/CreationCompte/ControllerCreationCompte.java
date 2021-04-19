@@ -44,7 +44,7 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 public class ControllerCreationCompte implements Initializable {
 
 
-    private String URL_Logo;
+    private String URL_Logo = "C:\\Users\\Kerkennah\\Desktop\\PFA\\src\\sample\\images\\icon.png";
 
     @FXML
     private Label lbl ;

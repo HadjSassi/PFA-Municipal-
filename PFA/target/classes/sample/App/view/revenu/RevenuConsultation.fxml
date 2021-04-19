@@ -34,7 +34,7 @@
                         <Image url="@../../../images/icons8_Search_52px.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Engins" textFill="#f2f0f0">
+                <Label layoutX="24.0" layoutY="28.0" prefHeight="44.0" prefWidth="305.0" text="Gestion des Revenu" textFill="#f2f0f0">
                     <font>
                         <Font size="28.0" />
                     </font>
@@ -67,6 +67,16 @@
                         </ImageView>
                     </graphic>
                 </Button>
+            <Label fx:id="tot" layoutX="177.0" layoutY="90.0" prefHeight="20.0" prefWidth="116.0" text="Totale des Depense :" textFill="#f2f0f0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="90.0" prefHeight="3.0" prefWidth="149.0" text="Totale des Depense :" textFill="#f2f0f0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </children>

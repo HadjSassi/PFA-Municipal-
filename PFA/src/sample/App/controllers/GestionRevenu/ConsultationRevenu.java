@@ -79,6 +79,8 @@ public class ConsultationRevenu implements Initializable {
     @FXML
     private TextField filterField;
 
+    @FXML
+    private Label tot ;
 
     private sample.App.controllers.gInterfaceController it ;
 
@@ -262,6 +264,8 @@ public class ConsultationRevenu implements Initializable {
 
 
     private void loadData(){
+        double tt = 0;
+        String t ;
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
@@ -275,6 +279,19 @@ public class ConsultationRevenu implements Initializable {
         }
 
         tableView.setItems(oblist);
+
+        try {
+            connection= getOracleConnection();
+            rs = connection.createStatement().executeQuery("select prix from revenu ");
+            while(rs.next()){
+                t = rs.getString("prix");
+                tt += Double.parseDouble(t);
+            }
+            rs.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        tot.setText(String.valueOf(tt));
     }
 
     @FXML

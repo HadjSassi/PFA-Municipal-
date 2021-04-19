@@ -79,7 +79,7 @@ public class CreationMateriel implements Initializable {
         String salaire = qtefield.getText();
         if (!salaire.isEmpty()){
             if (!isNumeric(salaire)) {
-                lblqte.setText("🠔 Le salaire est un nombre entier!");
+                lblqte.setText("🠔 La quantité est un nombre entier!");
                 qtefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 lblqte.setStyle("-fx-text-fill: red");
                 verqte=false;
@@ -195,10 +195,9 @@ public class CreationMateriel implements Initializable {
         designationfield.setValue(null);
         try {
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval from dual");
+            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval tt from dual");
             while(rs.next()){
-                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
-                lblid.setText(rs.getString("nextval"));
+                lblid.setText(rs.getString("tt"));
             }
             rs.close();
         } catch (SQLException throwables) {
@@ -227,10 +226,9 @@ public class CreationMateriel implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             Connection connection= getOracleConnection();
-            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval from dual");
+            ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval tt from dual");
             while(rs.next()){
-                // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
-                lblid.setText(rs.getString("nextval"));
+                lblid.setText(rs.getString("tt"));
             }
             rs.close();
         } catch (SQLException throwables) {
