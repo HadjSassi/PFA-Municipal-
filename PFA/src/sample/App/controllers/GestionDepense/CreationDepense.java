@@ -48,7 +48,7 @@ public class CreationDepense implements Initializable {
     private TextField prixfield ;
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private DatePicker datefield;
@@ -89,9 +89,9 @@ public class CreationDepense implements Initializable {
     }
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le type d'engin");
+    void verifService(KeyEvent  event) {
+        if(Typefield.getText().isEmpty()){
+            lblType.setText("🠔 Saisir le type de depense");
             verservice = false;
             lblType.setStyle("-fx-text-fill: red");
             Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
@@ -155,16 +155,30 @@ public class CreationDepense implements Initializable {
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             LocalDate dispo = datefield.getValue();
             String prix = prixfield.getText();
-            if (!verdate || !verprix) {
+            if (!verdate || !verprix || !verservice) {
                 if(!verdate) {
                     lbldate.setText("🠔 Remplir ce champ");
                     verdate = false;
                     lbldate.setStyle("-fx-text-fill: red");
                     datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 }
+
+                if(!verservice){
+                    if(Typefield.getText().isEmpty()){
+                        lblType.setText("🠔 Saisir le type de depense");
+                        verservice = false;
+                        lblType.setStyle("-fx-text-fill: red");
+                        Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+                    else{
+                        lblType.setStyle("-fx-text-fill: #32CD32");
+                        lblType.setText("✓");
+                        verservice = true;
+                        Typefield.setStyle("-fx-background-color:white;");}
+                }
+
                 if(!verprix){
                     verprix=false;
                     lblprix.setText("🠔 Remplir ce champ");
@@ -179,7 +193,7 @@ public class CreationDepense implements Initializable {
                     connection = getOracleConnection();
                     try {
 
-                        String insertion = "insert into depense values (null,"   +"\'"+Typefield.getValue()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
+                        String insertion = "insert into depense values (null,"   +"\'"+Typefield.getText()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         System.out.println(insertion);
                         rs.execute();
@@ -213,7 +227,7 @@ public class CreationDepense implements Initializable {
 
 
     private void refresh(){
-        Typefield.setValue(null);
+        Typefield.clear();
         lbldate.setText("");
         lblprix.setText("");
         lblType.setText("");
@@ -257,12 +271,6 @@ public class CreationDepense implements Initializable {
         } catch (SQLException throwables) {
             System.out.println("1000000 dawa7");
         }
-
-
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.Engin.toString(),Type.Salaire.toString(),Type.Outil.toString(),Type.Intervention.toString(),Type.Evenement.toString(),Type.Autre.toString());
-        Typefield.getItems().setAll(list);
     }
 
 

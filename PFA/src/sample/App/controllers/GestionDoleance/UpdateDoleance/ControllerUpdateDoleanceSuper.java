@@ -19,6 +19,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
@@ -54,7 +58,7 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
     private Label lbl;//pour le succée s'affiche en vert
 
     @FXML
-    private ChoiceBox<String> TypeEnum;
+    private TextField TypeEnum;
 
     @FXML
     private TextField nameTextField ;
@@ -81,6 +85,13 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
     @FXML
     private Button buttonFermer ;
 
+
+    @FXML
+    private DatePicker datefield;
+
+    @FXML
+    private Label lbldate;
+
     public boolean isAlpha(String name) {
         return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
     }
@@ -89,7 +100,7 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
         return string.matches("[0-9]+");
     }
 
-    private boolean vernom,vercin;
+    private boolean vernom = true ,vercin = true,verdate = true ;
 
     @FXML
     void verifCin(KeyEvent event) {
@@ -122,6 +133,34 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
     }
 
     private boolean vertel = true ;
+
+
+    @FXML
+    void verifDate(ActionEvent  event) {
+        if(String.valueOf(datefield.getValue()).length()!=10){
+            lbldate.setText("🠔 Remplir ce champ");
+            verdate = false;
+            lbldate.setStyle("-fx-text-fill: red");
+            datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+        else{
+            if(Period.between(datefield.getValue(), LocalDate.now()).getDays()<0){
+                lbldate.setText("🠔 Date invalide");
+                verdate = false;
+                lbldate.setStyle("-fx-text-fill: red");
+                datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+            else{
+                lbldate.setStyle("-fx-text-fill: #32CD32");
+                lbldate.setText("✓");
+                verdate = true;
+                datefield.setStyle("-fx-background-color:#32CD32;");}
+        }}
+
+    private String convertDate (String d){
+        String year = ""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
+        String month= ""+d.charAt(5)+d.charAt(6);
+        String day=""+d.charAt(8)+d.charAt(9) ;
+        return ""+day+"/"+month+"/"+year;
+    }
 
     @FXML
     void VerifTel(KeyEvent event) {
@@ -164,7 +203,6 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
     @FXML
     void VerifMail(KeyEvent event){
         try {
-            verMail = false;
             boolean b = false;
             String ml = mailfield.getText();
             if (!ml.isEmpty()) {
@@ -215,7 +253,6 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
 
     @FXML
     void verifNom(KeyEvent event) {
-        vernom=false;
         String nom = nameTextField.getText();
         if(!nom.isEmpty()){
             if (!isAlpha(nom)) {
@@ -235,13 +272,16 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
         }
     }
 
+    private boolean verser ;
     @FXML
-    void verifService(ActionEvent  event) {
-        if(TypeEnum.getValue()==null){
-            lblTypeError.setText("🠔 Selectionner le service");
+    void verifService(KeyEvent  event) {
+        if(TypeEnum.getText().isEmpty()){
+            verser = false;
+            lblTypeError.setText("🠔 Saisir le type doleance");
             lblTypeError.setStyle("-fx-text-fill: red");
             TypeEnum.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
+            verser =true;
             lblTypeError.setStyle("-fx-text-fill: #32CD32");
             lblTypeError.setText("✓");
             TypeEnum.setStyle("-fx-background-color:white;");}
@@ -252,15 +292,34 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
         try {
             String cin = CinTextField.getText();
             String nom = nameTextField.getText();
-            String service = TypeEnum.getValue();
+            String service = TypeEnum.getText();
             String description = DescriptionFiled.getText();
-            if (!vernom || !vercin || service == null|| !verMail || !vertel) {
+            if (!verdate ||!vernom || !vercin || service == null|| !verMail || !vertel || !verser) {
                 if (nom.isEmpty()) {
                     lblNomEror.setText("🠔 Remplir ce champ");
                     lblNomEror.setStyle("-fx-text-fill: red");
                     nameTextField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
 
+                if(!verser){
+                    if(TypeEnum.getText().isEmpty()){
+                        verser = false;
+                        lblTypeError.setText("🠔 Saisir le type doleance");
+                        lblTypeError.setStyle("-fx-text-fill: red");
+                        TypeEnum.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+                    else{
+                        verser =true;
+                        lblTypeError.setStyle("-fx-text-fill: #32CD32");
+                        lblTypeError.setText("✓");
+                        TypeEnum.setStyle("-fx-background-color:white;");}
+                }
+
+                if(!verdate) {
+                    lbldate.setText("🠔 Remplir ce champ");
+                    verdate = false;
+                    lbldate.setStyle("-fx-text-fill: red");
+                    datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                }
                 if (cin.isEmpty()) {
                     lblCinError.setText("🠔 Remplir ce champ");
                     lblCinError.setStyle("-fx-text-fill: red");
@@ -270,14 +329,12 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
 
                 if(!verMail){
                     lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
-                    verMail = false;
                     mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                     lblmail.setStyle("-fx-text-fill: red");
                 }
 
                 if(!vertel){
                     lbltel.setText("🠔 C'est un nombre composé de 8 chiffres !");
-                    vertel = false;
                     telfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                     lbltel.setStyle("-fx-text-fill: red");
                 }
@@ -292,15 +349,6 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
                     lblCinError.setText("🠔 Remplir ce champ");
                     lblCinError.setStyle("-fx-text-fill: red");
                     CinTextField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                }
-                if (service == null) {
-                    lblTypeError.setText("🠔 Selectionner le service");
-                    lblTypeError.setStyle("-fx-text-fill: red");
-                    TypeEnum.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                } else {
-                    lblTypeError.setStyle("-fx-text-fill: #32CD32");
-                    lblTypeError.setText("✓");
-                    TypeEnum.setStyle("-fx-background-color:white;");
                 }
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -317,7 +365,7 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
                     //String insertion = "UPDATE doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getValue()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'initiale',"+"\'"+DescriptionFiled.getText()+"\'"+")";
 
                     String insertion = "Update doleance set " +
-                            "Type = "+"\'"+TypeEnum.getValue()+"\'"+", Nom ="+"\'"+nameTextField.getText()+"\'"+", Cin = "+"\'"+CinTextField.getText()+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+", Description = "+"\'"+DescriptionFiled.getText()+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+"where ID = "+Integer.parseInt(lblId.getText())+"";
+                            "Type = "+"\'"+TypeEnum.getText()+"\'"+", Nom ="+"\'"+nameTextField.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", Cin = "+"\'"+CinTextField.getText()+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+", Description = "+"\'"+DescriptionFiled.getText()+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+"where ID = "+Integer.parseInt(lblId.getText())+"";
 
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
@@ -357,24 +405,26 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
     ObservableList list2= FXCollections.observableArrayList();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        list.removeAll();
-        list.addAll(type_Doleance.doleance.toString(),type_Doleance.chakwa.toString(),type_Doleance.matlab.toString());
-        TypeEnum.getItems().setAll(list);
         list2.removeAll();
         list2.addAll(Etat.Initiale.toString(),Etat.Approuvé.toString(),Etat.Refusé.toString(),Etat.EnCours.toString(),Etat.Terminé.toString());
         EtatEnum.getItems().setAll(list2);
-
+        EtatEnum.setValue(Etat.Initiale.toString());
     }
-    public void setTextField(String id, String type, String nom, String cin, String description,String Status,String tel ,String mail ,String adr) {
+    public void setTextField(String id, String type, String nom, String cin, String description,String Status,String tel ,String mail ,String adr, String date) {
         this.CinTextField.setText(cin);
         this.lblId.setText(id);
         this.DescriptionFiled.setText(description);
         this.EtatEnum.setValue(Status);
         this.nameTextField.setText(nom);
-        this.TypeEnum.setValue(type);
+        this.TypeEnum.setText(type);
         this.adrfield.setText(adr);
         this.mailfield.setText(mail);
         this.telfield.setText(tel);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
+        LocalDate dateTime = LocalDate.parse(date, formatter);
+        this.datefield.setValue(dateTime);
+        verdate= true;
+
     }
 
 

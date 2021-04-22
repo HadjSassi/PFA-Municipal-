@@ -74,7 +74,7 @@ public class UpdatePermission implements Initializable {
     private TextArea descriptionfiled ;
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private Button buttonConfirmer ;
@@ -84,7 +84,7 @@ public class UpdatePermission implements Initializable {
 
     private String ids ;
 
-    private boolean vernom,verprenom,vercin,verifid;
+    private boolean vernom = true ,verprenom = true ,vercin = true ,verifid = true;
 
     private boolean isAlpha(String name) {
         return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
@@ -132,6 +132,7 @@ public class UpdatePermission implements Initializable {
     }
 
     private boolean verMail = true ;
+    private boolean verser = true;
 
     @FXML
     void VerifMail(KeyEvent event){
@@ -251,12 +252,14 @@ public class UpdatePermission implements Initializable {
     }
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le service");
+    void verifService(KeyEvent  event) {
+        if(Typefield.getText().isEmpty()){
+            verser = false ;
+            lblType.setText("🠔 Saisir le type de permission");
             lblType.setStyle("-fx-text-fill: red");
             Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
+            verser = true ;
             lblType.setStyle("-fx-text-fill: #32CD32");
             lblType.setText("✓");
             Typefield.setStyle("-fx-background-color:white;");}
@@ -267,15 +270,26 @@ public class UpdatePermission implements Initializable {
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
             String cin = cinfield.getText();
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             String nom = nomfield.getText();
             String prenom = prenomfield.getText();
             String desc = descriptionfiled.getText();
 
 
-            if (  !vercin|| !vernom || !verprenom   ||type == null  || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty()|| !verMail || !vertel) {
+            if (  !vercin|| !vernom || !verprenom   ||type == null  || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty()|| !verMail || !vertel ||!verser ) {
 
-
+                if(!verser){
+                    if(Typefield.getText().isEmpty()){
+                        verser = false ;
+                        lblType.setText("🠔 Saisir le type de permission");
+                        lblType.setStyle("-fx-text-fill: red");
+                        Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+                    else{
+                        verser = true ;
+                        lblType.setStyle("-fx-text-fill: #32CD32");
+                        lblType.setText("✓");
+                        Typefield.setStyle("-fx-background-color:white;");}
+                }
 
                 if(!verMail){
                     lblmail.setText("🠔 le mail est sous la forme abc@ijk.xyz!");
@@ -291,7 +305,7 @@ public class UpdatePermission implements Initializable {
                     lbltel.setStyle("-fx-text-fill: red");
                 }
 
-                if (cin.isEmpty() && vercin) {
+                if (!vercin) {
                     lblcin.setText("🠔 Remplir ce champ");
                     lblcin.setStyle("-fx-text-fill: red");
                     cinfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
@@ -311,15 +325,6 @@ public class UpdatePermission implements Initializable {
 
 
 
-                if (type == null) {
-                    lblType.setText("🠔 Selectionner le type de permission");
-                    lblType.setStyle("-fx-text-fill: red");
-                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                } else {
-                    lblType.setStyle("-fx-text-fill: #32CD32");
-                    lblType.setText("✓");
-                    Typefield.setStyle("-fx-background-color:white;");
-                }
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.initStyle(StageStyle.TRANSPARENT);
@@ -369,7 +374,7 @@ public class UpdatePermission implements Initializable {
                 cinfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             }
 
-            if(Typefield.getValue().isEmpty())
+            if(Typefield.getText().isEmpty())
             {
                 lblType.setText("🠔 Remplir ce champ");
                 lblType.setStyle("-fx-text-fill: red");
@@ -404,17 +409,14 @@ public class UpdatePermission implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.permission_de_sortie.toString(),Type.permission_de_voirie.toString(),Type.permission_de_sortir_confinnement.toString());
-        Typefield.getItems().setAll(list);
+
 
     }
 
     public void setTextField(String id, String type, String nom, String prenom , String cin , String desc , String tel ,String mail ,String adr) {
         this.lblid.setText(id);
         this.ids = id;
-        this.Typefield.setValue(type);
+        this.Typefield.setText(type);
         this.nomfield.setText(nom);
         this.prenomfield.setText(prenom);
         this.cinfield.setText(cin);

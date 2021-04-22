@@ -30,50 +30,50 @@ public class CreationEngin implements Initializable {
     private Label matriculelbl;
 
     @FXML
-    private Label lblType ;
+    private Label lblType;
 
     @FXML
     private Label lblmarque;
 
     @FXML
-    private Label lbldispo ;
+    private Label lbldispo;
 
     @FXML
-    private TextField matrifield ;
+    private TextField matrifield;
 
     @FXML
-    private TextField marquefield ;
+    private TextField marquefield;
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private ChoiceBox<String> dispofield;
 
     @FXML
-    private Button buttonConfirmer ;
+    private Button buttonConfirmer;
 
     @FXML
-    private Button buttonFermer ;
+    private Button buttonFermer;
 
 
     private boolean matricule = false;
-    private boolean marque = false ;
+    private boolean marque = false;
 
 
     @FXML
-    void verifMatricule (KeyEvent event){
+    void verifMatricule(KeyEvent event) {
         String mat = matrifield.getText();
-        if(!mat.isEmpty()){
+        if (!mat.isEmpty()) {
             matrifield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             matriculelbl.setText("✓");
-            matricule = true ;
-            matriculelbl.setStyle("-fx-text-fill: #32CD32");}
-        else{
+            matricule = true;
+            matriculelbl.setStyle("-fx-text-fill: #32CD32");
+        } else {
             matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             matriculelbl.setStyle("-fx-text-fill: red");
             matriculelbl.setText("🠔 Remplir ce champ");
-            matricule = false ;
+            matricule = false;
         }
     }
 
@@ -81,11 +81,11 @@ public class CreationEngin implements Initializable {
     public static boolean isFloat(String string) {
         try {
             Float.parseFloat(string);
-            if (string.length() >=3){
+            if (string.length() >= 3) {
 
                 try {
                     String[] p = string.split("\\.");
-                    if (p[0].length() <= 6 && p[1].length()<=3)
+                    if (p[0].length() <= 6 && p[1].length() <= 3)
                         return true;
                     else {
                         return false;
@@ -93,44 +93,45 @@ public class CreationEngin implements Initializable {
                 } catch (IndexOutOfBoundsException e) {
                     return true;
                 }
-            }
-            else
+            } else
                 return true;
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
         }
         return false;
     }
 
 
     @FXML
-    void verifMarque (KeyEvent event){
+    void verifMarque(KeyEvent event) {
         String mat = marquefield.getText();
-        if(!mat.isEmpty()){
+        if (!mat.isEmpty()) {
             marquefield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             lblmarque.setText("✓");
-            marque = true ;
-            lblmarque.setStyle("-fx-text-fill: #32CD32");}
-        else{
+            marque = true;
+            lblmarque.setStyle("-fx-text-fill: #32CD32");
+        } else {
             marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             lblmarque.setStyle("-fx-text-fill: red");
             lblmarque.setText("🠔 Remplir ce champ");
-            marque = false ;
+            marque = false;
         }
     }
 
+    private boolean verservice;
+
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le type d'engin");
+    void verifService(KeyEvent event) {
+        if (Typefield.getText().isEmpty()) {
+            lblType.setText("🠔 Saisir le type d'engin");
+            verservice = false;
             lblType.setStyle("-fx-text-fill: red");
-            Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
-        else{
+            Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+        } else {
             lblType.setStyle("-fx-text-fill: #32CD32");
             lblType.setText("✓");
-            Typefield.setStyle("-fx-background-color:white;");}
-            lbldispo.setStyle("-fx-text-fill: #32CD32");
-            lbldispo.setText("✓");
-            dispofield.setStyle("-fx-background-color:white;");
+            verservice = true;
+            Typefield.setStyle("-fx-background-color:white;");
+        }
     }
 
 
@@ -139,14 +140,23 @@ public class CreationEngin implements Initializable {
         try {
             String mat = matrifield.getText();
             String mar = marquefield.getText();
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             String dispo = dispofield.getValue();
-            if (!matricule || !marque || type == null || dispo == null) {
+            if (!matricule || !marque || type == null || dispo == null || !verservice) {
                 if (mat.isEmpty()) {
                     matriculelbl.setText("🠔 Remplir ce champ");
                     matriculelbl.setStyle("-fx-text-fill: red");
                     matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
+
+
+                if (!verservice) {
+                    lblType.setText("🠔 Saisir le type de depense");
+                    verservice = false;
+                    lblType.setStyle("-fx-text-fill: red");
+                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                }
+
 
                 if (mar.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
@@ -167,16 +177,6 @@ public class CreationEngin implements Initializable {
                 }
 
 
-
-                if (type == null) {
-                    lblType.setText("🠔 Selectionner le service");
-                    lblType.setStyle("-fx-text-fill: red");
-                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                } else {
-                    lblType.setStyle("-fx-text-fill: #32CD32");
-                    lblType.setText("✓");
-                    Typefield.setStyle("-fx-background-color:white;");
-                }
                 if (dispo == null) {
                     lbldispo.setText("🠔 Selectionner le service");
                     lbldispo.setStyle("-fx-text-fill: red");
@@ -198,23 +198,22 @@ public class CreationEngin implements Initializable {
                 try {
                     connection = getOracleConnection();
                     try {
-                        String insertion = "INSERT INTO engin values(" + "\'" + matrifield.getText() + "\'" + "," + "\'" + Typefield.getValue().toString() + "\'" + "," + "\'" + dispofield.getValue().toString() + "\'" + "," + "\'" + marquefield.getText() + "\'" +  ")";
+                        String insertion = "INSERT INTO engin values(" + "\'" + matrifield.getText() + "\'" + "," + "\'" + Typefield.getText() + "\'" + "," + "\'" + dispofield.getValue().toString() + "\'" + "," + "\'" + marquefield.getText() + "\'" + ")";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
 
-                            rs.execute();
+                        rs.execute();
 
 
-                    //lbl.setText("Ajout avec succés");
-                    refresh();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.initStyle(StageStyle.TRANSPARENT);
-                    alert.setHeaderText(null);
-                    alert.setContentText("Ajout avec succés");
-                    alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved.png").toURI().toString()));
-                    alert.showAndWait();
-                    }
-                    catch (NumberFormatException e){
+                        //lbl.setText("Ajout avec succés");
+                        refresh();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.initStyle(StageStyle.TRANSPARENT);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Ajout avec succés");
+                        alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved.png").toURI().toString()));
+                        alert.showAndWait();
+                    } catch (NumberFormatException e) {
 
                     }
                 } catch (SQLException | URISyntaxException throwables) {
@@ -222,19 +221,24 @@ public class CreationEngin implements Initializable {
                 }
 
             }
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //System.out.println("you have an error go check please mr Mahdi");
-            matriculelbl.setText("🠔 Cette matricule existe déjà");
-            matriculelbl.setStyle("-fx-text-fill: red");
-            matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+            if (matriculelbl.getText().isEmpty()) {
+                matriculelbl.setText("🠔 Remplir ce champ");
+                matriculelbl.setStyle("-fx-text-fill: red");
+                matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
 
+            } else {
+                matriculelbl.setText("🠔 Cette matricule existe déjà");
+                matriculelbl.setStyle("-fx-text-fill: red");
+                matrifield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+            }
         }
     }
 
 
-    private void refresh(){
-        Typefield.setValue(null);
+    private void refresh() {
+        Typefield.clear();
         dispofield.setValue(null);
         matrifield.setText("");
         marquefield.setText("");
@@ -250,10 +254,10 @@ public class CreationEngin implements Initializable {
         lbldispo.setText("✓");
         dispofield.setStyle("-fx-background-color:white;");
         dispofield.setValue(Type.Oui.toString());
-        Typefield.setValue(Type.Voiture.toString());
     }
+
     @FXML
-    public void fermerButton (ActionEvent event){
+    public void fermerButton(ActionEvent event) {
         // get a handle to the stage
         Stage stage = (Stage) buttonFermer.getScene().getWindow();
         // do what you have to do
@@ -263,19 +267,18 @@ public class CreationEngin implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList list= FXCollections.observableArrayList();
-        ObservableList list1= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.Autobus.toString(),Type.Camion.toString(),Type.Camionnette.toString(),Type.Tractor.toString(),Type.Trax.toString(),Type.Voiture.toString());
-        Typefield.getItems().setAll(list);
-        Typefield.setValue(Type.Voiture.toString());
+        ObservableList list1 = FXCollections.observableArrayList();
         list1.removeAll();
-        list1.addAll(Type.Oui.toString(),Type.Non.toString());
+        list1.addAll(Type.Oui.toString(), Type.Non.toString());
         dispofield.getItems().setAll(list1);
         dispofield.setValue(Type.Oui.toString());
-
+        lbldispo.setStyle("-fx-text-fill: #32CD32");
+        lbldispo.setText("✓");
     }
 
 
+    @FXML
+    public void verifDispo(ActionEvent event) {
 
+    }
 }

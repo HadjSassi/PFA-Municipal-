@@ -43,7 +43,7 @@ public class CreationMateriel implements Initializable {
     private TextField qtefield ;
 
     @FXML
-    private ChoiceBox<String> designationfield;
+    private TextField designationfield;
 
     @FXML
     private Button buttonConfirmer ;
@@ -55,16 +55,16 @@ public class CreationMateriel implements Initializable {
     private boolean verser , verqte  ;
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(designationfield.getValue()==null){
-            verser = false ;
-            lbldesignation.setText("🠔 Selectionner la designation du materiel");
+    void verifService(KeyEvent  event) {
+        if(designationfield.getText().isEmpty()){
+            lbldesignation.setText("🠔 Saisir le type de depense");
+            verser = false;
             lbldesignation.setStyle("-fx-text-fill: red");
             designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
-            verser = true ;
             lbldesignation.setStyle("-fx-text-fill: #32CD32");
             lbldesignation.setText("✓");
+            verser = true;
             designationfield.setStyle("-fx-background-color:white;");}
     }
 
@@ -126,7 +126,7 @@ public class CreationMateriel implements Initializable {
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
             String qte = qtefield.getText();
-            String type = designationfield.getValue();
+            String type = designationfield.getText();
 
 
 
@@ -141,7 +141,7 @@ public class CreationMateriel implements Initializable {
 
 
                 if (!verser) {
-                    lbldesignation.setText("🠔 Selectionner le service");
+                    lbldesignation.setText("🠔 Selectionner la designation");
                     lbldesignation.setStyle("-fx-text-fill: red");
                     designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 } else {
@@ -162,7 +162,7 @@ public class CreationMateriel implements Initializable {
                     connection = getOracleConnection();
 
 
-                    String insertion = "INSERT INTO MATERIEL values( null ,"+"\'"+designationfield.getValue().toString()+"\'"+","+qtefield.getText()+")";
+                    String insertion = "INSERT INTO MATERIEL values( null ,"+"\'"+designationfield.getText().toString()+"\'"+","+qtefield.getText()+")";
 
 
 
@@ -192,7 +192,7 @@ public class CreationMateriel implements Initializable {
 
 
     private void refresh(){
-        designationfield.setValue(null);
+        designationfield.clear();
         try {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select MATERIELSEQ.nextval tt from dual");
@@ -235,12 +235,6 @@ public class CreationMateriel implements Initializable {
             System.out.println("1000000 dawa7");
         }
 
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-
-        list.addAll(Type.Jardinage.toString(),Type.Poubelle.toString(),Type.barriere_de_securite.toString(),Type.barwita.toString(),Type.drapeaux.toString());
-
-        designationfield.getItems().setAll(list);
 
     }
 

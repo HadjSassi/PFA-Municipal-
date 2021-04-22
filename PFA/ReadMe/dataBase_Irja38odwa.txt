@@ -68,8 +68,11 @@ begin
   end if;
 end;
 /
+alter table doleance add (dates date);
+
 
 alter table compte add (role varchar2(50)) ;
+alter table compte modify(image varchar2(100));
 
 create table Engin (
 id varchar2(50) primary key,

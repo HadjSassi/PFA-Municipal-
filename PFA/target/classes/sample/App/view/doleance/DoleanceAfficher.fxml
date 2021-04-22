@@ -92,12 +92,12 @@
             </Label>
          </children>
       </HBox>
-      <Label layoutX="44.0" layoutY="279.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
+      <Label layoutX="45.0" layoutY="320.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text=" Description :">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label fx:id="DescriptionFiled" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="93.0" layoutY="313.0" prefHeight="112.0" prefWidth="467.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+      <Label fx:id="DescriptionFiled" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="94.0" layoutY="346.0" prefHeight="80.0" prefWidth="467.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -142,7 +142,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox layoutX="358.0" layoutY="275.0" prefHeight="26.0" prefWidth="248.0">
+      <HBox layoutX="358.0" layoutY="275.0" prefHeight="26.0" prefWidth="248.0" AnchorPane.topAnchor="268.0">
          <children>
             <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Adr :">
                <font>
@@ -156,5 +156,15 @@
             </Label>
          </children>
       </HBox>
+      <Label layoutX="43.0" layoutY="266.0" prefHeight="19.0" prefWidth="41.0" stylesheets="@../../css/addStyle.css" text="Date :" AnchorPane.topAnchor="269.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbldate" layoutX="94.0" layoutY="266.0" prefHeight="19.0" prefWidth="101.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE" AnchorPane.topAnchor="269.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

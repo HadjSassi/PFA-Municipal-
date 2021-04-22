@@ -30,75 +30,73 @@ public class UpdateEngin implements Initializable {
     private Label matriculelbl;
 
     @FXML
-    private Label lblType ;
+    private Label lblType;
 
     @FXML
     private Label lblmarque;
 
     @FXML
-    private Label lbldispo ;
+    private Label lbldispo;
 
     @FXML
-    private TextField marquefield ;
+    private TextField marquefield;
 
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private ChoiceBox<String> dispofield;
 
     @FXML
-    private Button buttonConfirmer ;
+    private Button buttonConfirmer;
 
     @FXML
-    private Button buttonFermer ;
+    private Button buttonFermer;
 
-    private String id ;
-    private boolean marque = false ;
+    private String id;
+    private boolean marque = true , verservice = true;
 
 
     @FXML
-    void verifMarque (KeyEvent event){
+    void verifMarque(KeyEvent event) {
         String mat = marquefield.getText();
-        if(!mat.isEmpty()){
+        if (!mat.isEmpty()) {
             marquefield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             lblmarque.setText("✓");
-            marque = true ;
-            lblmarque.setStyle("-fx-text-fill: #32CD32");}
-        else{
+            marque = true;
+            lblmarque.setStyle("-fx-text-fill: #32CD32");
+        } else {
             marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             lblmarque.setStyle("-fx-text-fill: red");
             lblmarque.setText("🠔 Remplir ce champ");
-            marque = false ;
+            marque = false;
         }
     }
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le type d'engin");
+    void verifService(KeyEvent event) {
+        if (Typefield.getText().isEmpty()) {
+            lblType.setText("🠔 Saisir le type d'engin");
+            verservice = false;
             lblType.setStyle("-fx-text-fill: red");
-            Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
-        else{
+            Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+        } else {
             lblType.setStyle("-fx-text-fill: #32CD32");
             lblType.setText("✓");
-            Typefield.setStyle("-fx-background-color:white;");}
-
-        lbldispo.setStyle("-fx-text-fill: #32CD32");
-        lbldispo.setText("✓");
-        dispofield.setStyle("-fx-background-color:white;");
+            verservice = true;
+            Typefield.setStyle("-fx-background-color:white;");
+        }
     }
-
 
     public static boolean isFloat(String string) {
         try {
             Float.parseFloat(string);
-            if (string.length() >=3){
+            if (string.length() >= 3) {
 
                 try {
                     String[] p = string.split("\\.");
-                    if (p[0].length() <= 6 && p[1].length()<=3)
+                    if (p[0].length() <= 6 && p[1].length() <= 3)
                         return true;
                     else {
                         return false;
@@ -106,25 +104,31 @@ public class UpdateEngin implements Initializable {
                 } catch (IndexOutOfBoundsException e) {
                     return true;
                 }
-            }
-            else
+            } else
                 return true;
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
         }
         return false;
     }
-
 
 
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
             String mar = marquefield.getText();
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             String dispo = dispofield.getValue();
-            if (!marque || type == null || dispo == null) {
+            if (!marque || type == null || dispo == null || !verservice) {
 
                 System.out.println("test");
+
+                if (!verservice) {
+                    lblType.setText("🠔 Saisir le type de depense");
+                    verservice = false;
+                    lblType.setStyle("-fx-text-fill: red");
+                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+                }
+
 
                 if (mar.isEmpty()) {
                     lblmarque.setText("🠔 Remplir ce champ");
@@ -137,7 +141,6 @@ public class UpdateEngin implements Initializable {
                     lblmarque.setStyle("-fx-text-fill: red");
                     marquefield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 }
-
 
 
                 if (type == null) {
@@ -165,22 +168,19 @@ public class UpdateEngin implements Initializable {
                 alert.setContentText("Un des champs n'est pas correctement inserer");
                 alert.setGraphic(new ImageView(getClass().getResource("../../images/errorinsert.png").toURI().toString()));
                 alert.showAndWait();
-            }
-            else
-                {
+            } else {
                 Connection connection = null;
                 try {
                     connection = getOracleConnection();
                     try {
                         String insertion = "Update engin set " +
-                                "Type = "+"\'"+Typefield.getValue()+"\'"+", marque = "+"\'"+marquefield.getText()+"\'"+", dispo = "+"\'"+dispofield.getValue()+"\'"+"where ID = "+"\'"+id+"\'"+"";
+                                "Type = " + "\'" + Typefield.getText() + "\'" + ", marque = " + "\'" + marquefield.getText() + "\'" + ", dispo = " + "\'" + dispofield.getValue() + "\'" + "where ID = " + "\'" + id + "\'" + "";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
-                            rs.execute();
+                        rs.execute();
 
 
                         //lbl.setText("Ajout avec succés");
-                        refresh();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.initStyle(StageStyle.TRANSPARENT);
                         alert.setHeaderText(null);
@@ -190,8 +190,7 @@ public class UpdateEngin implements Initializable {
                         Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
                         // do what you have to do
                         stage.close();
-                    }
-                    catch (NumberFormatException e){
+                    } catch (NumberFormatException e) {
 
                     }
                 } catch (SQLException | URISyntaxException throwables) {
@@ -199,28 +198,14 @@ public class UpdateEngin implements Initializable {
                 }
 
             }
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //System.out.println("you have an error go check please mr Mahdi");
 
         }
     }
 
-    private void refresh(){
-        Typefield.setValue(null);
-        dispofield.setValue(null);
-        marquefield.setText("");
-        matriculelbl.setText("");
-        lbldispo.setText("");
-        lblmarque.setText("");
-        lblType.setText("");
-        Typefield.setStyle("-fx-background-color:white;");
-        dispofield.setStyle("-fx-background-color:white;");
-        marquefield.setStyle("-fx-background-color:white;");
-
-    }
     @FXML
-    public void fermerButton (ActionEvent event){
+    public void fermerButton(ActionEvent event) {
         // get a handle to the stage
         Stage stage = (Stage) buttonFermer.getScene().getWindow();
         // do what you have to do
@@ -230,26 +215,26 @@ public class UpdateEngin implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList list= FXCollections.observableArrayList();
-        ObservableList list1= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.Autobus.toString(),Type.Camion.toString(),Type.Camionnette.toString(),Type.Tractor.toString(),Type.Trax.toString(),Type.Voiture.toString());
-        Typefield.getItems().setAll(list);
-        Typefield.setValue(Type.Voiture.toString());
+        ObservableList list1 = FXCollections.observableArrayList();
         list1.removeAll();
-        list1.addAll(Type.Oui.toString(),Type.Non.toString());
+        list1.addAll(Type.Oui.toString(), Type.Non.toString());
         dispofield.getItems().setAll(list1);
         dispofield.setValue(Type.Oui.toString());
+        lbldispo.setStyle("-fx-text-fill: #32CD32");
+        lbldispo.setText("✓");
 
     }
 
-    public void setTextField(String id, String type, String dispo, String mar)  {
-        this.id = id ;
+    public void setTextField(String id, String type, String dispo, String mar) {
+        this.id = id;
         this.matriculelbl.setText(id);
         this.marquefield.setText(mar);
-        this.Typefield.setValue(type);
+        this.Typefield.setText(type);
         this.dispofield.setValue(dispo);
     }
 
+    @FXML
+    public void verifDispo(ActionEvent event) {
 
+    }
 }

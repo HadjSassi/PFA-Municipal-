@@ -25,6 +25,7 @@
                   <TableColumn fx:id="typeCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Type" />
                   <TableColumn fx:id="fromCol" maxWidth="1200.0" prefWidth="97.0" style="-fx-alignement: center;" text="Nom-Prenom" />
                   <TableColumn fx:id="cinCol" maxWidth="800.0" prefWidth="97.0" style="-fx-alignement: center;" text="CIN" />
+                  <TableColumn fx:id="datecol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Date" />
                   <TableColumn fx:id="StatusCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Status" />
                   <TableColumn fx:id="modifierCol" maxWidth="1000.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                </columns>

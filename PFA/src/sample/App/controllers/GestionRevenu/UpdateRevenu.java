@@ -49,7 +49,7 @@ public class UpdateRevenu implements Initializable {
     private TextField prixfield ;
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private DatePicker datefield;
@@ -88,9 +88,9 @@ public class UpdateRevenu implements Initializable {
     }
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le type d'engin");
+    void verifService(KeyEvent  event) {
+        if(Typefield.getText().isEmpty()){
+            lblType.setText("🠔 Saisir le type de depense");
             verservice = false;
             lblType.setStyle("-fx-text-fill: red");
             Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
@@ -154,10 +154,24 @@ public class UpdateRevenu implements Initializable {
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             LocalDate dispo = datefield.getValue();
             String prix = prixfield.getText();
-            if (!verdate || !verprix) {
+            if (!verdate || !verprix || !verservice) {
+
+                if(!verservice){
+                    if(Typefield.getText().isEmpty()){
+                        lblType.setText("🠔 Saisir le type de depense");
+                        verservice = false;
+                        lblType.setStyle("-fx-text-fill: red");
+                        Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+                    else{
+                        lblType.setStyle("-fx-text-fill: #32CD32");
+                        lblType.setText("✓");
+                        verservice = true;
+                        Typefield.setStyle("-fx-background-color:white;");}
+                }
+
                 if(!verdate) {
                     lbldate.setText("🠔 Remplir ce champ");
                     verdate = false;
@@ -179,7 +193,7 @@ public class UpdateRevenu implements Initializable {
                     try {
 
                         String insertion = "Update revenu set " +
-                                "Type = "+"\'"+Typefield.getValue()+"\'"+", prix = "+"\'"+prixfield.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
+                                "Type = "+"\'"+Typefield.getText()+"\'"+", prix = "+"\'"+prixfield.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
                         rs.execute();
@@ -222,17 +236,13 @@ public class UpdateRevenu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString(),Type.Autre.toString());
-        Typefield.getItems().setAll(list);
 
     }
 
     public void setTextField(String id, String type, String prix, String date, String desc )  {
         this.id = id ;
         this.matriculelbl.setText(id);
-        this.Typefield.setValue(type);
+        this.Typefield.setText(type);
         this.prixfield.setText(prix);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
         LocalDate dateTime = LocalDate.parse(date, formatter);

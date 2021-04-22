@@ -42,7 +42,7 @@ public class UpdateMateriel implements Initializable {
     private AnchorPane anchorpane;
 
     @FXML
-    private ChoiceBox<String> designationfield;
+    private TextField designationfield;
 
     @FXML
     private Button buttonConfirmer;
@@ -71,16 +71,16 @@ public class UpdateMateriel implements Initializable {
 
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(designationfield.getValue()==null){
-            verser = false ;
-            lbldesignation.setText("🠔 Selectionner la designation du materiel");
+    void verifService(KeyEvent  event) {
+        if(designationfield.getText().isEmpty()){
+            lbldesignation.setText("🠔 Saisir la designation");
+            verser = false;
             lbldesignation.setStyle("-fx-text-fill: red");
             designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
-            verser = true ;
             lbldesignation.setStyle("-fx-text-fill: #32CD32");
             lbldesignation.setText("✓");
+            verser = true;
             designationfield.setStyle("-fx-background-color:white;");}
     }
 
@@ -142,7 +142,7 @@ public class UpdateMateriel implements Initializable {
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
             String qte = qtefield.getText();
-            String type = designationfield.getValue();
+            String type = designationfield.getText();
 
 
 
@@ -159,7 +159,7 @@ public class UpdateMateriel implements Initializable {
 
 
                 if (!verser) {
-                    lbldesignation.setText("🠔 Selectionner le service");
+                    lbldesignation.setText("🠔 Selectionner la designation");
                     lbldesignation.setStyle("-fx-text-fill: red");
                     designationfield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 } else {
@@ -182,7 +182,7 @@ public class UpdateMateriel implements Initializable {
 
 
                     String insertion = "Update Materiel set " +
-                            "DESIGNATION = "+"\'"+designationfield.getValue()+"\'"+",qte = "+"\'"+qtefield.getText()+"\'"+"where ID  = "+"\'"+ids+"\'"+"";
+                            "DESIGNATION = "+"\'"+designationfield.getText()+"\'"+",qte = "+"\'"+qtefield.getText()+"\'"+"where ID  = "+"\'"+ids+"\'"+"";
 
 
 
@@ -193,7 +193,7 @@ public class UpdateMateriel implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.initStyle(StageStyle.TRANSPARENT);
                     alert.setHeaderText(null);
-                    alert.setContentText("Ajout avec succés");
+                    alert.setContentText("Modification avec succés");
                     alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
                     alert.showAndWait();
                     Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
@@ -229,17 +229,14 @@ public class UpdateMateriel implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.Jardinage.toString(),Type.Poubelle.toString(),Type.barriere_de_securite.toString(),Type.barwita.toString(),Type.drapeaux.toString());
-        designationfield.getItems().setAll(list);
+
     }
 
     public void setTextField(String id, String designation, int qte)  {
         ids = id ;
         desi = designation;
         this.idlbl.setText(id);
-        this.designationfield.setValue(designation);
+        this.designationfield.setText(designation);
         this.qtefield.setText(""+qte);
     }
 

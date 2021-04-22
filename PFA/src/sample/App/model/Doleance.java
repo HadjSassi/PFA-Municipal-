@@ -2,6 +2,11 @@ package sample.App.model;
 
 import javafx.scene.control.CheckBox;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Doleance {
 
 
@@ -13,10 +18,15 @@ public class Doleance {
     private final String mail ;
     private final String adr ;
     private final String status;
+    private final String dates;
     private final String description;
     private CheckBox check;
 
-    public Doleance(String id, String type, String nom, String cin,String status,String description , String tel ,String mail , String adr) {
+
+    private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
+            new Locale("fr","FR"));
+
+    public Doleance(String id, String type, String nom, String cin,String status,String description , String tel ,String mail , String adr, Date dates) {
         this.id = id;
         this.type = type;
         this.nom = nom;
@@ -27,6 +37,8 @@ public class Doleance {
         this.tel = tel ;
         this.mail = mail;
         this.adr = adr ;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        this.dates = formatD.format(dates);
     }
 
     public String getDescription() {
@@ -78,10 +90,15 @@ public class Doleance {
         return check;
     }
 
+
     public void setCheck(CheckBox check) {
         this.check = check;
     }
 
+
+    public String getDates() {
+        return dates;
+    }
 
 
 }

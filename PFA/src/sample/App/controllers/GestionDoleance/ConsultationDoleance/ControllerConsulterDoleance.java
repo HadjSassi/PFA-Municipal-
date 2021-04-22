@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.controllers.Authentification;
 import sample.App.controllers.GestionDoleance.AfficherDoleance.ControllerAfficherDoleance;
 import sample.App.controllers.GestionDoleance.UpdateDoleance.ControllerUpdateDoleance;
 import sample.App.controllers.GestionDoleance.UpdateDoleance.ControllerUpdateDoleanceSuper;
@@ -65,6 +66,8 @@ public class ControllerConsulterDoleance implements Initializable {
     TableColumn <Doleance,String> StatusCol ;
     @FXML
     TableColumn <Doleance,String> modifierCol ;
+    @FXML
+    TableColumn <Doleance,String> datecol ;
 
 
     @FXML
@@ -132,6 +135,9 @@ public class ControllerConsulterDoleance implements Initializable {
             else if (dol.getStatus().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
             }
+            else if (dol.getDates().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter type
+            }
             else
                 return false;//doesn't match
         });});
@@ -180,6 +186,9 @@ public class ControllerConsulterDoleance implements Initializable {
         StatusCol.setCellValueFactory(
                 new PropertyValueFactory<>("status")
         );
+        datecol.setCellValueFactory(
+                new PropertyValueFactory<>("dates")
+        );
 
 
 
@@ -222,7 +231,7 @@ public class ControllerConsulterDoleance implements Initializable {
                             }
 
                             ControllerAfficherDoleance addDoleanceController = loader.getController();
-                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus(),doleance.getTel(),doleance.getMail(),doleance.getAdr());
+                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus(),doleance.getTel(),doleance.getMail(),doleance.getAdr(),doleance.getDates());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -232,7 +241,7 @@ public class ControllerConsulterDoleance implements Initializable {
 
                         });
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
-
+                            if (Authentification.role.equals("Direction")) {
                             doleance = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
                             loader.setLocation(getClass().getResource("../../../view/doleance/DoleanceUpdateSuper.fxml"));
@@ -241,17 +250,37 @@ public class ControllerConsulterDoleance implements Initializable {
                             } catch (IOException ex) {
                                 Logger.getLogger(ControllerConsulterDoleance.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                                ControllerUpdateDoleanceSuper addDoleanceController = loader.getController();
+                                addDoleanceController.setTextField(doleance.getId(), doleance.getType(), doleance.getNom(), doleance.getCin(), doleance.getDescription(), doleance.getStatus(), doleance.getTel(), doleance.getMail(), doleance.getAdr(),doleance.getDates());
+                                Parent parent = loader.getRoot();
 
-                            ControllerUpdateDoleanceSuper addDoleanceController = loader.getController();
-                            addDoleanceController.setTextField(doleance.getId(), doleance.getType(),doleance.getNom(),doleance.getCin(),doleance.getDescription(),doleance.getStatus(),doleance.getTel(),doleance.getMail(),doleance.getAdr());
-                            Parent parent = loader.getRoot();
+                                Stage stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UNDECORATED);
+                                stage.showAndWait();
+                                refresh();
+                            }
+                            else{
+                                doleance = tableView.getSelectionModel().getSelectedItem();
+                                FXMLLoader loader = new FXMLLoader ();
+                                loader.setLocation(getClass().getResource("../../../view/doleance/DoleanceUpdate.fxml"));
+                                try {
+                                    loader.load();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ControllerConsulterDoleance.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                ControllerUpdateDoleance addDoleanceController = loader.getController();
+                                addDoleanceController.setTextField(doleance.getId(), doleance.getType(), doleance.getNom(), doleance.getCin(), doleance.getDescription(), doleance.getStatus(), doleance.getTel(), doleance.getMail(), doleance.getAdr(),doleance.getDates());
+                                Parent parent = loader.getRoot();
 
-                            Stage stage = new Stage();
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UNDECORATED);
-                            stage.showAndWait();
-                            refresh();
+                                Stage stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UNDECORATED);
+                                stage.showAndWait();
+                                refresh();
+                            }
 
                         });
 
@@ -290,7 +319,7 @@ public class ControllerConsulterDoleance implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Doleance ");
             while(rs.next()){
-                oblist.add(new Doleance(rs.getString("id"),rs.getString("type"),rs.getString("nom"),rs.getString("cin"),rs.getString("status"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr")));
+                oblist.add(new Doleance(rs.getString("id"),rs.getString("type"),rs.getString("nom"),rs.getString("cin"),rs.getString("status"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr"),rs.getDate("dates")));
             }
             rs.close();
         } catch (SQLException throwables) {

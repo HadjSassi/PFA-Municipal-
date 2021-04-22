@@ -17,6 +17,8 @@ public class ControllerAfficherDoleance {
     private Label lblStatus;
 
 
+    @FXML
+    private Label lbldate;
 
     @FXML
     private Label lblmail;
@@ -53,17 +55,19 @@ public class ControllerAfficherDoleance {
     private Button buttonFermer1;
 
 
-    public void setTextField(String id, String type, String nom, String cin, String description) {
+    public void setTextField(String id, String type, String nom, String cin, String description , String date ) {
         this.CinTextField.setText(cin);
         this.lblId.setText(id);
         this.DescriptionFiled.setText(description);
         this.lblStatus.setText("Initiale");
         this.namelbl.setText(nom);
         this.lblId1.setText(type);
+        this.lbldate.setText(date);
     }
 
-    public void setTextField(String id, String type, String nom, String cin, String description,String Status,String tel,String mail, String adr) {
+    public void setTextField(String id, String type, String nom, String cin, String description,String Status,String tel,String mail, String adr  , String date) {
         this.CinTextField.setText(cin);
+        this.lbldate.setText(date);
         this.lblId.setText(id);
         this.DescriptionFiled.setText(description);
         this.lblStatus.setText(Status);

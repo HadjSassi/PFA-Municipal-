@@ -46,7 +46,7 @@ public class CreationRevenu implements Initializable {
     private TextField prixfield ;
 
     @FXML
-    private ChoiceBox<String> Typefield;
+    private TextField Typefield;
 
     @FXML
     private DatePicker datefield;
@@ -87,9 +87,9 @@ public class CreationRevenu implements Initializable {
     }
 
     @FXML
-    void verifService(ActionEvent  event) {
-        if(Typefield.getValue()==null){
-            lblType.setText("🠔 Selectionner le type d'engin");
+    void verifService(KeyEvent  event) {
+        if(Typefield.getText().isEmpty()){
+            lblType.setText("🠔 Saisir le type de depense");
             verservice = false;
             lblType.setStyle("-fx-text-fill: red");
             Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
@@ -99,7 +99,6 @@ public class CreationRevenu implements Initializable {
             verservice = true;
             Typefield.setStyle("-fx-background-color:white;");}
     }
-
     @FXML
     void verifPrix (KeyEvent event){
         String salaire = prixfield.getText();
@@ -153,10 +152,32 @@ public class CreationRevenu implements Initializable {
     @FXML
     void confirmerButton(ActionEvent event) throws URISyntaxException {
         try {
-            String type = Typefield.getValue();
+            String type = Typefield.getText();
             LocalDate dispo = datefield.getValue();
             String prix = prixfield.getText();
-            if (!verdate || !verprix) {
+            if (!verdate || !verprix || !verservice || !verservice) {
+
+                if(!verservice){
+                    if(Typefield.getText().isEmpty()){
+                        lblType.setText("🠔 Saisir le type de depense");
+                        verservice = false;
+                        lblType.setStyle("-fx-text-fill: red");
+                        Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+                    else{
+                        lblType.setStyle("-fx-text-fill: #32CD32");
+                        lblType.setText("✓");
+                        verservice = true;
+                        Typefield.setStyle("-fx-background-color:white;");}
+                }
+
+
+                        if (!verservice){
+                    lblType.setText("🠔 Saisir le type de depense");
+                    verservice = false;
+                    lblType.setStyle("-fx-text-fill: red");
+                    Typefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+
+
                 if(!verdate) {
                     lbldate.setText("🠔 Remplir ce champ");
                     verdate = false;
@@ -177,7 +198,7 @@ public class CreationRevenu implements Initializable {
                     connection = getOracleConnection();
                     try {
 
-                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getValue()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
+                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getText()+"\'"+","+"\'"+prixfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
                         rs.execute();
@@ -211,7 +232,7 @@ public class CreationRevenu implements Initializable {
 
 
     private void refresh(){
-        Typefield.setValue(null);
+        Typefield.clear();
         lbldate.setText("");
         lblprix.setText("");
         lblType.setText("");
@@ -256,11 +277,6 @@ public class CreationRevenu implements Initializable {
             System.out.println("1000000 dawa7");
         }
 
-
-        ObservableList list= FXCollections.observableArrayList();
-        list.removeAll();
-        list.addAll(Type.recette_fiscale.toString(),Type.recette_non_fiscale.toString(),Type.Autre.toString());
-        Typefield.getItems().setAll(list);
 
     }
 
