@@ -10,6 +10,7 @@ public class Compte {
     private final String pass;
     private final String image ;
     private final String role;
+    private Boolean checked;
     private CheckBox check;
 
     public Compte(String matricule, String pass,String value , String image ,String role){
@@ -18,6 +19,7 @@ public class Compte {
         this.check = new CheckBox();
         this.image = image ;
         this.per = new Personnel(matricule);
+        this.checked = false;
     }
 
     public Personnel getPer() {
@@ -47,4 +49,7 @@ public class Compte {
     public String getImage() {
         return image;
     }
+
+    public Boolean isChecked(){return this.checked;}
+    public void setChecked(Boolean unemployed){this.checked = unemployed;}
 }

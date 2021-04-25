@@ -23,9 +23,11 @@
                         <TableColumn fx:id="col_select" maxWidth="400.0" prefWidth="55.0" text="Select" />
                         <TableColumn fx:id="idCol" maxWidth="400.0" prefWidth="136.0" style="-fx-alignement: center;" text="ID" />
                         <TableColumn fx:id="typeCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Type" />
-                        <TableColumn fx:id="cincol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="CIN" />
                         <TableColumn fx:id="nomcol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Nom" />
                         <TableColumn fx:id="prenomcol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Prenom" />
+                        <TableColumn fx:id="cincol" maxWidth="500.0" prefWidth="97.0" style="-fx-alignement: center;" text="CIN" />
+                  <TableColumn fx:id="datecol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Date" />
+                  <TableColumn fx:id="StatusCol" maxWidth="1000.0" prefWidth="97.0" style="-fx-alignement: center;" text="Status" />
                         <TableColumn fx:id="modifierCol" maxWidth="600.0" prefWidth="355.0" style="-fx-alignement: center;" text="Modifier" />
                     </columns>
                 </TableView>

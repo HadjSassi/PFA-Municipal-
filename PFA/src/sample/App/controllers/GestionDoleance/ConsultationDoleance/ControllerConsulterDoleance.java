@@ -63,12 +63,12 @@ public class ControllerConsulterDoleance implements Initializable {
     @FXML
     TableColumn <Doleance,String> cinCol ;
     @FXML
-    TableColumn <Doleance,String> StatusCol ;
-    @FXML
     TableColumn <Doleance,String> modifierCol ;
     @FXML
     TableColumn <Doleance,String> datecol ;
 
+    @FXML
+    TableColumn <Doleance,String> StatusCol ;
 
     @FXML
     private TableColumn<Doleance, CheckBox> col_select;

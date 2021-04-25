@@ -24,6 +24,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.controllers.Authentification;
+import sample.App.model.Doleance;
 import sample.App.model.Permission;
 
 import java.io.IOException;
@@ -61,6 +63,12 @@ public class ConsultationPermission implements Initializable {
     TableColumn <Permission,String> prenomcol ;
     @FXML
     TableColumn <Permission,String> modifierCol ;
+
+    @FXML
+    TableColumn <Doleance,String> datecol ;
+
+    @FXML
+    TableColumn <Doleance,String> StatusCol ;
 
     @FXML
     private TableColumn<Permission, CheckBox> col_select;
@@ -119,7 +127,14 @@ public class ConsultationPermission implements Initializable {
                 return true;//filter type
             }else if (Permission.getPrenom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
-            }else if (Permission.getNom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            }
+            else if (Permission.getStatus().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter type
+            }
+            else if (Permission.getDates().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter type
+            }
+            else if (Permission.getNom().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
             }else
                 return false;//doesn't match
@@ -169,7 +184,12 @@ public class ConsultationPermission implements Initializable {
         nomcol.setCellValueFactory(
                 new PropertyValueFactory<>("nom")
         );
-
+        StatusCol.setCellValueFactory(
+                new PropertyValueFactory<>("status")
+        );
+        datecol.setCellValueFactory(
+                new PropertyValueFactory<>("dates")
+        );
 
         //add cell of button edit
         Callback<TableColumn<Permission, String>, TableCell<Permission, String>> cellFoctory = (TableColumn<Permission, String> param) -> {
@@ -210,7 +230,7 @@ public class ConsultationPermission implements Initializable {
                             }
 
                             AfficherPermission addPermissionController = loader.getController();
-                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription(),permission.getTel(),permission.getMail(),permission.getAdr());
+                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription(),permission.getTel(),permission.getMail(),permission.getAdr(),permission.getDates(),permission.getStatus());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -220,26 +240,51 @@ public class ConsultationPermission implements Initializable {
 
                         });
                         editIcon.setOnMouseClicked((MouseEvent event) ->{
+                            if (Authentification.role.equals("Direction")) {
 
-                            permission = tableView.getSelectionModel().getSelectedItem();
-                            FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../view/permission/PermissionUpdate.fxml"));
-                            try {
-                                loader.load();
-                            } catch (IOException ex) {
-                                Logger.getLogger(ConsultationPermission.class.getName()).log(Level.SEVERE, null, ex);
+
+                                permission = tableView.getSelectionModel().getSelectedItem();
+                                FXMLLoader loader = new FXMLLoader();
+                                loader.setLocation(getClass().getResource("../../view/permission/PermissionUpdateSuper.fxml"));
+                                try {
+                                    loader.load();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ConsultationPermission.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                UpdatePermissionSuper addPermissionController = loader.getController();
+                                addPermissionController.setTextField(permission.getId(), permission.getType(), permission.getNom(), permission.getPrenom(), permission.getCin(), permission.getDescription(), permission.getTel(), permission.getMail(), permission.getAdr(), permission.getDates(), permission.getStatus());
+                                Parent parent = loader.getRoot();
+
+                                Stage stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UNDECORATED);
+                                stage.showAndWait();
+                                refresh();
                             }
+                            else{
 
-                            UpdatePermission addPermissionController = loader.getController();
-                            addPermissionController.setTextField(permission.getId(), permission.getType(),permission.getNom(),permission.getPrenom(),permission.getCin(),permission.getDescription(),permission.getTel(),permission.getMail(),permission.getAdr());
-                            Parent parent = loader.getRoot();
+                                permission = tableView.getSelectionModel().getSelectedItem();
+                                FXMLLoader loader = new FXMLLoader();
+                                loader.setLocation(getClass().getResource("../../view/permission/PermissionUpdate.fxml"));
+                                try {
+                                    loader.load();
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ConsultationPermission.class.getName()).log(Level.SEVERE, null, ex);
+                                }
 
-                            Stage stage = new Stage();
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UNDECORATED);
-                            stage.showAndWait();
-                            refresh();
+                                UpdatePermission addPermissionController = loader.getController();
+                                addPermissionController.setTextField(permission.getId(), permission.getType(), permission.getNom(), permission.getPrenom(), permission.getCin(), permission.getDescription(), permission.getTel(), permission.getMail(), permission.getAdr(), permission.getDates(), permission.getStatus());
+                                Parent parent = loader.getRoot();
+
+                                Stage stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UNDECORATED);
+                                stage.showAndWait();
+                                refresh();
+                            }
 
                         });
 
@@ -276,7 +321,7 @@ public class ConsultationPermission implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Permission ");
             while(rs.next()){
-                Permission per = new Permission(rs.getString("id"),rs.getString("type"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr"));
+                Permission per = new Permission(rs.getString("id"),rs.getString("type"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getString("description"),rs.getString("tel"),rs.getString("mail"),rs.getString("adr"),rs.getDate("dates"),rs.getString("status"));
                 //System.out.println(per.getPrenom());
                 oblist.add(per);
             }

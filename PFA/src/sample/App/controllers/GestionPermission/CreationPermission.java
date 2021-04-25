@@ -15,6 +15,8 @@ import sample.App.controllers.GestionPersonnel.gPerAddController;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 
 import sample.App.model.Type;
@@ -33,6 +35,14 @@ public class CreationPermission implements Initializable {
     @FXML
     private Label lblcin;
 
+    @FXML
+    private Label lbldate;
+
+    @FXML
+    private DatePicker datefield;
+
+    @FXML
+    private Label lblStatus ;
 
     @FXML
     private Label lbladr;
@@ -83,7 +93,7 @@ public class CreationPermission implements Initializable {
     private Button buttonFermer ;
 
 
-    private boolean vernom,verprenom ,vercin = false ,verifid;
+    private boolean vernom,verprenom ,vercin = false ,verifid ,verdate;
 
     private boolean isAlpha(String name) {
         return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
@@ -93,6 +103,34 @@ public class CreationPermission implements Initializable {
     }
 
     private boolean vertel = true ;
+
+
+    @FXML
+    void verifDate(ActionEvent  event) {
+        if(String.valueOf(datefield.getValue()).length()!=10){
+            lbldate.setText("🠔 Remplir ce champ");
+            verdate = false;
+            lbldate.setStyle("-fx-text-fill: red");
+            datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+        else{
+            if(Period.between(datefield.getValue(), LocalDate.now()).getDays()<0){
+                lbldate.setText("🠔 Date invalide");
+                verdate = false;
+                lbldate.setStyle("-fx-text-fill: red");
+                datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
+            else{
+                lbldate.setStyle("-fx-text-fill: #32CD32");
+                lbldate.setText("✓");
+                verdate = true;
+                datefield.setStyle("-fx-background-color:#32CD32;");}
+        }}
+
+    private String convertDate (String d){
+        String year = ""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
+        String month= ""+d.charAt(5)+d.charAt(6);
+        String day=""+d.charAt(8)+d.charAt(9) ;
+        return ""+day+"/"+month+"/"+year;
+    }
 
     @FXML
     void VerifTel(KeyEvent event) {
@@ -261,7 +299,8 @@ public class CreationPermission implements Initializable {
             lblType.setStyle("-fx-text-fill: #32CD32");
             lblType.setText("✓");
             verser = true;
-            Typefield.setStyle("-fx-background-color:white;");}
+            Typefield.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+        }
     }
 
 
@@ -275,7 +314,7 @@ public class CreationPermission implements Initializable {
             String desc = descriptionfiled.getText();
 
 
-            if ( !verser || !vercin|| !vernom || !verprenom   ||type == null  || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty() || !verMail || !vertel) {
+            if ( !verser || !vercin|| !vernom || !verprenom   ||type == null  || cin.isEmpty() || nom.isEmpty() || prenom.isEmpty() || !verMail || !vertel|| !verdate) {
 
 
                 if(!verMail){
@@ -283,6 +322,13 @@ public class CreationPermission implements Initializable {
                     vertel = false;
                     mailfield.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                     lblmail.setStyle("-fx-text-fill: red");
+                }
+
+                if(!verdate) {
+                    lbldate.setText("🠔 Remplir ce champ");
+                    verdate = false;
+                    lbldate.setStyle("-fx-text-fill: red");
+                    datefield.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
                 }
 
                 if(!verser){
@@ -339,7 +385,7 @@ public class CreationPermission implements Initializable {
                 try {
                     connection = getOracleConnection();
                     try {
-                        String insertion = "INSERT INTO PERMISSION values(" + "null "+ "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+")";
+                        String insertion = "INSERT INTO PERMISSION values(" + "null "+ "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",'Initiale'"+")";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         System.out.println(insertion);
                             rs.execute();
@@ -400,6 +446,9 @@ public class CreationPermission implements Initializable {
         lbladr.setText("");
         mailfield.clear();
         telfield.clear();
+        datefield.setValue(null);
+        lbldate.setText("");
+        lblStatus.setText("Initial");
         adrfield.clear();
         adrfield.setStyle("-fx-background-color:white;");
         mailfield.setStyle("-fx-background-color:white;");
@@ -408,6 +457,7 @@ public class CreationPermission implements Initializable {
         prenomfield.setStyle("-fx-background-color:white;");
         nomfield.setStyle("-fx-background-color:white;");
         cinfield.setStyle("-fx-background-color:white;");
+        datefield.setStyle("-fx-background-color:white;");
         try {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select PERMISSIONSEQ.nextval from dual");
@@ -441,6 +491,7 @@ public class CreationPermission implements Initializable {
         } catch (SQLException throwables) {
             System.out.println("1000000 dawa7");
         }
+        lblStatus.setText("Initial");
 
 
     }

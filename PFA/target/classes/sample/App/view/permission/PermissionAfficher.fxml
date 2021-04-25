@@ -191,5 +191,34 @@
             </Label>
          </children>
       </HBox>
+      <HBox layoutX="343.0" layoutY="22.0" prefHeight="26.0" prefWidth="248.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="0.0" text=" " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" stylesheets="@../../css/addStyle.css" text="Statuts :">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label id="labelStatus" fx:id="lblStatus" stylesheets="@../../css/addStyle.css" text="Status du doleance" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label layoutX="349.0" layoutY="65.0" prefHeight="19.0" prefWidth="41.0" stylesheets="@../../css/addStyle.css" text="Date :">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbldate" layoutX="400.0" layoutY="65.0" prefHeight="19.0" prefWidth="101.0" stylesheets="@../../css/addStyle.css" text="Id du doleance" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

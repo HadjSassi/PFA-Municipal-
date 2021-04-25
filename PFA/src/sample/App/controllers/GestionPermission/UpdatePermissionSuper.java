@@ -10,25 +10,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.App.controllers.GestionPersonnel.gPerAddController;
+import sample.App.model.Etat;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import sample.App.model.Type;
-import sample.App.model.type_Doleance;
-
-
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
-
-public class UpdatePermission implements Initializable {
+public class UpdatePermissionSuper implements Initializable {
 
 
     @FXML
@@ -40,11 +37,13 @@ public class UpdatePermission implements Initializable {
 
 
     @FXML
-    private Label lbldate;
+    private ChoiceBox<String> EtatEnum;
+
 
 
     @FXML
-    private Label lblStatus ;
+    private Label lbldate;
+
 
 
     @FXML
@@ -153,7 +152,7 @@ public class UpdatePermission implements Initializable {
 
 
     @FXML
-    void verifDate(ActionEvent  event) {
+    void verifDate(ActionEvent event) {
         if(String.valueOf(datefield.getValue()).length()!=10){
             lbldate.setText("🠔 Remplir ce champ");
             verdate = false;
@@ -392,7 +391,7 @@ public class UpdatePermission implements Initializable {
                     try {
                         //String insertion = "INSERT INTO permission values(" + "\'" + id + "\'" + "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'" + ")";
                         String insertion = "update permission set " +
-                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
+                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
                                 "where id = "+"\'"+ids+"\'";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
@@ -460,9 +459,11 @@ public class UpdatePermission implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-
+        ObservableList list2= FXCollections.observableArrayList();
+        list2.removeAll();
+        list2.addAll(Etat.Initiale.toString(),Etat.Approuvé.toString(),Etat.Refusé.toString(),Etat.EnCours.toString(),Etat.Terminé.toString());
+        EtatEnum.getItems().setAll(list2);
+        EtatEnum.setValue(Etat.Initiale.toString());
     }
 
     public void setTextField(String id, String type, String nom, String prenom , String cin , String desc , String tel ,String mail ,String adr, String date , String status) {
@@ -476,29 +477,12 @@ public class UpdatePermission implements Initializable {
         this.adrfield.setText(adr);
         this.mailfield.setText(mail);
         this.telfield.setText(tel);
-        this.lblStatus.setText(status);
+        this.EtatEnum.setValue(status);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
         LocalDate dateTime = LocalDate.parse(date, formatter);
         this.datefield.setValue(dateTime);
         verdate= true;
 
-        switch (status){
-            case "Initiale" :
-                lblStatus.setStyle("-fx-text-fill: lightblue,linear-gradient(to bottom, derive(deepskyblue,60%) 5%,derive(lightskyblue,90%) 40%);");
-                break;
-            case "Approuvé" :
-                lblStatus.setStyle("-fx-text-fill: green,linear-gradient(to bottom, derive(green,60%) 5%,derive(darkgreen,90%) 40%);");
-                break;
-            case "Refusé" :
-                lblStatus.setStyle("-fx-text-fill: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-                break;
-            case "EnCours" :
-                lblStatus.setStyle("-fx-text-fill: yellow,linear-gradient(to bottom, derive(yellow,60%) 5%,derive(yellow,90%) 40%);");
-                break ;
-            case "Terminé" :
-                lblStatus.setStyle("-fx-text-fill: green,linear-gradient(to bottom, derive(forestgreen,60%) 5%,derive(greenyellow,90%) 40%);");
-                break;
-        }
     }
 
 

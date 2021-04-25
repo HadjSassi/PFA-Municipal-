@@ -2,6 +2,11 @@ package sample.App.model;
 
 import javafx.scene.control.CheckBox;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Permission {
 
     private final String id ;
@@ -12,10 +17,18 @@ public class Permission {
     private final String tel ;
     private final String mail ;
     private final String adr ;
+    private final String status;
+    private final String dates;
     private final String description ;
     private final CheckBox check;
 
-    public Permission(String id, String type, String cin, String nom, String prenom, String description , String tel ,String mail , String adr) {
+
+
+    private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
+            new Locale("fr","FR"));
+
+
+    public Permission(String id, String type, String cin, String nom, String prenom, String description , String tel ,String mail , String adr, Date dates,String status) {
         this.id = id;
         this.type = type;
         this.cin = cin;
@@ -25,7 +38,10 @@ public class Permission {
         this.check = new CheckBox();
         this.tel = tel ;
         this.mail = mail;
+        this.status= status;
         this.adr = adr ;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        this.dates = formatD.format(dates);
     }
 
     public String getId() {
@@ -68,5 +84,13 @@ public class Permission {
 
     public CheckBox getCheck() {
         return check;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDates() {
+        return dates;
     }
 }
