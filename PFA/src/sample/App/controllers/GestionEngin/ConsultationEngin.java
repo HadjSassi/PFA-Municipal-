@@ -114,9 +114,9 @@ public class ConsultationEngin implements Initializable {
             }else if (Engin.getType().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
             }else if (Engin.getDispo().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter type
+                return true;//filter disponibilté
             }else if (Engin.getMarque().toString().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter type
+                return true;//filter marque
             }else
                 return false;//doesn't match
         });});

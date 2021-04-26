@@ -89,7 +89,11 @@ public class InterfaceController implements Initializable {
 
     @FXML
     void handleClicksInfo(ActionEvent event) {
-
+        FxmlLoader object = new FxmlLoader();
+        AnchorPane view = object.getPane("Statistics");
+        view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        anchorpane3.getChildren().removeAll();
+        anchorpane3.getChildren().setAll(view);
     }
 
     @FXML

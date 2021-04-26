@@ -184,11 +184,11 @@ noorder
 drop table materiel
 
 CREATE table "MATERIEL" (
-    "ID	"         VARCHAR2(30),
+    "ID"         VARCHAR2(30),
     "DESIGNATION" VARCHAR2(50),
     "QTE"         NUMBER,
     "PRIX"        VARCHAR2(50),
-    constraint  "MATERIEL_PK" primary key ("ID	")
+    constraint  "MATERIEL_PK" primary key ("ID")
 )
 /
 
