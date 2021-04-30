@@ -15,5 +15,6 @@
     <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
     <orderEntry type="library" name="fontawesomefx-glyphsbrowser-all-1.0" level="project" />
     <orderEntry type="library" name="Maven: com.oracle:ojdbc6:11.2.0" level="project" />
+    <orderEntry type="library" name="PFA" level="project" />
   </component>
 </module>

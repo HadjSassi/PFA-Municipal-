@@ -44,7 +44,7 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 public class ControllerCreationCompte implements Initializable {
 
 
-    private String URL_Logo = "C:\\Users\\Kerkennah\\Desktop\\PFA\\src\\sample\\images\\icon.png";
+    private String URL_Logo = "D:\\git\\PFA-Municipal-\\PFA\\src\\sample\\images\\icon.png";
 
     @FXML
     private Label lbl ;
@@ -218,7 +218,7 @@ public class ControllerCreationCompte implements Initializable {
         }
         catch (SQLException e){
             notfound = false ;
-            System.out.println("1000000 dawa7");
+            System.out.println("erreur");
         }
         return notfound ;
 
@@ -243,7 +243,7 @@ public class ControllerCreationCompte implements Initializable {
         }
         catch (SQLException e){
             notfound = false ;
-            System.out.println("1000000 dawa7");
+            System.out.println("erreur");
         }
         return notfound ;
 
@@ -263,7 +263,7 @@ public class ControllerCreationCompte implements Initializable {
         try{
             Connection connection= getOracleConnection();
             Statement statement = connection.createStatement();
-            String query = "select * from settings where id = 2";
+            String query = "select * from settings where id = 1";
             //get data from db
             ResultSet rs = statement.executeQuery(query);
             //fetch data

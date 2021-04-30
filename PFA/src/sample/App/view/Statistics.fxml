@@ -19,7 +19,7 @@
             <children>
             <HBox layoutX="4.0" layoutY="530.0" prefHeight="44.0" prefWidth="787.0">
                <children>
-                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" prefHeight="94.0" prefWidth="228.0" stylesheets="@../css/style.css" text="Generation Rapport Activité" textFill="#fcfcfc">
+                  <Button fx:id="boutonRapportActivite" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#rapportActiviteBouton" prefHeight="94.0" prefWidth="228.0" stylesheets="@../css/style.css" text="Generation Rapport Activité" textFill="#fcfcfc">
                      <graphic>
                         <ImageView fitHeight="39.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -32,7 +32,7 @@
                      </font>
                   </Button>
                   <Pagination fx:id="page" pageCount="4" prefHeight="94.0" prefWidth="329.0" />
-                  <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="99.0" prefWidth="235.0" stylesheets="@../css/style.css" text="Generation Rapport Financiére">
+                  <Button fx:id="boutonRapportFinancier" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#rapportFinancierBouton" prefHeight="99.0" prefWidth="235.0" stylesheets="@../css/style.css" text="Generation Rapport Financier">
                      <graphic>
                         <ImageView fitHeight="39.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
                            <image>

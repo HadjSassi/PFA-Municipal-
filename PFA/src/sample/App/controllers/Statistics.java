@@ -12,14 +12,20 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
@@ -28,6 +34,11 @@ public class Statistics implements Initializable {
     @FXML
     private PieChart pieChart;
 
+    @FXML
+    private Button boutonRapportActivite;
+
+    @FXML
+    private Button boutonRapportFinancier;
 
 
     @FXML
@@ -35,6 +46,8 @@ public class Statistics implements Initializable {
 
     @FXML
     private Pagination page ;
+
+    private Map<String, Object> map;
 
 
 
@@ -49,6 +62,29 @@ public class Statistics implements Initializable {
         return Integer.parseInt(date.charAt(5)+date.charAt(6)+"");
     }
 
+
+    @FXML
+    void rapportActiviteBouton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void rapportFinancierBouton(ActionEvent event) throws  FileNotFoundException {
+        try {
+            Connection connect = getOracleConnection();
+            map = new HashMap<String, Object>();
+
+//            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Wissal\\JaspersoftWorkspace\\MyReports\\exemple.jasper"));
+            InputStream initialStream = new FileInputStream(new File("D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jasper"));
+
+            Rapport.createReport(connect, map, initialStream);
+            Rapport.showReport();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
