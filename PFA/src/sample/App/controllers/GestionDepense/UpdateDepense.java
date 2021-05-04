@@ -193,7 +193,7 @@ public class UpdateDepense implements Initializable {
                     try {
 
                         String insertion = "Update DEPENSE set " +
-                                "Type = "+"\'"+Typefield.getText()+"\'"+", prix = "+"\'"+prixfield.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
+                                "Type = "+"\'"+Typefield.getText()+"\'"+", prix = "+""+prixfield.getText()+""+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
                         PreparedStatement rs = connection.prepareStatement(insertion);
                         //System.out.println(insertion);
                         rs.execute();

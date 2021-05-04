@@ -54,13 +54,13 @@ public class ConsultationMateriel implements Initializable {
     TableView<Materiel> tableView;
 
     @FXML
-    TableColumn<Materiel,String> idCol ;
-    @FXML
     TableColumn <Materiel,String> typeCol ;
     @FXML
     TableColumn <Materiel,String> qteCol ;
     @FXML
     TableColumn <Materiel,String> modifierCol ;
+    @FXML
+    TableColumn <Materiel,String> consomablecol ;
 
     @FXML
     private TableColumn<Materiel, CheckBox> col_select;
@@ -110,9 +110,9 @@ public class ConsultationMateriel implements Initializable {
 
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if (materiel.getId().toLowerCase().indexOf(lowerCaseFilter)!= -1){
-                return true;//filter id
-            }else if (materiel.getDesignation().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+            if (materiel.getDesignation().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;//filter type
+            }else if (materiel.getConsom().toLowerCase().indexOf(lowerCaseFilter)!= -1){
                 return true;//filter type
             }else
                 return false;//doesn't match
@@ -177,18 +177,18 @@ public class ConsultationMateriel implements Initializable {
                     } else {
 
                         FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.EYE);
-                        FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
+//                        FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
 
                         viewIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
                                         + "-fx-fill:linear-gradient(#0288D1 17%, #e7e5e5 100%);"
                         );
-                        editIcon.setStyle(
+                        /*editIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
                                         + "-fx-fill:linear-gradient(#4E342E 17%, #e7e5e5 100%);"
-                        );
+                        );*/
                         viewIcon.setOnMouseClicked((MouseEvent event) -> {
 
                             materiel = tableView.getSelectionModel().getSelectedItem();
@@ -201,7 +201,7 @@ public class ConsultationMateriel implements Initializable {
                             }
 
                             AfficherMateriel addMaterielController = loader.getController();
-                            addMaterielController.setTextField(materiel.getId(), materiel.getDesignation(),""+materiel.getQte());
+                            addMaterielController.setTextField(materiel.getDesignation(),""+materiel.getQte(),materiel.getConsom());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.initModality(Modality.APPLICATION_MODAL);
@@ -210,7 +210,7 @@ public class ConsultationMateriel implements Initializable {
                             stage.showAndWait();
 
                         });
-                        editIcon.setOnMouseClicked((MouseEvent event) ->{
+                       /* editIcon.setOnMouseClicked((MouseEvent event) ->{
 
                             materiel = tableView.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
@@ -232,12 +232,12 @@ public class ConsultationMateriel implements Initializable {
                             stage.showAndWait();
                             refresh();
 
-                        });
+                        });*/
 
-                        HBox managebtn = new HBox(editIcon,viewIcon);
+                        HBox managebtn = new HBox(viewIcon);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(viewIcon, new Insets(2, 2, 0, 3));
-                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+//                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
 
                         setGraphic(managebtn);
 
@@ -251,9 +251,8 @@ public class ConsultationMateriel implements Initializable {
         };
         modifierCol.setCellFactory(cellFoctory);
 
-
-        idCol.setCellValueFactory(
-                new PropertyValueFactory<>("id")
+        consomablecol.setCellValueFactory(
+                new PropertyValueFactory<>("consom")
         );
 
         col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
@@ -267,9 +266,9 @@ public class ConsultationMateriel implements Initializable {
             ResultSet rs = connection.createStatement().executeQuery("select * from Materiel ");
             while(rs.next()){
                 oblist.add(new Materiel(
-                        rs.getString("id"),
                         rs.getString("designation"),
-                        rs.getInt("qte")
+                        rs.getInt("qte"),
+                        rs.getString("CONSOMABLE")
                 ));
             }
             rs.close();
@@ -316,8 +315,8 @@ public class ConsultationMateriel implements Initializable {
         String s1 = null;
         for(Materiel per:oblist){
             if(per.getCb().isSelected()){
-                s+=per.getId()+"///";
-                s1=per.getId();
+                s+=per.getDesignation()+"///";
+                s1=per.getDesignation();
             }}int so=0;
         AtomicBoolean del = new AtomicBoolean(true);
         for(Materiel per:oblist){
@@ -343,7 +342,7 @@ public class ConsultationMateriel implements Initializable {
             if(per.getCb().isSelected() && del.get()){
                 try {
                     Connection connection= getOracleConnection();
-                    connection.createStatement().executeQuery("delete from Materiel where "+"\'"+per.getId()+"\'"+"=ID");
+                    connection.createStatement().executeQuery("delete from Materiel where "+"\'"+per.getDesignation()+"\'"+"=DESIGNATION");
                     connection.close();
                 }catch (SQLException throwables) {
                     throwables.printStackTrace();

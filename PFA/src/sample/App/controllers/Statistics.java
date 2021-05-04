@@ -75,7 +75,7 @@ public class Statistics implements Initializable {
             map = new HashMap<String, Object>();
 
 //            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Wissal\\JaspersoftWorkspace\\MyReports\\exemple.jasper"));
-            InputStream initialStream = new FileInputStream(new File("D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jasper"));
+            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Kerkennah\\Desktop\\PFA\\src\\rapports\\rapportF.jasper"));
 
             Rapport.createReport(connect, map, initialStream);
             Rapport.showReport();

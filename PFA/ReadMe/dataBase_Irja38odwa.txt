@@ -241,6 +241,14 @@ end;
 alter table DEPENSE add (description varchar2(1000));
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+drop table materiel
+
+create table materiel (
+designation varchar2(100) primary key,
+qte Integer,
+consomable varchar2(3));
+
+drop sequence MATERIELSEQ;
 
 
 
