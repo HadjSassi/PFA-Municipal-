@@ -1,7 +1,6 @@
 package sample.App.controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,7 +24,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.Thread.sleep;
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class Authentification {
@@ -46,7 +43,7 @@ public class Authentification {
     public static Image img ;
     public static String name ;
     public static String role ;
-    private double x, y;
+
     @FXML
     private Button loginBtn ;
 
@@ -57,7 +54,7 @@ public class Authentification {
      }
 
     @FXML
-    public void confirmer (ActionEvent event) throws InterruptedException {
+    public void confirmer (ActionEvent event) {
         String login = matriculeTextField.getText();
         String pass = passwordField.getText();
         String nom = "Foulen" ;
@@ -87,60 +84,57 @@ public class Authentification {
             matriculeTextField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             passwordField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
         } else {
+
             Msg.setText("Bonjour");
             Msg.setStyle("-fx-text-fill: #32CD32");
             matriculeTextField.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             passwordField.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                try {
-                    Connection connection = getOracleConnection();
-                    String req = "select * from PERSONNEL where matricule = " + "\'" + login + "\'";
-                    ResultSet rs = connection.createStatement().executeQuery(req);
-                    while (rs.next()) {
-                        nom = rs.getString("NOM");
-                        prenom = rs.getString("PRENOM");
-                    }
-                    rs.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
 
-                name = prenom + " " + nom;
-
-                Stage primaryStage = new Stage();
-                primaryStage.initModality(Modality.APPLICATION_MODAL);
-                Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("../view/Boarder.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                Connection connection = getOracleConnection();
+                String  req = "select * from PERSONNEL where matricule = "+"\'"+login +"\'";
+                ResultSet rs = connection.createStatement().executeQuery(req);
+                while (rs.next()) {
+                    nom = rs.getString("NOM");
+                    prenom = rs.getString("PRENOM");
                 }
-                primaryStage.setTitle("Municipal");
-                assert root != null;
-                primaryStage.setScene(new Scene(root));
-                primaryStage.initStyle(StageStyle.UNDECORATED);
-                root.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        x = event.getSceneX();
-                        y = event.getSceneY();
-                    }
-                });
-                root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        primaryStage.setX(event.getScreenX() - x);
-                        primaryStage.setY(event.getScreenY() - y);
-                    }
-                });
-                Stage stage = (Stage) loginBtn.getScene().getWindow();
-                stage.close();
-                try {
-                    primaryStage.getIcons().add((new Image(getClass().getResource("../../images/municipalite-tunis.png").toURI().toString())));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+                rs.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
-                primaryStage.show();
+            name = prenom +" "+nom ;
+
+
+
+
+
+
+
+
+
+            Stage primaryStage = new Stage();
+            primaryStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("../view/Boarder.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle("Municipal");
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            Stage stage = (Stage) loginBtn.getScene().getWindow();
+            stage.close();
+            try {
+                primaryStage.getIcons().add((new Image( getClass().getResource("../../images/municipalite-tunis.png").toURI().toString())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+            primaryStage.show();
+
 
         }
     }
