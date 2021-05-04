@@ -76,7 +76,7 @@ public class gPerAffichController implements Initializable {
         else
             SalaireLabel.setText("- DT");
         SexLabel.setText(togsexy);
-        NaissanceLabel.setText(birthy);
+        NaissanceLabel.setText(birthy.toString());
         DescriptionFiled.setText(descriptiony);
         DescriptionFiled.setEditable(false);
         }

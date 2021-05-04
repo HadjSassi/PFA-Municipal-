@@ -133,7 +133,7 @@ public class gPerModifController implements Initializable {
         }
         return false;
     }
-    private boolean vernom=true,verprenom=true,vercin=true,vertel=true,versal=true;
+    private boolean vernom=true,verprenom=true,vercin=true,vertel=true,versal=true,verdate=true;
     @FXML
     void VerifTel(KeyEvent event) {
         vertel=false;
@@ -220,22 +220,26 @@ public class gPerModifController implements Initializable {
 
     @FXML
     void verifDate(ActionEvent  event) {
+        verdate=false;
         if(String.valueOf(BirthField.getValue()).length()!=10){
             dateLabel.setText("🠔 Remplir ce champ");
+            verdate=false;
             dateLabel.setStyle("-fx-text-fill: red");
             BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
             if(calculateAge(BirthField.getValue(),LocalDate.now())<=18){
                 dateLabel.setText("🠔 Date de naissance invalide");
+                verdate=false;
                 dateLabel.setStyle("-fx-text-fill: red");
                 BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
             else{
                 dateLabel.setStyle("-fx-text-fill: #32CD32");
+                verdate=true;
                 dateLabel.setText("✓");
                 BirthField.setStyle("-fx-background-color:transparent;");}
         }}
 
-    @FXML
+                @FXML
     void verifNom(KeyEvent event) {
         vernom=false;
         String nom = NomFiled.getText();
@@ -333,7 +337,7 @@ public class gPerModifController implements Initializable {
         birth = String.valueOf(BirthField.getValue());
         service = ServiceField.getValue();
         description = DescriptionFiled.getText();
-        if(!vernom||!verprenom||birth.length()!=10||(!FemmeTog.isSelected() && !HommeTog.isSelected())||!vertel||!vercin||!versal){
+        if(!vernom||!verprenom||birth.length()!=10||(!FemmeTog.isSelected() && !HommeTog.isSelected())||!vertel||!vercin||!versal||!verdate){
             if(nom.isEmpty()&&!vernom){
                 nomLabel.setText("🠔 Remplir ce champ ");
                 nomLabel.setStyle("-fx-text-fill: red");

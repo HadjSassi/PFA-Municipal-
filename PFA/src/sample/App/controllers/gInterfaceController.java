@@ -112,9 +112,9 @@ public class gInterfaceController implements Initializable {
     }
 
     @FXML
-    void handleClicksTache(ActionEvent event) {
+    void handleClicksInteventions(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        AnchorPane view = object.getPane("TacheConsultation");
+        AnchorPane view = object.getPane("interI");
         view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         anchorpane3.getChildren().removeAll();
         anchorpane3.getChildren().setAll(view);
@@ -136,7 +136,7 @@ public class gInterfaceController implements Initializable {
             anchorpane3.getChildren().setAll(view);}
 
         else {
-            AnchorPane view = object.getPane("CompteConsultation");
+            AnchorPane view = object.getPane("gPersonnel");
             view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
             anchorpane3.getChildren().removeAll();
             anchorpane3.getChildren().setAll(view);

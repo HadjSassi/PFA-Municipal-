@@ -1,7 +1,10 @@
 package sample.App.model;
 
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 
+import javax.swing.*;
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,17 +22,18 @@ public class Personnel {
     private Float salaire;
     private CheckBox check;
     private String description;
+    private RadioButton cheff;
 
     private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
             new Locale("fr","FR"));
 
-    public Personnel(String matricule,String cin, String nom, String prenom,Date naissance, Float salaire, String sex, int tel, String service,String description ,String value) {
+    public Personnel(String matricule,String cin, String nom, String prenom,Date naissance, Float salaire, String sex, int tel, String service,String description) {
         this.matricule=matricule;
         this.cin = cin;
         this.nom = nom;
-        this.prenom = prenom;
+        this.prenom = prenom;this.tel = tel;
         this.service = service;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.naissance= formatD.format(naissance);
         this.sex = sex;
         this.salaire = salaire;
@@ -38,7 +42,6 @@ public class Personnel {
         this.description=description;
         this.check = new CheckBox();
     }
-
     public Personnel(String matricule){
         this.matricule = matricule;
         this.cin = null ;
@@ -53,7 +56,6 @@ public class Personnel {
         this.check = new CheckBox();
         this.naissance = null ;
     }
-
     public CheckBox getCheck() {
         return check;
     }
@@ -114,7 +116,7 @@ public class Personnel {
         return naissance;
     }
 
-    public void setNaissance(Date naissance) {
+    public void setNaissance(String naissance) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         this.naissance= formatter.format(naissance);
     }
@@ -143,4 +145,19 @@ public class Personnel {
         this.salaire = salaire;
     }
 
+    public DateFormat getFormatD() {
+        return formatD;
+    }
+
+    public void setFormatD(DateFormat formatD) {
+        this.formatD = formatD;
+    }
+
+    public RadioButton getCheff() {
+        return cheff;
+    }
+
+    public void setCheff(RadioButton cheff) {
+        this.cheff = cheff;
+    }
 }
