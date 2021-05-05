@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.Authentification">
+   <children>
+      <AnchorPane layoutX="33.0" layoutY="44.0" prefHeight="519.0" prefWidth="606.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="47.0">
+         <children>
+            <AnchorPane layoutX="327.0" layoutY="47.0" maxWidth="294.0" prefHeight="412.0" prefWidth="292.0" style="-fx-background-color: #464646 #464646;" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="327.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="47.0">
+               <children>
+                  <Button fx:id="fermerBtn" layoutX="256.0" layoutY="-1.0" mnemonicParsing="false" onAction="#fermer" prefHeight="30.0" prefWidth="37.0" styleClass="button2" stylesheets="@../css/addStyle.css" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/icons8-close-window-642.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="matriculeTextField" layoutX="56.0" layoutY="157.0" prefHeight="30.0" prefWidth="217.0" promptText="Matricule" stylesheets="@../css/addStyle.css" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="19.0">
+                     <tooltip>
+                        <Tooltip text="Champ de numero de matricule composé de 8 chiffres" />
+                     </tooltip>
+                  </TextField>
+                  <PasswordField fx:id="passwordField" layoutX="56.0" layoutY="206.0" prefHeight="30.0" prefWidth="217.0" promptText="Mot de Passe" stylesheets="@../css/addStyle.css" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="19.0" />
+                  <Button fx:id="loginBtn" layoutX="56.0" layoutY="272.0" mnemonicParsing="false" onAction="#confirmer" prefHeight="40.0" prefWidth="90.0" style="-fx-background-radius: 0.7em;" styleClass="button4" stylesheets="@../css/addStyle.css" text="Login" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/log_in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="Msg" layoutX="62.0" layoutY="245.0" prefHeight="16.0" prefWidth="206.0" textFill="#e7e5e5">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="69.0" fitWidth="61.0" layoutX="133.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/icon.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="56.0" layoutY="140.0" text="Matricule" textFill="WHITE" />
+                  <Label layoutX="56.0" layoutY="187.0" text="Mot de passe" textFill="WHITE" />
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </AnchorPane>
+            <AnchorPane layoutX="20.0" layoutY="33.0" prefHeight="440.0" prefWidth="334.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b) linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="33.0">
+               <children>
+                  <ImageView fitHeight="108.0" fitWidth="145.0" layoutX="123.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/logo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="101.0" layoutY="255.0" text="Municipale" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Cambria" size="28.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="70.0" layoutY="220.0" text="Authentification" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Cambria" size="28.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="68.0" layoutY="10.0" prefHeight="60.0" prefWidth="206.0" style="-fx-background-radius: 1em;" AnchorPane.bottomAnchor="370.0" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="10.0">
+                     <children>
+                        <Label text="République Tunisienne" textFill="WHITE">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="36.0" prefWidth="216.0" text="Ministère de l'Intérieur et du Développement Local" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="34.0" fitWidth="56.0" layoutX="11.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/Tunisie11.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

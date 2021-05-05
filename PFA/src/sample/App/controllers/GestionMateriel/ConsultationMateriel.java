@@ -24,10 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import sample.App.controllers.GestionEngin.AfficherEngin;
-import sample.App.controllers.GestionEngin.ConsultationEngin;
-import sample.App.controllers.GestionEngin.UpdateEngin;
-import sample.App.model.Engin;
 import sample.App.model.Materiel;
 
 import java.io.IOException;
@@ -46,6 +42,20 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class ConsultationMateriel implements Initializable {
 
+    @FXML
+    private Label LabelNbInter;
+
+    @FXML
+    private Label LabelNbInitial;
+
+    @FXML
+    private Label LabelNbEnCours;
+
+    @FXML
+    private Label LabelNbTermine;
+
+    @FXML
+    private Label LabelNbAnnule;
 
 
 
@@ -97,6 +107,49 @@ public class ConsultationMateriel implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
+    }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from MATERIEL");
+            while(rs.next()){
+                LabelNbInter.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select sum(qte) nb from MATERIEL ");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from MATERIEL where CONSOMABLE = 'Non'");
+            while(rs.next()){
+                LabelNbAnnule.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from MATERIEL where CONSOMABLE = 'Oui'");
+            while(rs.next()){
+                LabelNbTermine.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     private void filter(){
@@ -197,7 +250,7 @@ public class ConsultationMateriel implements Initializable {
                             try {
                                 loader.load();
                             } catch (IOException ex) {
-                                Logger.getLogger(sample.App.controllers.GestionMateriel.ConsultationMateriel.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(ConsultationMateriel.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
                             AfficherMateriel addMaterielController = loader.getController();
@@ -260,6 +313,7 @@ public class ConsultationMateriel implements Initializable {
 
 
     private void loadData(){
+        stats();
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();

@@ -9,7 +9,7 @@ public class Materiel {
     private final CheckBox cb ;
     private final String consom ;
 
-    public Materiel(String designation, int qte,String consom) {
+    public Materiel(String designation, int qte, String consom) {
         this.designation = designation;
         this.qte = qte;
         this.cb = new CheckBox();

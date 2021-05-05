@@ -44,6 +44,16 @@ public class ConsultationEngin implements Initializable {
 
 
 
+    @FXML
+    private Label LabelNbInter;
+
+    @FXML
+    private Label LabelNbTermine;
+
+    @FXML
+    private Label LabelNbAnnule;
+
+
 
     static public boolean  itsokay = false ;
     @FXML
@@ -95,6 +105,39 @@ public class ConsultationEngin implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
+    }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from engin");
+            while(rs.next()){
+                LabelNbInter.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from engin where dispo = 'Oui'");
+            while(rs.next()){
+                LabelNbTermine.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from engin where dispo = 'Non'");
+            while(rs.next()){
+                LabelNbAnnule.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
 
@@ -266,6 +309,7 @@ public class ConsultationEngin implements Initializable {
 
 
     private void loadData(){
+        stats();
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();

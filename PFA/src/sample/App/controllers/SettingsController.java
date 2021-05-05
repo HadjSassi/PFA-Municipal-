@@ -288,8 +288,6 @@ public class SettingsController {
                 Image image = new Image(inputstream);
 
                 logo.setImage(image);
-
-
                 tf_nom_muni.setText(rs.getString("nom_muni"));
                 tf_adresse.setText(rs.getString("adresse"));
                 cmb_gouvernorat.getSelectionModel().select(rs.getString("gouvernorat"));
@@ -301,8 +299,9 @@ public class SettingsController {
             }
             rs.close();
         }
-        catch (SQLException | FileNotFoundException  e){
+        catch (SQLException | FileNotFoundException e){
             System.out.println("Erreur!!");
+            System.out.println(e);
         }
 
     }

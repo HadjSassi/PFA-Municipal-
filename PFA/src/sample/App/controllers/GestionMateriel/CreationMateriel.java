@@ -195,19 +195,22 @@ public class CreationMateriel implements Initializable {
                 } catch (SQLException | URISyntaxException throwables) {
 
                     String des = "";
+
                     try {
-                         connection= getOracleConnection();
-                        System.out.println("select qte from Materiel where designation =upper( "+"\'"+designationfield.getText()+"\')");
-                        ResultSet rs = connection.createStatement().executeQuery("select qte from Materiel where designation = "+"\'upper("+designationfield.getText()+")\'");
+                        Connection connection1= getOracleConnection();
+                        String req = "select qte from Materiel where designation = "+"upper(\'"+fara8(designationfield.getText())+"\')";
+
+                        PreparedStatement rs1 = connection1.prepareStatement(req);
+                        ResultSet rs = rs1.executeQuery(req);
+                        System.out.println("debut");
                         while(rs.next()){
-                           des = rs.getString("qte");
+                            des = rs.getString("qte");
                         }
                         rs.close();
+                        System.out.println("fin");
                     } catch (SQLException e) {
-
+                        System.out.println(e);
                     }
-
-
 
 
 
@@ -288,7 +291,7 @@ public class CreationMateriel implements Initializable {
     }
 
     private String fara8(String ch){
-         ch = ch.replaceAll("\\s+"," ");
+        ch = ch.replaceAll("\\s+"," ");
 
         char s = ch.charAt(0), f = ch.charAt(ch.length()-1);
 
@@ -310,7 +313,6 @@ public class CreationMateriel implements Initializable {
         ch = ch.toUpperCase();
         return ch;
     }
-
 
 
 }

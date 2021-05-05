@@ -45,6 +45,13 @@ public class ConsultationRevenu implements Initializable {
 
 
 
+    @FXML
+    private Label LabelNbInter;
+
+    @FXML
+    private Label LabelNbInitial;
+
+
     static public boolean  itsokay = false ;
     @FXML
     TableView<Revenu> tableView;
@@ -97,6 +104,20 @@ public class ConsultationRevenu implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
+    }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from revenu");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
     }
 
 
@@ -264,6 +285,7 @@ public class ConsultationRevenu implements Initializable {
 
 
     private void loadData(){
+        stats();
         double tt = 0;
         String t ;
         oblist = FXCollections.observableArrayList();
@@ -291,7 +313,7 @@ public class ConsultationRevenu implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        tot.setText(String.valueOf(tt));
+        LabelNbInter.setText(String.valueOf(tt) + " DT");
     }
 
     @FXML

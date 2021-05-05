@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -47,14 +48,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class gPersonnelController implements Initializable {
+    @FXML
+    private Label LabelnbPer;
 
     @FXML
-    private HBox salar;
+    private Label LabelSalaire;
+
     @FXML
     private TableView<Personnel> table_info;
 
     @FXML
-    private TableColumn<Personnel, Integer> col_id;
+    private TableColumn<Personnel, String> col_id;
 
     @FXML
     private TableColumn<Personnel, String> col_nom;
@@ -124,19 +128,14 @@ public class gPersonnelController implements Initializable {
         loadData();
         filter();
         check_selAll.setSelected(false);
-        if(Main.stage.isMaximized()){
-            System.out.println("YOYOYOOY");
-            AnchorPane.setRightAnchor(salar,0.0);}
-
+        filterField.setText(null);
     }
    @FXML
    void handleClicksDeleteSelected(ActionEvent event) throws URISyntaxException {
        String s="";
-       String s1 = null;
        for(Personnel per:oblist){
             if(per.getCheck().isSelected()){
                 s+=per.getMatricule()+"///";
-                s1=per.getMatricule();
        }}int so=0;
        AtomicBoolean del = new AtomicBoolean(true);
        for(Personnel per:oblist){
@@ -240,10 +239,9 @@ public class gPersonnelController implements Initializable {
         col_sex.setCellValueFactory(new PropertyValueFactory<>("sex"));
         col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         col_naissance.setCellValueFactory(new PropertyValueFactory<>("naissance"));
-        col_edit.setCellValueFactory(new PropertyValueFactory<Personnel, String>("update"));
         col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
 
-        //add cell of button edit 
+        //add cell of button edit
         Callback<TableColumn<Personnel, String>, TableCell<Personnel, String>> cellFoctory = (TableColumn<Personnel, String> param) -> {
             // make cell containing buttons
             final TableCell<Personnel, String> cell = new TableCell<Personnel, String>() {
@@ -256,19 +254,28 @@ public class gPersonnelController implements Initializable {
                         setText(null);
 
                     } else {
-
-                        FontAwesomeIconView eye = new FontAwesomeIconView(FontAwesomeIcon.EYE);
-                        FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
+                        //FontAwesomeIconView eye = new FontAwesomeIconView(FontAwesomeIcon.EYE);
+                        Image im= new Image("sample/images/profile.png");
+                        ImageView eye=new ImageView();
+                        eye.setImage(im);
+                        eye.setFitHeight(28);
+                        eye.setFitWidth(28);
+                        //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
+                        im= new Image("sample/images/editperso.png");
+                        ImageView editIcon=new ImageView();
+                        editIcon.setImage(im);
+                        editIcon.setFitHeight(28);
+                        editIcon.setFitWidth(28);
+                        //FontAwesomeIconView eye = new FontAwesomeIconView(FontAwesomeIcon.EYE);
+                        //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
 
                         eye.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:linear-gradient(#0288D1 17%, #e7e5e5 100%);"
                         );
                         editIcon.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
-                                        + "-fx-fill:linear-gradient(#4E342E 17%, #e7e5e5 100%);"
                         );
 
                         editIcon.setOnMouseClicked((MouseEvent event) -> {
@@ -367,9 +374,15 @@ public class gPersonnelController implements Initializable {
         try {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from PERSONNEL");
+            int nbPer=0;
+            float salaireTotal=0;
             while(rs.next()){
-                oblist.add(new Personnel(rs.getString("matricule"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getDate("naissance"),rs.getFloat("salaire"),rs.getString("sex"),rs.getInt("tel"),rs.getString("service"),rs.getString("description"),""));
+                oblist.add(new Personnel(rs.getString("matricule"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getDate("naissance"),rs.getFloat("salaire"),rs.getString("sex"),rs.getInt("tel"),rs.getString("service"),rs.getString("description")));
+                nbPer++;
+                salaireTotal+=rs.getFloat("salaire");
             }
+            LabelnbPer.setText(String.valueOf(nbPer));
+            LabelSalaire.setText(String.valueOf(salaireTotal)+" DT");
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

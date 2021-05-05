@@ -1,0 +1,79 @@
+CREATE TABLE  "PERSONNEL" 
+   (	"MATRICULE" VARCHAR2(8), 
+	"CIN" VARCHAR2(8), 
+	"NOM" VARCHAR2(30) NOT NULL ENABLE, 
+	"PRENOM" VARCHAR2(30) NOT NULL ENABLE, 
+	"NAISSANCE" DATE NOT NULL ENABLE, 
+	"SALAIRE" NUMBER(7,3) DEFAULT 0, 
+	"SEX" VARCHAR2(7) NOT NULL ENABLE, 
+	"TEL" NUMBER(8,0), 
+	"SERVICE" VARCHAR2(30), 
+	"DESCRIPTION" VARCHAR2(250), 
+	 PRIMARY KEY ("MATRICULE") ENABLE
+   ) ;
+CREATE table "MATERIEL" (
+    "ID"         VARCHAR2(30),
+    "DESIGNATION" VARCHAR2(50),
+    "QTE"         NUMBER,
+    "PRIX"        VARCHAR2(50),
+    constraint  "MATERIEL_PK" primary key ("ID")
+)
+create table Engin (
+id varchar2(50) primary key,
+type varchar2(50) ,
+dispo varchar2(10),
+marque varchar2(50));
+
+alter table engin add (prix number(10,3));
+create table intervention(
+IDMAT varchar2(8) primary key,
+nom varchar2(8),
+dateD date,
+dateF date,
+etat varchar2(10),
+cheff varchar2(8),
+gouvernerat varchar2(20),
+delegation varchar2(20),
+localisation varchar2(20),
+description varchar2(250)
+);
+
+create table interPER(
+MATRICULE VARCHAR2(8),
+IDMAT varchar2(8),
+constraint t1_pk primary key (MATRICULE ,IDMAT),
+CONSTRAINT fk_id1 FOREIGN KEY (MATRICULE) REFERENCES PERSONNEL(MATRICULE),
+CONSTRAINT fk_idmat1 FOREIGN KEY (IDMAT) REFERENCES intervention(IDMAT)
+);
+
+create table interMAT(
+ID VARCHAR2(30) ,
+IDMAT varchar2(8),
+qteUsed number,
+constraint t_pk primary key (ID,IDMAT)
+);
+
+create table interENG(
+ID VARCHAR2(50),
+IDMAT varchar2(8),
+constraint t2_pk primary key (ID,IDMAT),
+CONSTRAINT fk_id2 FOREIGN KEY (ID) REFERENCES Engin(ID),
+CONSTRAINT fk_idmat2 FOREIGN KEY (IDMAT) REFERENCES intervention(IDMAT)
+);
+
+
+
+create table intervention(
+IDMAT varchar2(8) primary key,
+nom varchar2(30),
+domaine varchar2(20),
+volet varchar2(20),
+dateD date,
+dateF date,
+gouvernerat varchar2(20),
+delegation varchar2(20),
+localisation varchar2(20),
+description varchar2(250),
+cheff varchar2(8),
+etat varchar2(10)
+);

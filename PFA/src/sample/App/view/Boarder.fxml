@@ -11,7 +11,7 @@
    <children>
       <AnchorPane fx:id="border" prefHeight="31.0" prefWidth="1050.0" style="-fx-background-color: linear-gradient(to right, #212121, #272727, #2d2d2d, #333333, #393939, #484848, #585858, #696969, #888888, #a9a9a9, #cbcbcb, #eeeeee);" AnchorPane.bottomAnchor="573.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="31.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-7.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@../../images/municipalite-tunis.png" />
                </image>

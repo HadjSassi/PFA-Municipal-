@@ -35,11 +35,7 @@ public class gPerAddController implements Initializable {
     private AnchorPane anchorpane;
 
     @FXML
-    private TextField MatriculeField;
-
-    public TextField getMatriculeField() {
-        return MatriculeField;
-    }
+    public TextField MatriculeField;
 
     @FXML
     private TextField CinField;
@@ -93,7 +89,9 @@ public class gPerAddController implements Initializable {
 
     @FXML
     private Label serviceLabel;
-
+    public TextField getMatriculeField() {
+        return MatriculeField;
+    }
     @FXML
     private Label salaireLabel;
     @FXML
@@ -132,7 +130,7 @@ public class gPerAddController implements Initializable {
         }
         return false;
     }
-    private boolean vermat,vernom,verprenom,vercin,vertel=true,versal=true;
+    private boolean vermat,vernom,verprenom,vercin,verdate,vertel=true,versal=true;
     @FXML
     void VerifTel(KeyEvent event) {
         vertel=false;
@@ -218,17 +216,21 @@ public class gPerAddController implements Initializable {
 
     @FXML
     void verifDate(ActionEvent  event) {
+        verdate=false;
         if(String.valueOf(BirthField.getValue()).length()!=10){
             dateLabel.setText("🠔 Remplir ce champ");
+            verdate=false;
             dateLabel.setStyle("-fx-text-fill: red");
             BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
             if(calculateAge(BirthField.getValue(),LocalDate.now())<=18){
                 dateLabel.setText("🠔 Date de naissance invalide");
+                verdate=false;
                 dateLabel.setStyle("-fx-text-fill: red");
                 BirthField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
         else{
             dateLabel.setStyle("-fx-text-fill: #32CD32");
+            verdate=true;
             dateLabel.setText("✓");
             BirthField.setStyle("-fx-background-color:transparent;");}
     }}
@@ -390,7 +392,7 @@ public class gPerAddController implements Initializable {
             cinLabel.setText("🠔 Remplir ce champ");
             cinLabel.setStyle("-fx-text-fill: red");
             CinField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");}
-        if(!vermat||!vernom||!verprenom||!vercin||service==null||birth.length()!=10||(!FemmeTog.isSelected() && !HommeTog.isSelected())||!vertel||!versal){
+        if(!vermat||!vernom||!verprenom||!vercin||service==null||birth.length()!=10||(!FemmeTog.isSelected() && !HommeTog.isSelected())||!vertel||!versal||!verdate){
         if(!vermat  &&  matricule.isEmpty())
         {
             matLabel.setText("🠔 Remplir ce champ");

@@ -171,7 +171,7 @@ public class CreationRevenu implements Initializable {
                 }
 
 
-                        if (!verservice){
+                if (!verservice){
                     lblType.setText("🠔 Saisir le type de depense");
                     verservice = false;
                     lblType.setStyle("-fx-text-fill: red");

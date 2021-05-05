@@ -46,6 +46,19 @@ public class ControllerConsulterCompte implements Initializable {
 
 
     static public boolean  itsokay = false ;
+
+    @FXML
+    private Label LabelNbInter;
+
+    @FXML
+    private Label LabelNbInitial;
+
+    @FXML
+    private Label LabelNbEnCours;
+
+    @FXML
+    private Label LabelNbTermine;
+
     @FXML
     TableView<Compte> tableView;
 
@@ -93,9 +106,51 @@ public class ControllerConsulterCompte implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
     }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from COMPTE ");
+            while(rs.next()){
+                LabelNbInter.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from compte where role = 'Administration'");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from compte where role = 'Direction'");
+            while(rs.next()){
+                LabelNbEnCours.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from compte where role = 'Financier'");
+            while(rs.next()){
+                LabelNbTermine.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
-
+    }
     private void filter(){
         FilteredList<Compte> filteredData = new FilteredList<>(oblist, b -> true);
 
@@ -122,8 +177,6 @@ public class ControllerConsulterCompte implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
     }
-
-
     private void checkAll(){
         check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -142,14 +195,11 @@ public class ControllerConsulterCompte implements Initializable {
             }
         });
     }
-
     private void initTable(){
         initCols();
         checkAll();
         //uncheckAll();
     }
-
-
     private void initCols(){
 
         matriculeCol.setCellValueFactory(
@@ -257,9 +307,8 @@ public class ControllerConsulterCompte implements Initializable {
 
         col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
     }
-
-
     private void loadData(){
+        stats();
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
@@ -274,7 +323,6 @@ public class ControllerConsulterCompte implements Initializable {
 
         tableView.setItems(oblist);
     }
-
     @FXML
     public void ajouter (ActionEvent event)  {
         Stage primaryStage = new Stage();
@@ -292,19 +340,16 @@ public class ControllerConsulterCompte implements Initializable {
         primaryStage.showAndWait();
         refresh();
     }
-
     @FXML
     public void refresh(ActionEvent event){
         loadData();
         filter();
     }
-
     @FXML
     public void refresh(){
         loadData();
         filter();
     }
-
     @FXML
     public void supprimer(ActionEvent event) {
 

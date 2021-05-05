@@ -44,6 +44,11 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 public class ConsultatinoDepense implements Initializable {
 
 
+    @FXML
+    private Label LabelNbInter;
+
+    @FXML
+    private Label LabelNbInitial;
 
 
     static public boolean  itsokay = false ;
@@ -79,9 +84,9 @@ public class ConsultatinoDepense implements Initializable {
 
     @FXML
     private TextField filterField;
-
+/*
     @FXML
-    private Label tot ;
+    private Label tot ;*/
 
 
     private sample.App.controllers.gInterfaceController it ;
@@ -99,9 +104,21 @@ public class ConsultatinoDepense implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
     }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from depense");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
-
+    }
     private void filter(){
         FilteredList<Depense> filteredData = new FilteredList<>(oblist, b -> true);
 
@@ -127,8 +144,6 @@ public class ConsultatinoDepense implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
     }
-
-
     private void checkAll(){
         check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -147,15 +162,10 @@ public class ConsultatinoDepense implements Initializable {
             }
         });
     }
-
-
-
     private void initTable(){
         initCols();
         checkAll();
     }
-
-
     private void initCols(){
 
         typeCol.setCellValueFactory(
@@ -263,9 +273,8 @@ public class ConsultatinoDepense implements Initializable {
 
         col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
     }
-
-
     private void loadData(){
+        stats();
         double tt = 0;
         String t ;
         oblist = FXCollections.observableArrayList();
@@ -293,9 +302,8 @@ public class ConsultatinoDepense implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        tot.setText(String.valueOf(tt));
+        LabelNbInter.setText(String.valueOf(tt)+" DT");
     }
-
     @FXML
     public void ajouter (ActionEvent event)  {
         Stage primaryStage = new Stage();
@@ -313,19 +321,16 @@ public class ConsultatinoDepense implements Initializable {
         primaryStage.showAndWait();
         refresh();
     }
-
     @FXML
     public void refresh(ActionEvent event){
         loadData();
         filter();
     }
-
     @FXML
     public void refresh(){
         loadData();
         filter();
     }
-
     @FXML
     void supprimer(ActionEvent event) throws URISyntaxException {
         String s="";

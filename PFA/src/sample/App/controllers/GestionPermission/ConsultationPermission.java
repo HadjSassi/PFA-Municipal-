@@ -44,7 +44,20 @@ import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class ConsultationPermission implements Initializable {
 
+    @FXML
+    private Label LabelNbInter;
 
+    @FXML
+    private Label LabelNbInitial;
+
+    @FXML
+    private Label LabelNbEnCours;
+
+    @FXML
+    private Label LabelNbTermine;
+
+    @FXML
+    private Label LabelNbAnnule;
 
 
     static public boolean  itsokay = false ;
@@ -105,8 +118,61 @@ public class ConsultationPermission implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
     }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from permission");
+            while(rs.next()){
+                LabelNbInter.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from permission where Status = 'Initiale'");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from permission where Status = 'EnCours'");
+            while(rs.next()){
+                LabelNbEnCours.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from permission where status = 'Approuvé' or status = 'Terminé'");
+            while(rs.next()){
+                LabelNbTermine.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from permission where status = 'Refusé'");
+            while(rs.next()){
+                LabelNbAnnule.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
+    }
 
     private void filter(){
         FilteredList<Permission> filteredData = new FilteredList<>(oblist, b -> true);
@@ -316,6 +382,7 @@ public class ConsultationPermission implements Initializable {
 
 
     private void loadData(){
+        stats();
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();

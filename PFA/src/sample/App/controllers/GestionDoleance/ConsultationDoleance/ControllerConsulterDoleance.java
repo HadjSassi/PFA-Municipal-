@@ -48,7 +48,20 @@ import java.util.logging.Logger;
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class ControllerConsulterDoleance implements Initializable {
+    @FXML
+    private Label LabelNbInter;
 
+    @FXML
+    private Label LabelNbInitial;
+
+    @FXML
+    private Label LabelNbEnCours;
+
+    @FXML
+    private Label LabelNbTermine;
+
+    @FXML
+    private Label LabelNbAnnule;
 
     static public boolean  itsokay = false ;
     @FXML
@@ -105,8 +118,61 @@ public class ControllerConsulterDoleance implements Initializable {
         initTable();
         loadData();
         filter();
+        stats();
     }
+    private void stats(){
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from doleance");
+            while(rs.next()){
+                LabelNbInter.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from doleance where Status = 'Initiale'");
+            while(rs.next()){
+                LabelNbInitial.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from doleance where Status = 'EnCours'");
+            while(rs.next()){
+                LabelNbEnCours.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from doleance where status = 'Approuvé' or status = 'Terminé'");
+            while(rs.next()){
+                LabelNbTermine.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        try {
+            Connection connection= getOracleConnection();
+            ResultSet rs = connection.createStatement().executeQuery("select count(*) nb from doleance where status = 'Refusé'");
+            while(rs.next()){
+                LabelNbAnnule.setText(rs.getString("nb"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
+    }
 
     private void filter(){
         FilteredList<Doleance> filteredData = new FilteredList<>(oblist, b -> true);
@@ -314,6 +380,7 @@ public class ControllerConsulterDoleance implements Initializable {
 
 
     private void loadData(){
+        stats();
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
