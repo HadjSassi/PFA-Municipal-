@@ -4,23 +4,28 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="576.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="547.0" fitWidth="906.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-112.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../../images/1municipalité-tunisie-640x411.jpg.png" />
-         </image>
-      </ImageView>
       <AnchorPane layoutY="510.0" prefHeight="67.0" prefWidth="794.0" style="-fx-background-color: #464646;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="642.0" layoutY="9.0" prefHeight="50.0" prefWidth="138.0" text=" Version Alpha 0.2" textFill="WHITE" AnchorPane.rightAnchor="14.0">
+            <Label layoutX="642.0" layoutY="9.0" prefHeight="50.0" prefWidth="138.0" text=" Version Alpha 0.8" textFill="WHITE" AnchorPane.rightAnchor="14.0">
                <font>
                   <Font name="Arial Italic" size="15.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
+      <VBox prefHeight="576.0" prefWidth="906.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="547.0" fitWidth="906.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/municipalité-tunisie-640x411.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2021-05-04T16:42:31 -->
+<!-- 2021-05-05T15:25:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rapportF" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Oracle Data Adapter "/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -63,7 +63,7 @@
 		<![CDATA[select
 revenu.ID as ID,
 TYPE,
-TO_NUMBER(PRIX)*1 as revenus,
+PRIX as revenus,
 0 as depenses,
 DATES,
 NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL
@@ -73,7 +73,7 @@ select
 depense.ID as ID,
 TYPE,
 0 as revenus,
-TO_NUMBER(PRIX)*(-1) as depenses,
+PRIX*(-1) as depenses,
 DATES,
 NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL
 from depense,settings
@@ -82,8 +82,8 @@ order by DATES]]>
 	</queryString>
 	<field name="ID" class="java.math.BigDecimal"/>
 	<field name="TYPE" class="java.lang.String"/>
-	<field name="REVENUS" class="java.lang.Integer"/>
-	<field name="DEPENSES" class="java.lang.Integer"/>
+	<field name="REVENUS" class="java.lang.Double"/>
+	<field name="DEPENSES" class="java.lang.Double"/>
 	<field name="DATES" class="java.sql.Timestamp"/>
 	<field name="NOM_MUNI" class="java.lang.String"/>
 	<field name="ADRESSE" class="java.lang.String"/>
@@ -108,6 +108,12 @@ order by DATES]]>
 		<variableExpression><![CDATA[$F{REVENUS}]]></variableExpression>
 	</variable>
 	<variable name="DEPENSES3" class="java.lang.Integer" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{DEPENSES}]]></variableExpression>
+	</variable>
+	<variable name="REVENUS4" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{REVENUS}]]></variableExpression>
+	</variable>
+	<variable name="DEPENSES4" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{DEPENSES}]]></variableExpression>
 	</variable>
 	<title>
@@ -177,6 +183,10 @@ order by DATES]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NOM_MUNI}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="-6" y="0" width="60" height="60" uuid="632b155c-d58c-4fd7-a9cb-f02bd2a3251e"/>
+				<imageExpression><![CDATA["D:/git/PFA-Municipal-/PFA/src/sample/images/municipalite-tunis.png"]]></imageExpression>
+			</image>
 			<staticText>
 				<reportElement x="165" y="120" width="250" height="44" uuid="b8b820f0-3129-49f0-a811-907586f1a779"/>
 				<textElement textAlignment="Center">
@@ -184,10 +194,6 @@ order by DATES]]>
 				</textElement>
 				<text><![CDATA[RAPPORT FINANCIER]]></text>
 			</staticText>
-			<image>
-				<reportElement x="-10" y="10" width="50" height="50" uuid="0e22b150-c3da-4e76-b76e-6e556395b038"/>
-				<imageExpression><![CDATA["C:/Users/Kerkennah/Desktop/PFA/src/sample/images/municipalite-tunis.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<columnHeader>
@@ -226,27 +232,13 @@ order by DATES]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21">
+		<band height="40">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="0" y="0" width="130" height="20" uuid="0d63abd1-81a0-46f2-a35c-d0eb8460474e"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TYPE}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="160" y="0" width="80" height="20" uuid="25c4c668-f263-491b-89d0-7b7aaf5de40a"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{REVENUS}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="280" y="0" width="100" height="20" uuid="06642c89-9792-45c0-9e5e-a3091f89311b"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{DEPENSES}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="Detail" positionType="Float" x="430" y="0" width="100" height="20" uuid="7f7d7389-9017-418c-95b1-df68486e5cac"/>
@@ -258,6 +250,14 @@ order by DATES]]>
 			<line>
 				<reportElement x="-1" y="20" width="536" height="1" uuid="ccc3e4dc-e03b-4eb3-b94c-9a93067826b5"/>
 			</line>
+			<textField>
+				<reportElement x="160" y="0" width="100" height="20" uuid="bfe768ec-a41b-4693-9dcd-3df9b9a1b8f4"/>
+				<textFieldExpression><![CDATA[$F{REVENUS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="100" height="20" uuid="9755c28d-efe7-4309-b034-45e8df5c6f95"/>
+				<textFieldExpression><![CDATA[$F{DEPENSES}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<lastPageFooter>
@@ -282,16 +282,8 @@ order by DATES]]>
 				<text><![CDATA[Balance:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="20" width="100" height="30" uuid="fa1884fd-3ffe-466a-9fc3-84a5b2173eae"/>
-				<textFieldExpression><![CDATA[$V{REVENUS3}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="290" y="20" width="100" height="30" uuid="ab42c44f-a80b-4885-aec9-4f341cb05e18"/>
-				<textFieldExpression><![CDATA[$V{DEPENSES3}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="465" y="20" width="84" height="30" uuid="8c976832-8f90-4c39-96fa-074be8fccc6a"/>
-				<textFieldExpression><![CDATA[$V{REVENUS3}+$V{DEPENSES3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REVENUS4}+$V{DEPENSES4}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="416" y="130" width="129" height="21" uuid="7a57856f-64dd-414c-9327-bfe661a1e844"/>
@@ -344,6 +336,14 @@ order by DATES]]>
 			<line>
 				<reportElement x="544" y="10" width="1" height="41" uuid="92ca2bcf-7bf0-4dfe-9f82-de5cc013be23"/>
 			</line>
+			<textField>
+				<reportElement x="90" y="21" width="100" height="30" uuid="b76ac6e1-2b1f-4aed-af1d-bdbbf5ec8cfa"/>
+				<textFieldExpression><![CDATA[$V{REVENUS4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="20" width="100" height="30" uuid="39c91e7c-2b3a-4710-af13-59edffca528a"/>
+				<textFieldExpression><![CDATA[$V{DEPENSES4}]]></textFieldExpression>
+			</textField>
 		</band>
 	</lastPageFooter>
 </jasperReport>
