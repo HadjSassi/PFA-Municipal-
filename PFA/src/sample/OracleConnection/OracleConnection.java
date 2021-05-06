@@ -26,8 +26,8 @@ public class OracleConnection {
         }
 
         String URL = "jdbc:oracle:thin:@localhost:1521/XE";
-        String Username = "PFA";
-        String Password = "SYSTEM";
+        String Username = "test";
+        String Password = "test";
 
         Connection connection = null ;
 

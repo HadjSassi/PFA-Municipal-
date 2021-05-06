@@ -11,7 +11,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.App.model.Engin;
 import sample.App.model.Materiel;
+import sample.App.model.Personnel;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -30,7 +32,7 @@ public class AddMatCon implements Initializable {
     private TableColumn<Materiel, CheckBox> col_select;
 
     @FXML
-    private TableColumn<Materiel, String> idCol;
+    private TableColumn<Materiel, String> consCol;
 
     @FXML
     private TableColumn<Materiel, String> typeCol;
@@ -67,7 +69,7 @@ public class AddMatCon implements Initializable {
     static String matricule;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        consCol.setCellValueFactory(new PropertyValueFactory<>("consom"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("designation"));
         col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
         oblist = FXCollections.observableArrayList();

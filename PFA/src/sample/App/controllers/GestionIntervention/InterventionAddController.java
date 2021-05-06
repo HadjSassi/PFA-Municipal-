@@ -23,7 +23,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import oracle.jdbc.OracleResultSetCache;
 import sample.App.model.Engin;
+import sample.App.model.Intervention;
 import sample.App.model.Materiel;
 import sample.App.model.Personnel;
 
@@ -33,6 +35,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -145,7 +148,7 @@ public class InterventionAddController implements Initializable {
     private TableColumn<Engin, String> markCol;
 
     @FXML
-    private TableColumn<?, ?> idCol1;
+    private TableColumn<?, ?> consCol1;
 
     @FXML
     private TableColumn<?, ?> typeCol1;
@@ -195,7 +198,8 @@ public class InterventionAddController implements Initializable {
         rs1.setString(1,table_info_Mat.toString());
         rs1.execute();
     }
-
+    public static Date dD;
+    public static Date dF;
     @FXML
     void handleClicksPage2(ActionEvent event) throws URISyntaxException {
         String nom=NomFiled.getText();
@@ -239,8 +243,11 @@ public class InterventionAddController implements Initializable {
             alert.setContentText("Un des champs n'est pas correctement inserer");
             alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
             alert.showAndWait();}
-        else
+        else{
             anchorpane2.toFront();
+            dD= Date.valueOf(dateDebutField.getValue());
+            dF= Date.valueOf(dateFinField.getValue());
+        }
     }
 
     @FXML
@@ -366,6 +373,14 @@ public class InterventionAddController implements Initializable {
                 rs.setString(2,IdInterventionField.getText());
                 rs.execute();
             }
+            System.out.println(T);
+            for(int i=0;i<V.size();i++){
+                System.out.println(V.get(i)[0]+" "+V.get(i)[1]);
+                rs = connection.prepareStatement("UPDATE MATERIEL set QTE=QTE - ? where DESIGNATION=?" );
+                rs.setString(1, V.get(i)[1]);
+                rs.setString(2, V.get(i)[0]);
+                rs.execute();
+            }
 //            for(Materiel i:table_info_Mat.getItems()){
 //                rs = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
 //                rs.setString(1,i.getId());
@@ -390,7 +405,9 @@ public class InterventionAddController implements Initializable {
             stage.close();
         }
     }
+    ArrayList<String[]> T;
     private Personnel percheff;
+    ArrayList<String[]> V;
     @FXML
     void handleClicksTabOutils(ActionEvent event) throws IOException, SQLException {
         Parent root = FXMLLoader.load(getClass().getResource("../../view/interIAddMateriel.fxml"));
@@ -399,12 +416,14 @@ public class InterventionAddController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        idCol1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        consCol1.setCellValueFactory(new PropertyValueFactory<>("consom"));
         typeCol1.setCellValueFactory(new PropertyValueFactory<>("designation"));
         ArrayList<Integer> qtelist=new ArrayList<>();
+        V=new ArrayList<>();
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
             if (!stage.isShowing()){
-                table_info_Mat.setItems(AddMatCon.oblist2);
+
+                    table_info_Mat.setItems(AddMatCon.oblist2);
                     vbox_outils.getChildren().clear();
                     ImageView img=new ImageView();
                     img.fitHeightProperty().set(76);
@@ -416,23 +435,36 @@ public class InterventionAddController implements Initializable {
                     l.setText("* Remplir la quantite de "+table_info_Mat.getItems().get(i).getDesignation());
                     vbox_outils.getChildren().add(l);}
                     qtelist.clear();
+                    V.clear();
                     for(int i=0;i<table_info_Mat.getItems().size();i++){
+
                         try {
                             int s=0;
                             Connection connection=getOracleConnection();
-                            PreparedStatement rs1 = connection.prepareStatement("select QTEUSED from interMAT WHERE ID=?");
+                            PreparedStatement rs1 = connection.prepareStatement("select QTEUSED from interMAT,intervention WHERE interMAT.ID=? and intervention.IDMAT=interMAT.IDMAT and (dateD BETWEEN ? and ? or dateF BETWEEN ? and ? )");
                             rs1.setString(1,table_info_Mat.getItems().get(i).getDesignation());
+                            rs1.setDate(2,InterventionAddController.dD);
+                            rs1.setDate(3,InterventionAddController.dF);
+                            rs1.setDate(4,InterventionAddController.dD);
+                            rs1.setDate(5,InterventionAddController.dF);
                             ResultSet rc=rs1.executeQuery();
                             while(rc.next()){
                                 s+=rc.getInt("QTEUSED");
                             }
+                            if(table_info_Mat.getItems().get(i).getConsom().equals("Oui")) {
+                                String[] c=new String[2];
+                                c[0]=table_info_Mat.getItems().get(i).getDesignation();
+                                c[1]="0";
+                                V.add(c);}
                             qtelist.add(table_info_Mat.getItems().get(i).getQte()-s);
                             System.out.println(qtelist.get(i)+" non utilisé");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
+
                 }
-            }}
+            }
+            }
         });
         AddMatCon.matricule= IdInterventionField.getText();
         //drag it here
@@ -446,6 +478,8 @@ public class InterventionAddController implements Initializable {
             stage.setY(event1.getScreenY() - y);
 
         });
+
+
         //add cell of button edit
         Callback<TableColumn<Materiel, String>, TableCell<Materiel, String>> cellFoctory = (TableColumn<Materiel, String> param) -> {
             // make cell containing buttons
@@ -455,13 +489,15 @@ public class InterventionAddController implements Initializable {
                     super.updateItem(item, empty);
                     //that cell created only on non-empty rows
                     if (!empty) {
-                        TextField text=new TextField();
-                        text.setStyle("-fx-text-fill : #000000");
-                        text.setOnKeyReleased((KeyEvent event) -> {
+                        TextField text1=new TextField();
+                        text1.setStyle("-fx-text-fill : #000000");
+                        TextField text2=new TextField();
+                        text2.setStyle("-fx-text-fill : #000000");
+                        text1.setOnKeyReleased((KeyEvent event) -> {
                             Label l=new Label();
                             l.setStyle("-fx-text-fill:red");
-                            if(text.getText()!=null&&isNumeric(text.getText())&&Integer.valueOf(text.getText())>0){
-                                if(Integer.valueOf(text.getText())>qtelist.get(this.getTableRow().getIndex())){
+                            if(text1.getText()!=null&&isNumeric(text1.getText())&&Integer.valueOf(text1.getText())>0){
+                                if(Integer.valueOf(text1.getText())>qtelist.get(this.getTableRow().getIndex())){
                                     l.setText("* La quantité de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+" est superieur à la quantite disponible");
                                     vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);
                                 }
@@ -479,15 +515,16 @@ public class InterventionAddController implements Initializable {
                                         rs1.setString(2,place2);
                                         ResultSet rs=rs1.executeQuery();
                                         if (rs.next()==false){
-                                        rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
-                                        rs1.setString(1,table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
-                                        rs1.setString(2,IdInterventionField.getText());
-                                        rs1.setInt(3, Integer.parseInt(text.getText()));
-                                        rs1.execute();}
+                                            rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
+                                            rs1.setString(1,table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                            rs1.setString(2,IdInterventionField.getText());
+                                            rs1.setInt(3, Integer.parseInt(text1.getText()));
+                                            rs1.execute();
+                                        }
                                         else
                                         {
                                             rs1 = connection.prepareStatement("UPDATE interMAT set qteUsed=? where IDMAT='" + IdInterventionField.getText() + "' AND ID='"+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+"'");
-                                            rs1.setInt(1, Integer.parseInt(text.getText()));
+                                            rs1.setInt(1, Integer.parseInt(text1.getText()));
                                             rs1.execute();
                                         }
                                         connection.close();
@@ -497,11 +534,66 @@ public class InterventionAddController implements Initializable {
                                     //table_info_Mat.getItems().get(this.getTableRow().getIndex()).setQte(Integer.parseInt(text.getText()));
                                     //System.out.println(table_info_Mat.getItems().get(this.getTableRow().getIndex()).getQte());
                                 }}
-                                else{
+                            else{
                                 l.setText("* Remplir la quantite de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
                                 vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);}
                         });
-                        setGraphic(text);
+                        text2.setOnKeyReleased((KeyEvent event) -> {
+                            Label l=new Label();
+                            l.setStyle("-fx-text-fill:red");
+                            if(text2.getText()!=null&&isNumeric(text2.getText())&&Integer.valueOf(text2.getText())>0){
+                                if(Integer.valueOf(text2.getText())>qtelist.get(this.getTableRow().getIndex())){
+                                    l.setText("* La quantité de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+" est superieur à la quantite disponible");
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);
+                                }
+                                else{
+                                    l.setText("✓");
+                                    l.setStyle("-fx-text-fill: #32CD32");
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);
+                                    Connection connection=null;
+                                    try {
+                                        connection=getOracleConnection();
+                                        String place1=IdInterventionField.getText();
+                                        String place2=table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation();
+                                        PreparedStatement rs1 = connection.prepareStatement("select * from interMAT WHERE IDMAT=? AND ID=?");
+                                        rs1.setString(1,place1);
+                                        rs1.setString(2,place2);
+                                        ResultSet rs=rs1.executeQuery();
+                                        if (rs.next()==false){
+                                            rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
+                                            rs1.setString(1,table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                            rs1.setString(2,IdInterventionField.getText());
+                                            rs1.setInt(3, Integer.parseInt(text2.getText()));
+                                            rs1.execute();
+                                        }
+                                        else
+                                        {
+                                            rs1 = connection.prepareStatement("UPDATE interMAT set qteUsed=? where IDMAT='" + IdInterventionField.getText() + "' AND ID='"+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+"'");
+                                            rs1.setInt(1, Integer.parseInt(text2.getText()));
+                                            rs1.execute();
+                                        }
+                                        connection.close();
+                                    } catch (SQLException throwables) {
+                                        throwables.printStackTrace();
+                                    }
+                                    for(int i=0;i<V.size();i++){
+                                        if(V.get(i)[0].equals(table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()))
+                                            V.get(i)[1]= text2.getText();
+                                    }
+                                }}
+                            else{
+                                l.setText("* Remplir la quantite de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);}
+                            for(int i=0;i<V.size();i++)
+                                System.out.println(V.get(i)[0]+" "+V.get(i)[1]);
+                        });
+
+                        if(table_info_Mat.getItems().get(this.getTableRow().getIndex()).getConsom().equals("Non")){
+                            setGraphic(text1);
+
+                        }else{
+                            setGraphic(text2);
+                        }
                         setText(null);
 
                     }
@@ -776,7 +868,15 @@ public class InterventionAddController implements Initializable {
             DelegationField.setStyle("-fx-background-color:white;");}
     }
     @FXML
-    void verifdateDebut(ActionEvent event) {
+    void verifdateDebut(ActionEvent event) throws SQLException {
+        table_info_Mat.setItems(null);
+        table_info_Per.setItems(null);
+        table_info_Eng.setItems(null);
+        Connection connection=null;
+        connection=getOracleConnection();
+        PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+        rs1.setString(1,IdInterventionField.getText());
+        rs1.execute();
         verdateDebut = false;
         verdateFin = false;
         if (!dateFinField.isDisable()){
@@ -810,7 +910,15 @@ public class InterventionAddController implements Initializable {
     }
 
     @FXML
-    void verifdateFin(ActionEvent event) {
+    void verifdateFin(ActionEvent event) throws SQLException {
+        table_info_Mat.setItems(null);
+        table_info_Per.setItems(null);
+        table_info_Eng.setItems(null);
+        Connection connection=null;
+        connection=getOracleConnection();
+        PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+        rs1.setString(1,IdInterventionField.getText());
+        rs1.execute();
         if (validDate(dateFinField.getValue(), dateDebutField.getValue()) >0) {
             dateFinLabel.setText("🠔 Date de Fin invalide");
             verdateFin = false;

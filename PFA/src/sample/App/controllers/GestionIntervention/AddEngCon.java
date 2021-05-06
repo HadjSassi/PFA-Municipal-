@@ -16,8 +16,10 @@ import sample.App.model.Personnel;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
@@ -49,7 +51,7 @@ public class AddEngCon implements Initializable {
             if(en.getCheck().isSelected()){
                 oblist2.add(en);
             }
-    }
+        }
         stage = (Stage) anchorpane.getScene().getWindow();
         stage.close();
     }
@@ -71,9 +73,21 @@ public class AddEngCon implements Initializable {
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
+            ArrayList<String> v=new ArrayList<>();
+            PreparedStatement rs1 =connection.prepareStatement("select * from INTERVENTION,INTERENG where INTERENG.IDMAT=INTERVENTION.IDMAT and (dateD BETWEEN ? and ? or dateF BETWEEN ? and ? )");
+            rs1.setDate(1,InterventionAddController.dD);
+            rs1.setDate(2,InterventionAddController.dF);
+            rs1.setDate(3,InterventionAddController.dD);
+            rs1.setDate(4,InterventionAddController.dF);
+            rs1.execute();
+            ResultSet rs11=rs1.executeQuery();
+            while(rs11.next()){
+                v.add(rs11.getString("id"));
+            }
             ResultSet rs = connection.createStatement().executeQuery("select * from Engin ");
             while(rs.next()){
-                oblist.add(new Engin(rs.getString("id"),rs.getString("type"),rs.getString("dispo"),rs.getString("Marque")));
+                if(!v.contains(rs.getString("id")))
+                    oblist.add(new Engin(rs.getString("id"),rs.getString("type"),rs.getString("dispo"),rs.getString("Marque")));
             }
             rs.close();
         } catch (SQLException throwables) {

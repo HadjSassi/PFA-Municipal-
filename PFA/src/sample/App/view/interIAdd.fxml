@@ -89,8 +89,8 @@
                         </Button>
                         <TableView fx:id="table_info_Mat" prefHeight="800.0" prefWidth="242.0" stylesheets="@../css/style.css">
                            <columns>
-                              <TableColumn fx:id="idCol1" prefWidth="75.0" text="Id" />
                               <TableColumn fx:id="typeCol1" prefWidth="75.0" text="Type" />
+                              <TableColumn fx:id="consCol1" prefWidth="75.0" text="Consomable" />
                               <TableColumn fx:id="qteCol1" prefWidth="75.0" text="Qte" />
                            </columns>
                            <columnResizePolicy>

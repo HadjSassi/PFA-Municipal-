@@ -17,8 +17,10 @@ import sample.App.model.Personnel;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
@@ -54,7 +56,7 @@ public class AddPerCon  implements Initializable {
                 per.setCheff(new RadioButton());
                 oblist2.add(per);
             }
-    }
+        }
         stage = (Stage) anchorpane.getScene().getWindow();
         stage.close();
     }
@@ -77,9 +79,22 @@ public class AddPerCon  implements Initializable {
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();
+            ArrayList<String> v=new ArrayList<>();
+            PreparedStatement rs1 =connection.prepareStatement("select * from INTERVENTION,INTERPER where INTERPER.IDMAT=INTERVENTION.IDMAT and (dateD BETWEEN ? and ? or dateF BETWEEN ? and ? )");
+            rs1.setDate(1,InterventionAddController.dD);
+            rs1.setDate(2,InterventionAddController.dF);
+            rs1.setDate(3,InterventionAddController.dD);
+            rs1.setDate(4,InterventionAddController.dF);
+            rs1.execute();
+            ResultSet rs11=rs1.executeQuery();
+            while(rs11.next()){
+                v.add(rs11.getString("MATRICULE"));
+            }
+            System.out.println(v);
             ResultSet rs = connection.createStatement().executeQuery("select * from PERSONNEL");
             while(rs.next()){
-                oblist.add(new Personnel(rs.getString("matricule"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getDate("naissance"),rs.getFloat("salaire"),rs.getString("sex"),rs.getInt("tel"),rs.getString("service"),rs.getString("description")));
+                if(!v.contains(rs.getString("matricule")))
+                    oblist.add(new Personnel(rs.getString("matricule"),rs.getString("cin"),rs.getString("nom"),rs.getString("prenom"),rs.getDate("naissance"),rs.getFloat("salaire"),rs.getString("sex"),rs.getInt("tel"),rs.getString("service"),rs.getString("description")));
             }
             connection.close();
         } catch (SQLException throwables) {

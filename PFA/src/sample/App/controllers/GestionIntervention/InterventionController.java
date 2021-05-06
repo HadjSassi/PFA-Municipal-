@@ -1,5 +1,7 @@
 package sample.App.controllers.GestionIntervention;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -161,10 +163,7 @@ public class InterventionController implements Initializable {
             if(inter.getCheck().isSelected() && del.get()){
                 try {
                     Connection connection= getOracleConnection();
-                    PreparedStatement rs1 = connection.prepareStatement("delete from INTERVENTION where idMat=?");
-                    rs1.setString(1,inter.getIdI());
-                    rs1.execute();
-                    rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+                    PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
                     rs1.setString(1,inter.getIdI());
                     rs1.execute();
                     rs1 = connection.prepareStatement("DELETE from interPER WHERE IDMAT=?");
@@ -173,13 +172,16 @@ public class InterventionController implements Initializable {
                     rs1 = connection.prepareStatement("DELETE from interENG WHERE IDMAT=?");
                     rs1.setString(1,inter.getIdI());
                     rs1.execute();
+                    rs1 = connection.prepareStatement("delete from INTERVENTION where idMat=?");
+                    rs1.setString(1,inter.getIdI());
+                    rs1.execute();
                     connection.close();
 
                 }catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
-    }
+        }
         loadData();
         check_selAll.setSelected(false);
     }
@@ -273,72 +275,23 @@ public class InterventionController implements Initializable {
                         eye.setImage(im);
                         eye.setFitHeight(28);
                         eye.setFitWidth(28);
-                        //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
-                        im= new Image("sample/images/edit1.png");
-                        ImageView editIcon=new ImageView();
-                        editIcon.setImage(im);
-                        editIcon.setFitHeight(28);
-                        editIcon.setFitWidth(28);
-
                         eye.setStyle(
                                 " -fx-cursor: hand ;"
                                         + "-glyph-size:28px;"
                         );
-                        editIcon.setStyle(
-                                " -fx-cursor: hand ;"
-                                        + "-glyph-size:28px;"
-                        );
-
-                        editIcon.setOnMouseClicked((MouseEvent event) -> {
-                            intervention=table_info.getSelectionModel().getSelectedItem();
-                            FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../view/gPerModif.fxml"));
-                            try {
-                                loader.load();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            gPerModifController addController= loader.getController();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
-                            LocalDate dateTime1 = LocalDate.parse(intervention.getDateDeb(), formatter);
-                            LocalDate dateTime2 = LocalDate.parse(intervention.getDateDeb(), formatter);
-                            //addController.setTextFiel(intervention.getIdI(),intervention.getNom(),dateTime1,dateTime2,intervention.getEtat());
-                            Parent parent=loader.getRoot();
-                            Stage stage=new Stage();
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.TRANSPARENT);
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-                                if (!stage.isShowing()){
-                                    loadData();
-                                }
-                            });
-                            //drag it here
-                            parent.setOnMousePressed(event1 -> {
-                                x = event1.getSceneX();
-                                y = event1.getSceneY();
-                            });
-                            parent.setOnMouseDragged(event1 -> {
-
-                                stage.setX(event1.getScreenX() - x);
-                                stage.setY(event1.getScreenY() - y);
-
-                            });
-                            stage.show();
-                        });
                         eye.setOnMouseClicked((MouseEvent event) -> {
                             intervention=table_info.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader ();
-                            loader.setLocation(getClass().getResource("../../view/gPerAffich.fxml"));
+                            loader.setLocation(getClass().getResource("../../view/interIAffich.fxml"));
                             try {
                                 loader.load();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            gPerAffichController addController= loader.getController();
+                            InterventionAffController addController= loader.getController();
                             //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRANCE);
                             //LocalDate dateTime = LocalDate.parse(personnel.getNaissance(), formatter);
-                            //addController.setTextFiel(personnel.getMatricule(),personnel.getNom(),personnel.getPrenom(),personnel.getCin(),personnel.getTel(),personnel.getSex(),personnel.getNaissance(),personnel.getService(),personnel.getSalaire(),personnel.getDescription());
+                            addController.setTextFiel(intervention);
                             Parent parent=loader.getRoot();
                             Stage stage=new Stage();
                             stage.setScene(new Scene(parent));
@@ -363,13 +316,9 @@ public class InterventionController implements Initializable {
                             stage.show();
                         });
 
-                        HBox managebtn = new HBox(editIcon, eye);
+                        HBox managebtn = new HBox(eye);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(eye, new Insets(2, 2, 0, 3));
-                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-
                         setGraphic(managebtn);
-
                         setText(null);
 
                     }
@@ -415,7 +364,7 @@ public class InterventionController implements Initializable {
             while(rs.next()){
                 ArrayList<Personnel> p=new ArrayList<>();
                 try {
-                    PreparedStatement rs1 = connection.prepareStatement("select PERSONNEL.MATRICULE,CIN,NOM,PRENOM,NAISSANCE,SALAIRE,SEX,TEL,SERVICE,DESCRIPTION from PERSONNEL,INTERPER WHERE IDMAT=?");
+                    PreparedStatement rs1 = connection.prepareStatement("select PERSONNEL.MATRICULE,CIN,NOM,PRENOM,NAISSANCE,SALAIRE,SEX,TEL,SERVICE,DESCRIPTION from PERSONNEL,INTERPER WHERE IDMAT=? and PERSONNEL.MATRICULE=INTERPER.MATRICULE");
                     rs1.setString(1,rs.getString("idMat"));
                     ResultSet rc=rs1.executeQuery();
                     while(rc.next()){
@@ -426,18 +375,18 @@ public class InterventionController implements Initializable {
                 }
                 ArrayList<Materiel> m=new ArrayList<>();
                 try {
-                    PreparedStatement rs1 = connection.prepareStatement("select MATERIEL.ID,DESIGNATION,QTE from MATERIEL,interMAT WHERE IDMAT=?");
+                    PreparedStatement rs1 = connection.prepareStatement("select ID,qteUsed,CONSOMABLE from MATERIEL,interMAT WHERE IDMAT=? and ID=DESIGNATION");
                     rs1.setString(1,rs.getString("idMat"));
                     ResultSet rc=rs1.executeQuery();
                     while(rc.next()){
-                        m.add(new Materiel(rc.getString("DESIGNATION"),rc.getInt("QTE"),rs.getString("CONSOMABLE")));
+                        m.add(new Materiel(rc.getString("ID"),rc.getInt("qteUsed"),rc.getString("CONSOMABLE")));
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
                 ArrayList<Engin> e=new ArrayList<>();
                 try {
-                    PreparedStatement rs1 = connection.prepareStatement("select ENGIN.id,type,dispo,marque from ENGIN,interENG WHERE IDMAT=?");
+                    PreparedStatement rs1 = connection.prepareStatement("select ENGIN.id,type,dispo,marque from ENGIN,interENG WHERE IDMAT=? and ENGIN.ID=interENG.ID");
                     rs1.setString(1,rs.getString("idMat"));
                     ResultSet rc=rs1.executeQuery();
                     while(rc.next()){
@@ -448,6 +397,7 @@ public class InterventionController implements Initializable {
                 }
                 oblist.add(new Intervention(rs.getString("idMat"),rs.getString("nom"),rs.getString("domaine"),rs.getString("volet"),rs.getDate("dateD"),rs.getDate("dateF"),rs.getString("gouvernerat"),rs.getString("delegation"),rs.getString("localisation"),rs.getString("description"),rs.getString("etat"),rs.getString("cheff"),p,m,e));
                 NbInter++;
+                if(rs.getString("etat")!=null){
                 if (rs.getString("etat").equals("Terminé")) {
                     NbTermine++;
                 } else if (rs.getString("etat").equals("EnCours")){
@@ -456,7 +406,7 @@ public class InterventionController implements Initializable {
                     NbInitial++;
                 } else if (rs.getString("etat").equals("Annulé")){
                     NbAnnule++;
-                }
+                }}
             }
             LabelNbInter.setText(String.valueOf(NbInter));
             LabelNbAnnule.setText(String.valueOf(NbAnnule));
@@ -488,47 +438,48 @@ public class InterventionController implements Initializable {
                             String clmStatus = param
                                     .getTableView().getItems()
                                     .get(currentIndex).getEtat();
-                            if (clmStatus.equals("Terminé")) {
-                                setStyle("-fx-text-fill : #4CAF50");
-                                setFont(Font.font ("Impact", 20));
+//                            if (clmStatus != null) {
+                                if (clmStatus.equals("Terminé")) {
+                                    setStyle("-fx-text-fill : #4CAF50");
+                                    setFont(Font.font("Impact", 20));
 //                                setTextFill(Color.WHITE);
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #4CAF50");
-                                setText(clmStatus);
-                            } else if (clmStatus.equals("EnCours")){
-                                setStyle("-fx-text-fill : #FFC107");
-                                setFont(Font.font ("Impact", 20));
+                                    setText(clmStatus);
+                                } else if (clmStatus.equals("EnCours")) {
+                                    setStyle("-fx-text-fill : #FFC107");
+                                    setFont(Font.font("Impact", 20));
 //                                setTextFill(Color.BLACK);
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #FFC107");
-                                setText(clmStatus);
-                            } else if (clmStatus.equals("Initial")){
-                                setStyle("-fx-text-fill : #26bfbc");
-                                setFont(Font.font ("Impact", 20));
+                                    setText(clmStatus);
+                                } else if (clmStatus.equals("Initial")) {
+                                    setStyle("-fx-text-fill : #26bfbc");
+                                    setFont(Font.font("Impact", 20));
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #48c7c7");
-                                setText(clmStatus);
-                            } else if (clmStatus.equals("Approuvé")){
-                                setStyle("-fx-text-fill : #03A9F4");
-                                setFont(Font.font ("Impact", 20));
+                                    setText(clmStatus);
+                                } else if (clmStatus.equals("Approuvé")) {
+                                    setStyle("-fx-text-fill : #03A9F4");
+                                    setFont(Font.font("Impact", 20));
 //                                setTextFill(Color.BLACK);
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #03A9F4");
-                                setText(clmStatus);
-                            } else if (clmStatus.equals("Annulé")){
-                                setStyle("-fx-text-fill : #fb3232");
-                                setFont(Font.font ("Impact", 20));
+                                    setText(clmStatus);
+                                } else if (clmStatus.equals("Annulé")) {
+                                    setStyle("-fx-text-fill : #fb3232");
+                                    setFont(Font.font("Impact", 20));
 //                                setTextFill(Color.WHITE);
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #fb3232");
-                                setText(clmStatus);
+                                    setText(clmStatus);
+                                }
+                            } else {
+                                setText(null);
+                                setStyle(null);
                             }
-                        }
-                        else{
-                            setText(null);
-                            setStyle(null);}
 
-                    }
+                        }
                 };
             }
         }); }
