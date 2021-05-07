@@ -24,7 +24,6 @@ public class Intervention {
     private String description;
     private String domaine;
     private String volet;
-    private CheckBox check;
 
 
 
@@ -42,9 +41,72 @@ public class Intervention {
         this.delegation = delegation;
         this.localisation = localisation;
         this.description = description;
-        this.check = new CheckBox();
         this.domaine=domaine;
         this.volet=volet;
+    }
+
+    public String getCheff() {
+        return cheff;
+    }
+
+    public void setCheff(String cheff) {
+        this.cheff = cheff;
+    }
+
+    public ArrayList<Personnel> getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(ArrayList<Personnel> equipe) {
+        this.equipe = equipe;
+    }
+
+    public ArrayList<Materiel> getMateriel() {
+        return materiel;
+    }
+
+    public void setMateriel(ArrayList<Materiel> materiel) {
+        this.materiel = materiel;
+    }
+
+    public ArrayList<Engin> getVehicule() {
+        return vehicule;
+    }
+
+    public void setVehicule(ArrayList<Engin> vehicule) {
+        this.vehicule = vehicule;
+    }
+
+    public String getGouvernerat() {
+        return gouvernerat;
+    }
+
+    public void setGouvernerat(String gouvernerat) {
+        this.gouvernerat = gouvernerat;
+    }
+
+    public String getDelegation() {
+        return delegation;
+    }
+
+    public void setDelegation(String delegation) {
+        this.delegation = delegation;
+    }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDomaine() {
@@ -65,13 +127,7 @@ public class Intervention {
 
     private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
             new Locale("fr","FR"));
-    public CheckBox getCheck() {
-        return check;
-    }
 
-    public void setCheck(CheckBox check) {
-        this.check = check;
-    }
     public String getIdI() {
         return idI;
     }

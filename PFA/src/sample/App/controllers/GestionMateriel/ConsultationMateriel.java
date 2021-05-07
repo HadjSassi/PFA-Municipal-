@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.model.Engin;
 import sample.App.model.Materiel;
 
 import java.io.IOException;
@@ -46,23 +47,14 @@ public class ConsultationMateriel implements Initializable {
     private Label LabelNbInter;
 
     @FXML
-    private Label LabelNbInitial;
-
-    @FXML
-    private Label LabelNbEnCours;
-
-    @FXML
     private Label LabelNbTermine;
 
     @FXML
     private Label LabelNbAnnule;
 
-
-
     static public boolean  itsokay = false ;
     @FXML
     TableView<Materiel> tableView;
-
     @FXML
     TableColumn <Materiel,String> typeCol ;
     @FXML
@@ -71,39 +63,24 @@ public class ConsultationMateriel implements Initializable {
     TableColumn <Materiel,String> modifierCol ;
     @FXML
     TableColumn <Materiel,String> consomablecol ;
-
-    @FXML
-    private TableColumn<Materiel, CheckBox> col_select;
-
     @FXML
     Button addButton ;
-
     @FXML
     Button deleteButton;
-
     @FXML
     Button refresh;
-
-
-    @FXML
-    private CheckBox check_selAll;
-
     @FXML
     private TextField filterField;
-
-
-    private sample.App.controllers.gInterfaceController it ;
-
     String query = null;
     Connection connection = null ;
     PreparedStatement preparedStatement = null ;
     ResultSet rs = null ;
     Materiel materiel = null ;
-
     ObservableList<Materiel> items;
     ObservableList<Materiel> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         initTable();
         loadData();
         filter();
@@ -124,7 +101,7 @@ public class ConsultationMateriel implements Initializable {
             Connection connection= getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select sum(qte) nb from MATERIEL ");
             while(rs.next()){
-                LabelNbInitial.setText(rs.getString("nb"));
+                //LabelNbInitial.setText(rs.getString("nb"));
             }
             rs.close();
         } catch (SQLException e) {
@@ -151,7 +128,6 @@ public class ConsultationMateriel implements Initializable {
             System.out.println(e);
         }
     }
-
     private void filter(){
         FilteredList<Materiel> filteredData = new FilteredList<>(oblist, b -> true);
 
@@ -175,35 +151,9 @@ public class ConsultationMateriel implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
     }
-
-
-    private void checkAll(){
-        check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                items = tableView.getItems();
-                for (Materiel item : items){
-                    if(check_selAll.isSelected())
-                        item.getCb().setSelected(true);
-                    else
-                        item.getCb().setSelected(false);
-                    if(!item.getCb().isSelected()){
-                        check_selAll.setSelected(false);
-                    }
-
-                }
-            }
-        });
-    }
-
-
-
     private void initTable(){
         initCols();
-        checkAll();
     }
-
-
     private void initCols(){
 
         typeCol.setCellValueFactory(
@@ -308,10 +258,7 @@ public class ConsultationMateriel implements Initializable {
                 new PropertyValueFactory<>("consom")
         );
 
-        col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
     }
-
-
     private void loadData(){
         stats();
         oblist = FXCollections.observableArrayList();
@@ -332,7 +279,6 @@ public class ConsultationMateriel implements Initializable {
 
         tableView.setItems(oblist);
     }
-
     @FXML
     public void ajouter (ActionEvent event)  {
         Stage primaryStage = new Stage();
@@ -350,60 +296,49 @@ public class ConsultationMateriel implements Initializable {
         primaryStage.showAndWait();
         refresh();
     }
-
     @FXML
     public void refresh(ActionEvent event){
         loadData();
         //filter();
     }
-
     @FXML
     public void refresh(){
         loadData();
         //filter();
     }
-
     @FXML
     void supprimer(ActionEvent event) throws URISyntaxException {
         String s="";
         String s1 = null;
-        for(Materiel per:oblist){
-            if(per.getCb().isSelected()){
+        ObservableList<Materiel>  ob = tableView.getSelectionModel().getSelectedItems();
+        if (ob.toArray().length != 0) {
+            for (Materiel per : ob){
                 s+=per.getDesignation()+"///";
-                s1=per.getDesignation();
-            }}int so=0;
-        AtomicBoolean del = new AtomicBoolean(true);
-        for(Materiel per:oblist){
-
-            if(per.getCb().isSelected() && so==0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.setHeaderText(null);
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer le materiel  de n°: ///"+s);
-                alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
-                alert.showAndWait().ifPresent(type -> {
-                    if (type == okButton) {
-                        del.set(true);
-                    } else if (type == noButton) {
-                        del.set(false);
+                s1+=per.getDesignation();
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setHeaderText(null);
+            ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.setContentText("Etes-vous sure de supprimer Materiel n°: ///"+s);
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
+            alert.showAndWait().ifPresent(type -> {
+                if (type == okButton) {
+                    for (Materiel per : ob) {
+                        try {
+                            Connection connection = getOracleConnection();
+                            connection.createStatement().executeQuery("delete from Materiel where " + "\'" + per.getDesignation() + "\'" + "=DESIGNATION");
+                            connection.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
-                });
-                so++;
-            }
-            if(per.getCb().isSelected() && del.get()){
-                try {
-                    Connection connection= getOracleConnection();
-                    connection.createStatement().executeQuery("delete from Materiel where "+"\'"+per.getDesignation()+"\'"+"=DESIGNATION");
-                    connection.close();
-                }catch (SQLException throwables) {
-                    throwables.printStackTrace();
+
                 }
-            }
+            });
         }
         loadData();
-        check_selAll.setSelected(false);
     }
 }

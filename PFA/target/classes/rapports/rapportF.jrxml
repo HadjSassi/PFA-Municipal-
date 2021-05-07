@@ -77,7 +77,6 @@ PRIX*(-1) as depenses,
 DATES,
 NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL
 from depense,settings
-
 order by DATES]]>
 	</queryString>
 	<field name="ID" class="java.math.BigDecimal"/>

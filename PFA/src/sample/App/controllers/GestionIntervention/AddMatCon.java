@@ -6,12 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.App.model.Engin;
 import sample.App.model.Materiel;
+import sample.App.model.Personnel;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -27,10 +30,7 @@ public class AddMatCon implements Initializable {
     private TableView<Materiel> table_info;
 
     @FXML
-    private TableColumn<Materiel, CheckBox> col_select;
-
-    @FXML
-    private TableColumn<Materiel, String> idCol;
+    private TableColumn<Materiel, String> consCol;
 
     @FXML
     private TableColumn<Materiel, String> typeCol;
@@ -41,41 +41,44 @@ public class AddMatCon implements Initializable {
 
     @FXML
     void handleClicksAjout(ActionEvent event) throws SQLException {
+        ObservableList<Materiel> ob = table_info.getSelectionModel().getSelectedItems();
         oblist2 = FXCollections.observableArrayList();
-        for(Materiel ma:oblist){
-            if(ma.getCb().isSelected()){
-                oblist2.add(ma);
-            }
+        for (Materiel ma : ob) {
+            oblist2.add(ma);
+
         }
         stage = (Stage) anchorpane.getScene().getWindow();
         stage.close();
-        Connection connection=null;
-        connection=getOracleConnection();
+        Connection connection = null;
+        connection = getOracleConnection();
         PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
-        rs1.setString(1,matricule);
+        rs1.setString(1, matricule);
         rs1.execute();
     }
 
     Stage stage;
+
     @FXML
     void handleClicksAnnuler(ActionEvent event) {
         stage = (Stage) anchorpane.getScene().getWindow();
         stage.close();
     }
+
     ObservableList<Materiel> oblist;
     static ObservableList<Materiel> oblist2;
     static String matricule;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        table_info.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        consCol.setCellValueFactory(new PropertyValueFactory<>("consom"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("designation"));
-        col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
         oblist = FXCollections.observableArrayList();
         try {
-            Connection connection= getOracleConnection();
+            Connection connection = getOracleConnection();
             ResultSet rs = connection.createStatement().executeQuery("select * from Materiel ");
-            while(rs.next()){
-                oblist.add(new Materiel(rs.getString("designation"),rs.getInt("qte"),rs.getString("CONSOMABLE")));
+            while (rs.next()) {
+                oblist.add(new Materiel(rs.getString("designation"), rs.getInt("qte"), rs.getString("CONSOMABLE")));
             }
             rs.close();
         } catch (SQLException throwables) {

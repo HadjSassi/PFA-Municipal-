@@ -14,7 +14,6 @@ public class Revenu {
     private final String prix;
     private final String dates;
     private final String description;
-    private final CheckBox cb ;
 
     private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
             new Locale("fr","FR"));
@@ -25,7 +24,6 @@ public class Revenu {
         this.prix = prix;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.dates = formatD.format(dates);
-        this.cb = new CheckBox();
         this.description = desc;
     }
 
@@ -43,10 +41,6 @@ public class Revenu {
 
     public String getDates() {
         return dates;
-    }
-
-    public CheckBox getCb() {
-        return cb;
     }
 
     public String getDescription() {

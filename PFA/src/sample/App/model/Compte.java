@@ -13,12 +13,10 @@ public class Compte {
     private final String image;
     private final String role;
     private Boolean checked;
-    private CheckBox check;
 
     public Compte(String matricule, String pass, String value, String image, String role) {
         this.pass = new String(pass);
         this.role = role;
-        this.check = new CheckBox();
         this.image = image;
         this.per = new Personnel(matricule);
         this.checked = false;
@@ -38,15 +36,6 @@ public class Compte {
 
     public String getPass() {
         return pass;
-    }
-
-    public CheckBox getCheck() {
-        return check;
-    }
-
-
-    public void setCheck(CheckBox check) {
-        this.check = check;
     }
 
     public String getImage() {

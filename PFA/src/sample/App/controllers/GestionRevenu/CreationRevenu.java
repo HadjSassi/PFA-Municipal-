@@ -252,7 +252,7 @@ public class CreationRevenu implements Initializable {
             rs.close();
             lbldate.setText("");
         } catch (SQLException throwables) {
-            System.out.println("1000000 dawa7");
+            System.out.println(throwables);
         }
     }
     @FXML
@@ -274,7 +274,7 @@ public class CreationRevenu implements Initializable {
             }
             rs.close();
         } catch (SQLException throwables) {
-            System.out.println("1000000 dawa7");
+            System.out.println(throwables);
         }
 
 
