@@ -25,6 +25,8 @@ dispo varchar2(10),
 marque varchar2(50));
 
 alter table engin add (prix number(10,3));
+
+
 create table intervention(
 IDMAT varchar2(8) primary key,
 nom varchar2(8),

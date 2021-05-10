@@ -64,7 +64,22 @@ public class Statistics implements Initializable {
 
 
     @FXML
-    void rapportActiviteBouton(ActionEvent event) {
+    void rapportActiviteBouton(ActionEvent event) throws  FileNotFoundException {
+        try {
+            Connection connect = getOracleConnection();
+            map = new HashMap<String, Object>();
+
+//            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Wissal\\JaspersoftWorkspace\\MyReports\\exemple.jasper"));
+            InputStream initialStream = new FileInputStream(new File("D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jasper"));
+
+            Rapport.createReport(connect, map, initialStream);
+            Rapport.showReport();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+
 
     }
 
