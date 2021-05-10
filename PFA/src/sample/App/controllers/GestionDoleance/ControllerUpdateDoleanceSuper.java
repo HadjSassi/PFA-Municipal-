@@ -4,26 +4,32 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.App.controllers.GestionIntervention.InterventionAddController;
 import sample.App.model.Etat;
+import sample.App.model.Personnel;
 import sample.App.model.type_Doleance;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
@@ -284,7 +290,7 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
             verser =true;
             lblTypeError.setStyle("-fx-text-fill: #32CD32");
             lblTypeError.setText("✓");
-            TypeEnum.setStyle("-fx-background-color:white;");}
+            TypeEnum.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");}
     }
 
     @FXML
@@ -312,7 +318,7 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
                         verser =true;
                         lblTypeError.setStyle("-fx-text-fill: #32CD32");
                         lblTypeError.setText("✓");
-                        TypeEnum.setStyle("-fx-background-color:white;");}
+                        TypeEnum.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");}
                 }
 
                 if(!verdate) {
@@ -359,35 +365,55 @@ public class ControllerUpdateDoleanceSuper implements Initializable {
                 alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
                 alert.showAndWait();
             } else {
+                boolean interserted = false;
                 Connection connection = null;
+                if (EtatEnum.getValue().equals("EnCours")) {
+                    FXMLLoader loader = new FXMLLoader ();
+                    loader.setLocation(getClass().getResource("../../view/interIAdd.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ControllerConsulterDoleance.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    InterventionAddController addInterventionController = loader.getController();
+                    addInterventionController.setTextField(nom,description);
+                    Parent parent = loader.getRoot();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setScene(new Scene(parent));
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.showAndWait();
+                    interserted=addInterventionController.inserted();
+                }
+                if(interserted){
                 try {
                     connection = getOracleConnection();
 
                     //String insertion = "UPDATE doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getValue()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'initiale',"+"\'"+DescriptionFiled.getText()+"\'"+")";
 
                     String insertion = "Update doleance set " +
-                            "Type = "+"\'"+TypeEnum.getText()+"\'"+", Nom ="+"\'"+nameTextField.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", Cin = "+"\'"+CinTextField.getText()+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+", Description = "+"\'"+DescriptionFiled.getText()+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+" where ID = "+Integer.parseInt(lblId.getText())+"";
-
+                            "Type = " + "\'" + TypeEnum.getText() + "\'" + ", Nom =" + "\'" + nameTextField.getText() + "\'" + ",dates =?, Cin = " + "\'" + CinTextField.getText() + "\'" + ",tel = " + "\'" + (telfield.getText()) + "\'" + ", mail = " + "\'" + mailfield.getText() + "\'" + ", adr = " + "\'" + adrfield.getText() + "\'" + ", Description = " + "\'" + DescriptionFiled.getText() + "\'" + ", STATUS = " + "\'" + EtatEnum.getValue() + "\'" + " where ID = " + Integer.parseInt(lblId.getText()) + "";
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
+                    rs.setDate(1, Date.valueOf(datefield.getValue()));
                     System.out.println(insertion);
                     rs.execute();
                     //lbl.setText("Ajout avec succés");
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.initStyle(StageStyle.TRANSPARENT);
-                    alert.setHeaderText(null);
-                    alert.setContentText("Modification avec succés");
-                    alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
-                    alert.showAndWait();
-                    Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
-                    // do what you have to do
-                    stage.close();
-                } catch (SQLException | URISyntaxException throwables) {
-                    throwables.printStackTrace();
-                }
 
-            }
-        }
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.initStyle(StageStyle.TRANSPARENT);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Modification avec succés");
+                        alert.setGraphic(new ImageView(getClass().getResource("../../../images/approved2.png").toURI().toString()));
+                        alert.showAndWait();
+                        Stage stage = (Stage) buttonConfirmer.getScene().getWindow();
+                        // do what you have to do
+                        stage.close();
+                    } catch(SQLException | URISyntaxException throwables){
+                        throwables.printStackTrace();
+                    }
+                }
+        }}
         catch (NullPointerException e){
             //System.out.println("you have an error go check please mr Mahdi");
         }

@@ -1,10 +1,6 @@
 package sample.App.model;
 
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 
-import javax.swing.*;
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

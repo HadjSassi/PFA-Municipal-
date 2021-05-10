@@ -150,7 +150,18 @@ public class InterventionController implements Initializable {
                     for (Intervention inter : ob) {
                         try {
                             Connection connection= getOracleConnection();
-                            PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+                            PreparedStatement rs1;
+                            if(!inter.getEtat().equals("Terminé")){
+                                rs1 = connection.prepareStatement("select INTERMAT.ID,QTEUSED from INTERMAT,MATERIEL where ID=DESIGNATION and IDMAT=? and CONSOMABLE='Oui'");
+                                rs1.setString(1,inter.getIdI());
+                                ResultSet rs=rs1.executeQuery();
+                                while(rs.next()){
+                                    rs1 = connection.prepareStatement("UPDATE MATERIEL set QTE=QTE + ? where DESIGNATION='" + rs.getString(1) + "'");
+                                    rs1.setString(1,rs.getString(2));
+                                    rs1.execute();
+                                }
+                            }
+                            rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
                             rs1.setString(1,inter.getIdI());
                             rs1.execute();
                             rs1 = connection.prepareStatement("DELETE from interPER WHERE IDMAT=?");
@@ -434,13 +445,6 @@ public class InterventionController implements Initializable {
                                 setFont(Font.font("Impact", 20));
 //                                setStyle("-fx-font-weight: bold");
 //                                setStyle("-fx-background-color: #48c7c7");
-                                setText(clmStatus);
-                            } else if (clmStatus.equals("Approuvé")) {
-                                setStyle("-fx-text-fill : #03A9F4");
-                                setFont(Font.font("Impact", 20));
-//                                setTextFill(Color.BLACK);
-//                                setStyle("-fx-font-weight: bold");
-//                                setStyle("-fx-background-color: #03A9F4");
                                 setText(clmStatus);
                             } else if (clmStatus.equals("Annulé")) {
                                 setStyle("-fx-text-fill : #fb3232");

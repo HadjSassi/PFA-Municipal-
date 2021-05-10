@@ -1,5 +1,6 @@
 package sample.App.controllers.GestionEvenement;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -98,13 +99,21 @@ public class EvenementAffController implements Initializable {
 
     @FXML
     void handleClicksAnnuler(ActionEvent event) throws SQLException {
-        if (EtatCombo.getValue() != null) {
+        if (EtatCombo.getValue()!=null&&EtatCombo.getValue().equals("Annulé")) {
             Connection connection = getOracleConnection();
             PreparedStatement rs1;
             rs1 = connection.prepareStatement("UPDATE EVENEMENT set etat=? where IDMAT=?");
             rs1.setString(1, EtatCombo.getValue());
             rs1.setString(2, EvenementLabel.getText());
             rs1.execute();
+            rs1 = connection.prepareStatement("select EVENMAT.ID,QTEUSED from EVENMAT,MATERIEL where ID=DESIGNATION and IDMAT=? and CONSOMABLE='Oui'");
+            rs1.setString(1,EvenementLabel.getText());
+            ResultSet rs=rs1.executeQuery();
+            while(rs.next()){
+                rs1 = connection.prepareStatement("UPDATE MATERIEL set QTE=QTE + ? where DESIGNATION='" + rs.getString(1) + "'");
+                rs1.setString(1,rs.getString(2));
+                rs1.execute();
+            }
             rs1 = connection.prepareStatement("DELETE from EVENMAT WHERE IDMAT=?");
             rs1.setString(1, EvenementLabel.getText());
             rs1.execute();
@@ -152,16 +161,16 @@ public class EvenementAffController implements Initializable {
         col_nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         col_prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         oblist2 = FXCollections.observableArrayList();
+        Personnel p=null;
         try {
             Connection connection = getOracleConnection();
             PreparedStatement rs = connection.prepareStatement("select cheff from EVENEMENT");
             ResultSet rc = rs.executeQuery();
             while (rc.next()) {
                 for (int i = 0; i < Evenement.getEquipe().size(); i++) {
-
-                    if (Evenement.getEquipe().get(i).getMatricule() == rc.getString("cheff")) {
-                        //ici pour faire l'affichage mezyen pour le chef
+                    if (Evenement.getEquipe().get(i).getMatricule().equals(rc.getString("CHEFF"))) {
                         oblist2.add(Evenement.getEquipe().get(i));
+                        p=Evenement.getEquipe().get(i);
                     } else {
                         oblist2.add(Evenement.getEquipe().get(i));
                     }
@@ -172,6 +181,17 @@ public class EvenementAffController implements Initializable {
         }
 
         table_info_Per.setItems(oblist2);
+        table_info_Per.getSelectionModel().select(p);
+        Personnel finalP = p;
+        table_info_Per.getSelectionModel()
+                .selectedIndexProperty()
+                .addListener((observable, oldvalue, newValue) -> {
+
+                    Platform.runLater(() -> {
+                        table_info_Per.getSelectionModel().select(finalP);
+                    });
+
+                });
         //liste vehicule
         ObservableList<Engin> oblist3;
         idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -189,5 +209,23 @@ public class EvenementAffController implements Initializable {
         VoletLabel.setText(Evenement.getVolet());
         DescriptionFiled.setText(Evenement.getDescription());
         DescriptionFiled.setEditable(false);
+        table_info_Eng.getSelectionModel()
+                .selectedIndexProperty()
+                .addListener((observable, oldvalue, newValue) -> {
+
+                    Platform.runLater(() -> {
+                        table_info_Eng.getSelectionModel().clearSelection();
+                    });
+
+                });
+        table_info_Mat.getSelectionModel()
+                .selectedIndexProperty()
+                .addListener((observable, oldvalue, newValue) -> {
+
+                    Platform.runLater(() -> {
+                        table_info_Mat.getSelectionModel().clearSelection();
+                    });
+
+                });
     }
 }
