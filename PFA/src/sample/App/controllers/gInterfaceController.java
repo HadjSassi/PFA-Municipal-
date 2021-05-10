@@ -93,6 +93,15 @@ public class gInterfaceController implements Initializable {
 
     }
     @FXML
+    void handleClicksEven(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        AnchorPane view = object.getPane("evenement/even");
+        view.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        anchorpane3.getChildren().removeAll();
+        anchorpane3.getChildren().setAll(view);
+
+    }
+    @FXML
     void handleClicksComptes(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
         AnchorPane view = object.getPane("compte/CompteConsultation");

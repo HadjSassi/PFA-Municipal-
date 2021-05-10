@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.GestionEvenement.EvenementAddController">
+   <children>
+      <AnchorPane fx:id="anchorpane5" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="305.0" layoutY="477.0" prefHeight="38.0" prefWidth="128.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="361.0">
+               <children>
+                  <ImageView fitHeight="74.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/page5.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Label layoutX="40.0" layoutY="32.0" text="Ajout Intervention" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <Button alignment="CENTER" layoutX="699.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicksInsert" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="35.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/check.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPage4" alignment="CENTER" layoutX="639.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="95.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="692.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="74.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/icons8-close-window-642.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <HBox alignment="CENTER" layoutX="4.0" layoutY="107.0" prefHeight="355.0" prefWidth="787.0" spacing="7.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="107.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="279.0" prefWidth="417.0" spacing="7.0">
+                     <children>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleClicksTabOutils" prefHeight="44.0" prefWidth="200.0" style="-fx-text-fill: white;" styleClass="button3" stylesheets="@../../css/addStyle.css" text="Select Outils" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/materiels.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <TableView fx:id="table_info_Mat" prefHeight="800.0" prefWidth="242.0" stylesheets="@../../css/style.css">
+                           <columns>
+                              <TableColumn fx:id="typeCol1" prefWidth="75.0" text="Type" />
+                              <TableColumn fx:id="consCol1" prefWidth="75.0" text="Consomable" />
+                              <TableColumn fx:id="qteCol1" prefWidth="75.0" text="Qte" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vbox_outils" prefHeight="279.0" prefWidth="417.0" spacing="10.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane4" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="305.0" layoutY="477.0" prefHeight="38.0" prefWidth="128.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="361.0">
+               <children>
+                  <ImageView fitHeight="74.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/page4.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Label layoutX="40.0" layoutY="32.0" text="Ajout Intervention" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <Button alignment="CENTER" layoutX="699.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicksPage5" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="35.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPage3" alignment="CENTER" layoutX="639.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="95.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="692.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="74.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/icons8-close-window-642.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <HBox alignment="CENTER" layoutX="4.0" layoutY="107.0" prefHeight="355.0" prefWidth="787.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="107.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="279.0" prefWidth="417.0" spacing="7.0">
+                     <children>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleClicksTabVehicule" prefHeight="62.0" prefWidth="200.0" style="-fx-text-fill: white;" styleClass="button3" stylesheets="@../../css/addStyle.css" text="Select Vehicule" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="35.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/engin.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <TableView fx:id="table_info_Eng" prefHeight="800.0" prefWidth="242.0" stylesheets="@../../css/style.css">
+                           <columns>
+                              <TableColumn fx:id="idCol" prefWidth="75.0" text="Matricule" />
+                              <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
+                              <TableColumn fx:id="markCol" prefWidth="75.0" text="Marque" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vbox_vehicule" layoutX="350.0" layoutY="10.0" prefHeight="279.0" prefWidth="417.0" spacing="7.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <ImageView fitHeight="77.0" fitWidth="394.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane3" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="305.0" layoutY="477.0" prefHeight="38.0" prefWidth="128.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="361.0">
+               <children>
+                  <ImageView fitHeight="74.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/page3.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Label layoutX="40.0" layoutY="32.0" text="Ajout Intervention" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <Button alignment="CENTER" layoutX="699.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicksPage4" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="35.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPage2" alignment="CENTER" layoutX="639.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="95.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="692.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="74.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/icons8-close-window-642.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <HBox alignment="CENTER" layoutX="4.0" layoutY="107.0" prefHeight="355.0" prefWidth="787.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="107.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" layoutX="350.0" layoutY="10.0" prefHeight="279.0" prefWidth="417.0" spacing="7.0">
+                     <children>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleClicksTabPersonnel" prefHeight="44.0" prefWidth="200.0" style="-fx-text-fill: white;" styleClass="button3" stylesheets="@../../css/addStyle.css" text="Select Personnels" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/addpersonn.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <TableView fx:id="table_info_Per" editable="true" prefHeight="304.0" prefWidth="257.0" stylesheets="@../../css/style.css">
+                           <columns>
+                              <TableColumn fx:id="col_select" maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+                              <TableColumn fx:id="col_id" minWidth="0.0" prefWidth="61.0" text="Matricule" />
+                              <TableColumn fx:id="col_nom" minWidth="8.0" prefWidth="70.0" text="Nom" />
+                              <TableColumn fx:id="col_prenom" minWidth="0.0" prefWidth="66.0" text="Prenom" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="vbox_personnel" prefHeight="279.0" prefWidth="417.0" spacing="7.0">
+                     <children>
+                        <ImageView fitHeight="77.0" fitWidth="394.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="307.0" layoutY="477.0" prefHeight="38.0" prefWidth="128.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="359.0">
+               <children>
+                  <ImageView fitHeight="74.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/page2.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Button alignment="CENTER" layoutX="699.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicksPage3" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="35.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPage1" alignment="CENTER" layoutX="639.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="95.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="40.0" layoutY="32.0" text="Ajout Intervention" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <HBox layoutX="77.0" layoutY="158.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="158.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="117.0" stylesheets="@../../css/addStyle.css" text="Gouvernerat :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="GouverneratField" onAction="#verifGouvernerat" prefWidth="166.0" style="-fx-background-color: white;" />
+               </children>
+            </HBox>
+            <HBox layoutX="77.0" layoutY="223.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="223.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="116.0" stylesheets="@../../css/addStyle.css" text="Delegation :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="DelegationField" onAction="#verifDelegation" prefWidth="166.0" style="-fx-background-color: white;" />
+               </children>
+            </HBox>
+            <HBox layoutX="77.0" layoutY="286.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.rightAnchor="423.0" AnchorPane.topAnchor="286.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="6.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="115.0" stylesheets="@../../css/addStyle.css" text="Localisation :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="LocalisationField" onKeyPressed="#verifLoc" onKeyReleased="#verifLoc" prefHeight="26.0" prefWidth="166.0" promptText="Localisation" stylesheets="@../../css/addStyle.css" />
+               </children>
+            </HBox>
+            <Button alignment="CENTER" layoutX="692.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="74.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/icons8-close-window-642.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label layoutX="77.0" layoutY="334.0" prefHeight="17.0" prefWidth="98.0" stylesheets="@../../css/addStyle.css" text="  Description :" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="334.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="DescriptionField" layoutX="100.0" layoutY="365.0" prefHeight="95.0" prefWidth="577.0" stylesheets="@../../css/addStyle.css" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="365.0" />
+            <Label fx:id="GouverneratLabel" layoutX="371.0" layoutY="162.0" prefHeight="19.0" prefWidth="323.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="LocationLabel" layoutX="371.0" layoutY="290.0" prefHeight="19.0" prefWidth="323.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="DelegationLabel" layoutX="371.0" layoutY="227.0" prefHeight="19.0" prefWidth="323.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorpane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="40.0" layoutY="32.0" text="Ajout Evenement" textFill="WHITE" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="32.0">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <HBox layoutX="77.0" layoutY="158.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="158.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="117.0" stylesheets="@../../css/addStyle.css" text="Id Evenement :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="IdEvenementField" prefHeight="15.0" prefWidth="145.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="77.0" layoutY="223.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="223.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="116.0" stylesheets="@../../css/addStyle.css" text="Nom :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="NomFiled" onKeyPressed="#verifNom" onKeyReleased="#verifNom" prefHeight="26.0" prefWidth="167.0" promptText="Nom" stylesheets="@../../css/addStyle.css" />
+               </children>
+            </HBox>
+            <HBox layoutX="77.0" layoutY="286.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="286.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="6.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="115.0" stylesheets="@../../css/addStyle.css" text="Domaine :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="DomainField" onAction="#verifDomain" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: white;" />
+               </children>
+            </HBox>
+            <HBox layoutX="77.0" layoutY="353.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="77.0" AnchorPane.topAnchor="353.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="115.0" stylesheets="@../../css/addStyle.css" text="Date Debut  : ">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dateDebutField" onAction="#verifdateDebut" prefHeight="25.0" prefWidth="168.0" style="-fx-background-color: transparent;" />
+               </children>
+            </HBox>
+            <HBox layoutX="454.0" layoutY="286.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="454.0" AnchorPane.topAnchor="286.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="6.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="115.0" stylesheets="@../../css/addStyle.css" text="Volet :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="VoletField" onAction="#verifVolet" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: white;" />
+               </children>
+            </HBox>
+            <HBox layoutX="454.0" layoutY="353.0" prefHeight="26.0" prefWidth="294.0" AnchorPane.leftAnchor="454.0" AnchorPane.topAnchor="353.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="0.0" text="*" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="19.0" prefWidth="115.0" stylesheets="@../../css/addStyle.css" text="Date Fin  : ">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dateFinField" onAction="#verifdateFin" prefHeight="25.0" prefWidth="168.0" style="-fx-background-color: transparent;" />
+               </children>
+            </HBox>
+            <Button alignment="CENTER" layoutX="699.0" layoutY="471.0" mnemonicParsing="false" onAction="#handleClicksPage2" prefHeight="50.0" prefWidth="60.0" style="-fx-text-fill: white;" styleClass="button4" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="35.0">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/next-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="692.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleClicksAnnuler" prefHeight="50.0" prefWidth="74.0" style="-fx-text-fill: white;" styleClass="button2" stylesheets="@../../css/addStyle.css" textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/icons8-close-window-642.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label fx:id="NomLabel" layoutX="371.0" layoutY="227.0" prefHeight="19.0" prefWidth="323.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="DomainLabel" layoutX="77.0" layoutY="318.0" prefHeight="19.0" prefWidth="260.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="VoletLabel" layoutX="452.0" layoutY="318.0" prefHeight="19.0" prefWidth="260.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateDebutLabel" layoutX="77.0" layoutY="379.0" prefHeight="19.0" prefWidth="260.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateFinLabel" layoutX="454.0" layoutY="379.0" prefHeight="19.0" prefWidth="260.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="DomainLabel1" layoutX="369.0" layoutY="290.0" prefHeight="19.0" prefWidth="30.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="VoletLabel1" layoutX="751.0" layoutY="290.0" prefHeight="19.0" prefWidth="30.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateDebutLabel1" layoutX="369.0" layoutY="357.0" prefHeight="19.0" prefWidth="30.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateFinLabel1" layoutX="751.0" layoutY="357.0" prefHeight="19.0" prefWidth="30.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" layoutX="305.0" layoutY="477.0" prefHeight="38.0" prefWidth="128.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="361.0">
+               <children>
+                  <ImageView fitHeight="74.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/page1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
