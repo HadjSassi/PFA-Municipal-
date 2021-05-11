@@ -77,66 +77,45 @@ CREATE TABLE  "ENGIN"
 
 
 
+create table interPER(
+MATRICULE VARCHAR2(8),
+IDMAT varchar2(8),
+constraint t1_pk primary key (MATRICULE ,IDMAT),
+CONSTRAINT fk_id1 FOREIGN KEY (MATRICULE) REFERENCES PERSONNEL(MATRICULE),
+CONSTRAINT fk_idmat1 FOREIGN KEY (IDMAT) REFERENCES intervention(IDMAT)
+);
+
+create table interMAT(
+ID VARCHAR2(30) ,
+IDMAT varchar2(8),
+qteUsed number,
+constraint t_pk primary key (ID,IDMAT)
+);
+
+create table interENG(
+ID VARCHAR2(50),
+IDMAT varchar2(8),
+constraint t2_pk primary key (ID,IDMAT),
+CONSTRAINT fk_id2 FOREIGN KEY (ID) REFERENCES Engin(ID),
+CONSTRAINT fk_idmat2 FOREIGN KEY (IDMAT) REFERENCES intervention(IDMAT)
+);
 
 
 
-CREATE TABLE  "INTERENG"
-   (	"ID" VARCHAR2(50),
-	"IDMAT" VARCHAR2(8),
-	 CONSTRAINT "T2_PK" PRIMARY KEY ("ID", "IDMAT") ENABLE
-   ) ;ALTER TABLE  "INTERENG" ADD CONSTRAINT "FK_ID2" FOREIGN KEY ("ID")
-	  REFERENCES  "ENGIN" ("ID") ENABLE;ALTER TABLE  "INTERENG" ADD CONSTRAINT "FK_IDMAT2" FOREIGN KEY ("IDMAT")
-	  REFERENCES  "INTERVENTION" ("IDMAT") ENABLE;
-
-
-
-
-
-
-
-CREATE TABLE  "INTERMAT"
- (	"ID" VARCHAR2(30),
-"IDMAT" VARCHAR2(8),
-"QTEUSED" NUMBER,
- CONSTRAINT "T_PK" PRIMARY KEY ("ID", "IDMAT") ENABLE
- ) ;
-
-
-
-
- CREATE TABLE  "INTERPER"
-    (	"MATRICULE" VARCHAR2(8),
- 	"IDMAT" VARCHAR2(8),
- 	 CONSTRAINT "T1_PK" PRIMARY KEY ("MATRICULE", "IDMAT") ENABLE
-    ) ;ALTER TABLE  "INTERPER" ADD CONSTRAINT "FK_ID1" FOREIGN KEY ("MATRICULE")
- 	  REFERENCES  "PERSONNEL" ("MATRICULE") ENABLE;ALTER TABLE  "INTERPER" ADD CONSTRAINT "FK_IDMAT1" FOREIGN KEY ("IDMAT")
- 	  REFERENCES  "INTERVENTION" ("IDMAT") ENABLE;
-
-
-
-
-
-
-
-
-CREATE TABLE  "INTERVENTION"
-   (	"IDMAT" VARCHAR2(8),
-	"NOM" VARCHAR2(8),
-	"DATED" DATE,
-	"DATEF" DATE,
-	"ETAT" VARCHAR2(10),
-	"CHEFF" VARCHAR2(8),
-	"GOUVERNERAT" VARCHAR2(20),
-	"DELEGATION" VARCHAR2(20),
-	"LOCALISATION" VARCHAR2(20),
-	"DESCRIPTION" VARCHAR2(250),
-	 PRIMARY KEY ("IDMAT") ENABLE
-   ) ;
-
-
-
-
-
+create table intervention(
+IDMAT varchar2(8) primary key,
+nom varchar2(30),
+domaine varchar2(50),
+volet varchar2(50),
+dateD date,
+dateF date,
+gouvernerat varchar2(50),
+delegation varchar2(50),
+localisation varchar2(100),
+description varchar2(250),
+cheff varchar2(8),
+etat varchar2(10)
+);
 
 
    CREATE TABLE  "MATERIEL"
@@ -248,3 +227,50 @@ CREATE TABLE  "SETTINGS"
 	"TEL" VARCHAR2(50),
 	"MAIRE_ACTUEL" VARCHAR2(255)
    ) ;
+
+
+
+   create table evenement(
+   IDMAT varchar2(8) primary key,
+   nom varchar2(30),
+   domaine varchar2(20),
+   volet varchar2(20),
+   dateD date,
+   dateF date,
+   gouvernerat varchar2(20),
+   delegation varchar2(20),
+   localisation varchar2(20),
+   description varchar2(250),
+   cheff varchar2(8),
+   etat varchar2(10)
+   );
+
+
+
+   create table evenENG(
+   ID VARCHAR2(50),
+   IDMAT varchar2(8),
+   constraint t2_pk2 primary key (ID,IDMAT),
+   CONSTRAINT fk_id4 FOREIGN KEY (ID) REFERENCES Engin(ID),
+   CONSTRAINT fk_idEng2 FOREIGN KEY (IDMAT) REFERENCES evenement (IDMAT)
+   );
+
+
+   create table evenMAT(
+   ID VARCHAR2(30) ,
+   IDMAT varchar2(8),
+   qteUsed number,
+   constraint t_pk1 primary key (ID,IDMAT)
+   );
+
+
+   create table evenPER(
+   MATRICULE VARCHAR2(8),
+   IDMAT varchar2(8),
+   constraint tEv_pk primary key (MATRICULE ,IDMAT),
+   CONSTRAINT fk_idEv FOREIGN KEY (MATRICULE) REFERENCES PERSONNEL(MATRICULE),
+   CONSTRAINT fk_idmatEv FOREIGN KEY (IDMAT) REFERENCES evenement(IDMAT)
+   );
+
+
+

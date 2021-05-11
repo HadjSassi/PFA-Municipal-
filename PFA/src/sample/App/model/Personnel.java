@@ -20,9 +20,7 @@ public class Personnel {
     private String naissance;
     private String sex;
     private Float salaire;
-    private CheckBox check;
     private String description;
-    private RadioButton cheff;
 
     private DateFormat formatD= DateFormat.getDateInstance(DateFormat.DEFAULT,
             new Locale("fr","FR"));
@@ -40,7 +38,6 @@ public class Personnel {
         this.tel = tel;
         this.service = service;
         this.description=description;
-        this.check = new CheckBox();
     }
     public Personnel(String matricule){
         this.matricule = matricule;
@@ -53,16 +50,9 @@ public class Personnel {
         this.salaire = null ;
         this.service = null ;
         this.description = null ;
-        this.check = new CheckBox();
         this.naissance = null ;
     }
-    public CheckBox getCheck() {
-        return check;
-    }
 
-    public void setCheck(CheckBox check) {
-        this.check = check;
-    }
     public String getCin() {
         return cin;
     }
@@ -153,11 +143,4 @@ public class Personnel {
         this.formatD = formatD;
     }
 
-    public RadioButton getCheff() {
-        return cheff;
-    }
-
-    public void setCheff(RadioButton cheff) {
-        this.cheff = cheff;
-    }
 }

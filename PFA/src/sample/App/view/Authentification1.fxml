@@ -12,15 +12,6 @@
          <children>
             <AnchorPane layoutX="327.0" layoutY="47.0" maxWidth="294.0" prefHeight="412.0" prefWidth="292.0" style="-fx-background-color: #464646 #464646;" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="327.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="47.0">
                <children>
-                  <Button fx:id="fermerBtn" layoutX="256.0" layoutY="-1.0" mnemonicParsing="false" onAction="#fermer" prefHeight="30.0" prefWidth="37.0" styleClass="button2" stylesheets="@../css/addStyle.css" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
-                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/icons8-close-window-642.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <TextField fx:id="matriculeTextField" layoutX="56.0" layoutY="157.0" prefHeight="30.0" prefWidth="217.0" promptText="Matricule" stylesheets="@../css/addStyle.css" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="19.0">
                      <tooltip>
                         <Tooltip text="Champ de numero de matricule composé de 8 chiffres" />
@@ -47,6 +38,15 @@
                      </image>
                   </ImageView>
                   <Label layoutX="56.0" layoutY="140.0" text="Matricule" textFill="WHITE" />
+                  <Button fx:id="fermerBtn" layoutX="256.0" layoutY="-1.0" mnemonicParsing="false" onAction="#fermer" prefHeight="30.0" prefWidth="37.0" styleClass="button2" stylesheets="@../css/addStyle.css" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/icons8-close-window-642.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                   <Label layoutX="56.0" layoutY="187.0" text="Mot de passe" textFill="WHITE" />
                </children>
                <effect>

@@ -1,0 +1,48 @@
+void handleClicksDeleteSelected(ActionEvent event) throws URISyntaxException {
+        String s="";
+        String s1 = null;
+        ObservableList<Evenement>  ob = table_info.getSelectionModel().getSelectedItems();
+        if (ob.toArray().length != 0) {
+            for (Evenement per : ob){
+                s+=per.getIdI()+"///";
+                s1+=per.getIdI();
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setHeaderText(null);
+            ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.setContentText("Etes-vous sure de supprimer Evenement n°: ///"+s);
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
+            alert.showAndWait().ifPresent(type -> {
+                if (type == okButton) {
+                    for (Evenement even : ob) {
+                        try {
+                            Connection connection= getOracleConnection();
+                            PreparedStatement rs1 = connection.prepareStatement("DELETE from evenMAT WHERE IDMAT=?");
+                            rs1.setString(1,even.getIdI());
+                            rs1.execute();
+                            rs1 = connection.prepareStatement("DELETE from evenPER WHERE IDMAT=?");
+                            rs1.setString(1,even.getIdI());
+                            rs1.execute();
+                            rs1 = connection.prepareStatement("DELETE from evenENG WHERE IDMAT=?");
+                            rs1.setString(1,even.getIdI());
+                            rs1.execute();
+                            rs1 = connection.prepareStatement("delete from EVENEMENT where idMat=?");
+                            rs1.setString(1,even.getIdI());
+                            rs1.execute();
+                            connection.close();
+
+                        }catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+
+
+                    }
+
+                }
+            });
+        }
+        loadData();
+    }

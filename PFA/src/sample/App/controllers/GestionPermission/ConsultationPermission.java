@@ -26,6 +26,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import sample.App.controllers.Authentification;
 import sample.App.model.Doleance;
+import sample.App.model.Engin;
 import sample.App.model.Permission;
 
 import java.io.IOException;
@@ -83,8 +84,6 @@ public class ConsultationPermission implements Initializable {
     @FXML
     TableColumn <Doleance,String> StatusCol ;
 
-    @FXML
-    private TableColumn<Permission, CheckBox> col_select;
 
     @FXML
     Button addButton ;
@@ -94,10 +93,6 @@ public class ConsultationPermission implements Initializable {
 
     @FXML
     Button refresh;
-
-
-    @FXML
-    private CheckBox check_selAll;
 
     @FXML
     private TextField filterField;
@@ -115,6 +110,7 @@ public class ConsultationPermission implements Initializable {
     ObservableList<Permission> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         initTable();
         loadData();
         filter();
@@ -173,7 +169,6 @@ public class ConsultationPermission implements Initializable {
         }
 
     }
-
     private void filter(){
         FilteredList<Permission> filteredData = new FilteredList<>(oblist, b -> true);
 
@@ -210,35 +205,9 @@ public class ConsultationPermission implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
     }
-
-
-    private void checkAll(){
-        check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                items = tableView.getItems();
-                for (Permission item : items){
-                    if(check_selAll.isSelected())
-                        item.getCheck().setSelected(true);
-                    else
-                        item.getCheck().setSelected(false);
-                    if(!item.getCheck().isSelected()){
-                        check_selAll.setSelected(false);
-                    }
-
-                }
-            }
-        });
-    }
-
-
-
     private void initTable(){
         initCols();
-        checkAll();
     }
-
-
     private void initCols(){
 
         typeCol.setCellValueFactory(
@@ -377,10 +346,7 @@ public class ConsultationPermission implements Initializable {
                 new PropertyValueFactory<>("id")
         );
 
-        col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
     }
-
-
     private void loadData(){
         stats();
         oblist = FXCollections.observableArrayList();
@@ -399,7 +365,6 @@ public class ConsultationPermission implements Initializable {
 
         tableView.setItems(oblist);
     }
-
     @FXML
     public void ajouter (ActionEvent event)  {
         Stage primaryStage = new Stage();
@@ -417,61 +382,50 @@ public class ConsultationPermission implements Initializable {
         primaryStage.showAndWait();
         refresh();
     }
-
     @FXML
     public void refresh(ActionEvent event){
         loadData();
         filter();
     }
-
     @FXML
     public void refresh(){
         loadData();
         filter();
     }
-
     @FXML
     void supprimer(ActionEvent event) throws URISyntaxException {
         String s="";
         String s1 = null;
-        for(Permission per:oblist){
-            if(per.getCheck().isSelected()){
+        ObservableList<Permission>  ob = tableView.getSelectionModel().getSelectedItems();
+        if (ob.toArray().length != 0) {
+            for (Permission per : ob){
                 s+=per.getId()+"///";
-                s1=per.getId();
-            }}int so=0;
-        AtomicBoolean del = new AtomicBoolean(true);
-        for(Permission per:oblist){
-
-            if(per.getCheck().isSelected() && so==0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.setHeaderText(null);
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer la permission  de n°: ///"+s);
-                alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
-                alert.showAndWait().ifPresent(type -> {
-                    if (type == okButton) {
-                        del.set(true);
-                    } else if (type == noButton) {
-                        del.set(false);
+                s1+=per.getId();
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setHeaderText(null);
+            ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.setContentText("Etes-vous sure de supprimer permission n°: ///"+s);
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
+            alert.showAndWait().ifPresent(type -> {
+                if (type == okButton) {
+                    for (Permission per : ob) {
+                        try {
+                            Connection connection = getOracleConnection();
+                            connection.createStatement().executeQuery("delete from permission where " + "\'" + per.getId() + "\'" + "=ID");
+                            connection.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
-                });
-                so++;
-            }
-            if(per.getCheck().isSelected() && del.get()){
-                try {
-                    Connection connection= getOracleConnection();
-                    connection.createStatement().executeQuery("delete from Permission where "+"\'"+per.getId()+"\'"+"=Id");
-                    connection.close();
-                }catch (SQLException throwables) {
-                    throwables.printStackTrace();
+
                 }
-            }
+            });
         }
         loadData();
-        check_selAll.setSelected(false);
     }
 
 

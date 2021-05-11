@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import sample.App.model.Engin;
 import sample.App.model.Revenu;
 
 import java.io.IOException;
@@ -68,9 +69,6 @@ public class ConsultationRevenu implements Initializable {
     TableColumn <Revenu,String> modifierCol ;
 
     @FXML
-    private TableColumn<Revenu, CheckBox> col_select;
-
-    @FXML
     Button addButton ;
 
     @FXML
@@ -101,6 +99,7 @@ public class ConsultationRevenu implements Initializable {
     ObservableList<Revenu> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         initTable();
         loadData();
         filter();
@@ -119,8 +118,6 @@ public class ConsultationRevenu implements Initializable {
         }
 
     }
-
-
     private void filter(){
         FilteredList<Revenu> filteredData = new FilteredList<>(oblist, b -> true);
 
@@ -146,35 +143,7 @@ public class ConsultationRevenu implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sortedData);
     }
-
-
-    private void checkAll(){
-        check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                items = tableView.getItems();
-                for (Revenu item : items){
-                    if(check_selAll.isSelected())
-                        item.getCb().setSelected(true);
-                    else
-                        item.getCb().setSelected(false);
-                    if(!item.getCb().isSelected()){
-                        check_selAll.setSelected(false);
-                    }
-
-                }
-            }
-        });
-    }
-
-
-
-    private void initTable(){
-        initCols();
-        checkAll();
-    }
-
-
+    private void initTable(){ initCols(); }
     private void initCols(){
 
         typeCol.setCellValueFactory(
@@ -279,11 +248,7 @@ public class ConsultationRevenu implements Initializable {
         idCol.setCellValueFactory(
                 new PropertyValueFactory<>("id")
         );
-
-        col_select.setCellValueFactory(new PropertyValueFactory<>("cb"));
     }
-
-
     private void loadData(){
         stats();
         double tt = 0;
@@ -315,7 +280,6 @@ public class ConsultationRevenu implements Initializable {
         }
         LabelNbInter.setText(String.valueOf(tt) + " DT");
     }
-
     @FXML
     public void ajouter (ActionEvent event)  {
         Stage primaryStage = new Stage();
@@ -333,61 +297,50 @@ public class ConsultationRevenu implements Initializable {
         primaryStage.showAndWait();
         refresh();
     }
-
     @FXML
     public void refresh(ActionEvent event){
         loadData();
         filter();
     }
-
     @FXML
     public void refresh(){
         loadData();
         filter();
     }
-
     @FXML
     void supprimer(ActionEvent event) throws URISyntaxException {
         String s="";
         String s1 = null;
-        for(Revenu per:oblist){
-            if(per.getCb().isSelected()){
+        ObservableList<Revenu>  ob = tableView.getSelectionModel().getSelectedItems();
+        if (ob.toArray().length != 0) {
+            for (Revenu per : ob){
                 s+=per.getId()+"///";
-                s1=per.getId();
-            }}int so=0;
-        AtomicBoolean del = new AtomicBoolean(true);
-        for(Revenu per:oblist){
-
-            if(per.getCb().isSelected() && so==0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.initStyle(StageStyle.UNDECORATED);
-                alert.setHeaderText(null);
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(okButton, noButton);
-                alert.setContentText("Etes-vous sure de supprimer cette revenu  de n°: ///"+s);
-                alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
-                alert.showAndWait().ifPresent(type -> {
-                    if (type == okButton) {
-                        del.set(true);
-                    } else if (type == noButton) {
-                        del.set(false);
+                s1+=per.getId();
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setHeaderText(null);
+            ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.setContentText("Etes-vous sure de supprimer Revenu n°: ///"+s);
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
+            alert.showAndWait().ifPresent(type -> {
+                if (type == okButton) {
+                    for (Revenu per : ob) {
+                        try {
+                            Connection connection = getOracleConnection();
+                            connection.createStatement().executeQuery("delete from Revenu where " + "\'" + per.getId() + "\'" + "=ID");
+                            connection.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
-                });
-                so++;
-            }
-            if(per.getCb().isSelected() && del.get()){
-                try {
-                    Connection connection= getOracleConnection();
-                    connection.createStatement().executeQuery("delete from Revenu where "+"\'"+per.getId()+"\'"+"=ID");
-                    connection.close();
-                }catch (SQLException throwables) {
-                    throwables.printStackTrace();
+
                 }
-            }
+            });
         }
         loadData();
-        check_selAll.setSelected(false);
     }
 
 

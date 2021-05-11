@@ -23,7 +23,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import oracle.jdbc.OracleResultSetCache;
 import sample.App.model.Engin;
+import sample.App.model.Intervention;
 import sample.App.model.Materiel;
 import sample.App.model.Personnel;
 
@@ -33,6 +35,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -45,10 +48,6 @@ public class InterventionAddController implements Initializable {
     private TableColumn<Personnel, String> col_nom;
     @FXML
     private TableColumn<Personnel, String> col_prenom;
-    @FXML
-    private TableColumn<Personnel, String> col_cheff;
-    @FXML
-    private TableColumn<Personnel, String> col_select;
     @FXML
     private AnchorPane anchorpane;
     @FXML
@@ -145,7 +144,7 @@ public class InterventionAddController implements Initializable {
     private TableColumn<Engin, String> markCol;
 
     @FXML
-    private TableColumn<?, ?> idCol1;
+    private TableColumn<?, ?> consCol1;
 
     @FXML
     private TableColumn<?, ?> typeCol1;
@@ -166,81 +165,94 @@ public class InterventionAddController implements Initializable {
     private VBox vbox_vehicule;
     @FXML
     private VBox vbox_outils;
-
+    private boolean vernom = false, verdateDebut = false, verdateFin = false, verDomaine = false, verVolet = false, verGouvernerat = false, verDelegation = false, verLocation = false;
+    private boolean vercheff = false;
+    private double x, y;
+    private Personnel personnel = null;
     Stage stage;
-    private boolean isAlphaNum(String name){return name.matches("[a-zA-Z0-9 ]+") && name.length()<=30;}
-    private boolean isAlpha(String name) {
-        return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length()<=30;
+
+    private boolean isAlphaNum(String name) {
+        return name.matches("[a-zA-Z0-9 ]+") && name.length() <= 30;
     }
+
+    private boolean isAlpha(String name) {
+        return name.matches("[a-zA-Z][a-zA-Z ]*") && name.length() <= 30;
+    }
+
     private static boolean isNumeric(String string) {
         return string.matches("[0-9]+");
     }
+
     private static int validDate(LocalDate birthDate, LocalDate currentDate) {
         if ((birthDate != null) && (currentDate != null)) {
             return Period.between(birthDate, currentDate).getDays();
         } else {
             return 0;
-        }}
-    private boolean vernom=false,verdateDebut=false,verdateFin=false,verDomaine=false,verVolet=false,verGouvernerat=false,verDelegation=false,verLocation=false;
-    private boolean vercheff=false;
-    private double x, y;
-    private Personnel personnel=null;
+        }
+    }
+
     @FXML
     void handleClicksAnnuler(ActionEvent event) throws SQLException {
         stage = (Stage) anchorpane.getScene().getWindow();
         stage.close();
-        Connection connection=null;
-        connection=getOracleConnection();
+        Connection connection = null;
+        connection = getOracleConnection();
         PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
-        rs1.setString(1,table_info_Mat.toString());
+        rs1.setString(1, table_info_Mat.toString());
         rs1.execute();
     }
 
+    public static Date dD;
+    public static Date dF;
+
     @FXML
     void handleClicksPage2(ActionEvent event) throws URISyntaxException {
-        String nom=NomFiled.getText();
-        String domain=DomainField.getValue();
-        String volet=VoletField.getValue();
-        String dateDeb=String.valueOf(dateDebutField.getValue());
-        String dateFin=String.valueOf(dateFinField.getValue());
-        if(!vernom||!verDomaine||!verVolet||!verdateDebut||!verdateFin){
-        if(nom.isEmpty()){
-            NomLabel.setText("🠔 Remplir ce champ");
-            NomLabel.setStyle("-fx-text-fill: red");
-            NomFiled.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-        }
-        if(domain==null){
-            DomainLabel.setText("🠔 Remplir ce champ");
-            DomainLabel1.setText("");
-            DomainLabel.setStyle("-fx-text-fill: red");
-            DomainField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }
-        if(volet==null){
-            VoletLabel.setText("🠔 Remplir ce champ");
-            VoletLabel1.setText("");
-            VoletLabel.setStyle("-fx-text-fill: red");
-            VoletField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }
-        if(dateDeb.length()!=10){
-            dateDebutLabel.setText("🠔 Remplir ce champ");
-            dateDebutLabel1.setText("");
-            dateDebutLabel.setStyle("-fx-text-fill: red");
-            dateDebutField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }
-        if(dateFin.length()!=10){
-            dateFinLabel.setText("🠔 Remplir ce champ");
-            dateFinLabel1.setText("");
-            dateFinLabel.setStyle("-fx-text-fill: red");
-            dateFinField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }
+        String nom = NomFiled.getText();
+        String domain = DomainField.getValue();
+        String volet = VoletField.getValue();
+        String dateDeb = String.valueOf(dateDebutField.getValue());
+        String dateFin = String.valueOf(dateFinField.getValue());
+        if (!vernom || !verDomaine || !verVolet || !verdateDebut || !verdateFin) {
+            if (nom.isEmpty()) {
+                NomLabel.setText("🠔 Remplir ce champ");
+                NomLabel.setStyle("-fx-text-fill: red");
+                NomFiled.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+            }
+            if (domain == null) {
+                DomainLabel.setText("🠔 Remplir ce champ");
+                DomainLabel1.setText("");
+                DomainLabel.setStyle("-fx-text-fill: red");
+                DomainField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+            }
+            if (volet == null) {
+                VoletLabel.setText("🠔 Remplir ce champ");
+                VoletLabel1.setText("");
+                VoletLabel.setStyle("-fx-text-fill: red");
+                VoletField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+            }
+            if (dateDeb.length() != 10) {
+                dateDebutLabel.setText("🠔 Remplir ce champ");
+                dateDebutLabel1.setText("");
+                dateDebutLabel.setStyle("-fx-text-fill: red");
+                dateDebutField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+            }
+            if (dateFin.length() != 10) {
+                dateFinLabel.setText("🠔 Remplir ce champ");
+                dateFinLabel1.setText("");
+                dateFinLabel.setStyle("-fx-text-fill: red");
+                dateFinField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
-            alert.showAndWait();}
-        else
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
+            alert.showAndWait();
+        } else {
             anchorpane2.toFront();
+            dD = Date.valueOf(dateDebutField.getValue());
+            dF = Date.valueOf(dateFinField.getValue());
+        }
     }
 
     @FXML
@@ -275,35 +287,43 @@ public class InterventionAddController implements Initializable {
     }
 
     @FXML
+//here is the personnel probléme okay!!!!!
     void handleClicksPage4(ActionEvent event) throws URISyntaxException {
-        Label label=new Label();
-        if(vbox_personnel.getChildren().size()==2)
+        Label label = new Label();
+        Personnel pr = table_info_Per.getSelectionModel().getSelectedItem();
+        try {
+            if (pr.getNom() != "") {
+                percheff = pr;
+                vercheff = true;
+            }
+        } catch (NullPointerException e) {
+            System.out.println(e);
+        }
+        if (vbox_personnel.getChildren().size() == 2)
             vbox_personnel.getChildren().remove(1);
-        if(table_info_Per.getItems()==null||table_info_Per.getItems().isEmpty()||!vercheff){
-            if(table_info_Per.getItems()==null||table_info_Per.getItems().isEmpty())
-                    label.setText("* Selectionner les personnels qui vont participer à cette intervention");
-            else
-                if(!vercheff)
-                    label.setText("* Selectionner le cheff de l'equipe");
-                vbox_personnel.getChildren().add(label);
-                label.setStyle("-fx-text-fill:red");
+        if (table_info_Per.getItems() == null || table_info_Per.getItems().isEmpty() || !vercheff) {
+            if (table_info_Per.getItems() == null || table_info_Per.getItems().isEmpty())
+                label.setText("* Selectionner les personnels qui vont participer à cette intervention");
+            else if (!vercheff)
+                label.setText("* Selectionner le cheff de l'equipe");
+            vbox_personnel.getChildren().add(label);
+            label.setStyle("-fx-text-fill:red");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
             alert.showAndWait();
-                }
-
-        else
+        } else
             anchorpane4.toFront();
     }
+
     @FXML
     void handleClicksPage5(ActionEvent event) throws URISyntaxException {
-        Label label=new Label();
-        if(vbox_vehicule.getChildren().size() == 2)
+        Label label = new Label();
+        if (vbox_vehicule.getChildren().size() == 2)
             vbox_vehicule.getChildren().remove(1);
-        if(table_info_Eng.getItems()==null||table_info_Eng.getItems().isEmpty()){
+        if (table_info_Eng.getItems() == null || table_info_Eng.getItems().isEmpty()) {
             label.setText("* Selectionner les vehicule qui vont être utilisées");
             vbox_vehicule.getChildren().add(label);
             label.setStyle("-fx-text-fill:red");
@@ -311,59 +331,67 @@ public class InterventionAddController implements Initializable {
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
             alert.showAndWait();
-        }
-        else
+        } else
             anchorpane5.toFront();
     }
 
     @FXML
     void handleClicksInsert(ActionEvent event) throws URISyntaxException, SQLException {
-        boolean ver=true;
-        Label label=new Label();
-        if(table_info_Mat.getItems()!=null&&!table_info_Mat.getItems().isEmpty())
-        for(int i=1;i<vbox_outils.getChildren().size();i++){
-            System.out.println(((Label)vbox_outils.getChildren().get(i)).getText());
-            if(!((Label)vbox_outils.getChildren().get(i)).getText().equals("✓")){
-                ver=false;
-                break;}
-        }
-        if(table_info_Mat.getItems()==null||table_info_Mat.getItems().isEmpty()||!ver){
-            if(table_info_Mat.getItems()==null||table_info_Mat.getItems().isEmpty()){
+        boolean ver = true;
+        Label label = new Label();
+        if (table_info_Mat.getItems() != null && !table_info_Mat.getItems().isEmpty())
+            for (int i = 1; i < vbox_outils.getChildren().size(); i++) {
+                System.out.println(((Label) vbox_outils.getChildren().get(i)).getText());
+                if (!((Label) vbox_outils.getChildren().get(i)).getText().equals("✓")) {
+                    ver = false;
+                    break;
+                }
+            }
+        if (table_info_Mat.getItems() == null || table_info_Mat.getItems().isEmpty() || !ver) {
+            if (table_info_Mat.getItems() == null || table_info_Mat.getItems().isEmpty()) {
                 label.setStyle("-fx-text-fill:red");
                 label.setText("* Selectionner les outils nécessaire pour cette intervention");
-                 vbox_outils.getChildren().add(label);}
+                vbox_outils.getChildren().add(label);
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
             alert.showAndWait();
-        }
-        else{
+        } else {
             ///////////
             ///insertion sql !!!!!!!!!!!
             ////////////
-            Connection connection= getOracleConnection();
+            Connection connection = getOracleConnection();
             PreparedStatement rs = connection.prepareStatement("INSERT INTO INTERVENTION values(?,?,?,?,?,?,?,?,?,?,?,?)");
-            rs.setString(1,IdInterventionField.getText());
-            rs.setString(2,NomFiled.getText());
-            rs.setString(3,DomainField.getValue());
-            rs.setString(4,VoletField.getValue());
+            rs.setString(1, IdInterventionField.getText());
+            rs.setString(2, NomFiled.getText());
+            rs.setString(3, DomainField.getValue());
+            rs.setString(4, VoletField.getValue());
             rs.setDate(5, Date.valueOf(String.valueOf(dateDebutField.getValue())));
-            rs.setDate(6,Date.valueOf(String.valueOf(dateFinField.getValue())));
-            rs.setString(7,GouverneratField.getValue());
-            rs.setString(8,DelegationField.getValue());
-            rs.setString(9,LocalisationField.getText());
-            rs.setString(10,DescriptionField.getText());
-            rs.setString(11,percheff.getMatricule());
-            rs.setString(12,"Initial");
+            rs.setDate(6, Date.valueOf(String.valueOf(dateFinField.getValue())));
+            rs.setString(7, GouverneratField.getValue());
+            rs.setString(8, DelegationField.getValue());
+            rs.setString(9, LocalisationField.getText());
+            rs.setString(10, DescriptionField.getText());
+            rs.setString(11, percheff.getMatricule());
+            rs.setString(12, "Initial");
             rs.execute();
-            for(Personnel i:table_info_Per.getItems()){
+            for (Personnel i : table_info_Per.getItems()) {
                 rs = connection.prepareStatement("INSERT INTO interPER values(?,?)");
-                rs.setString(1,i.getMatricule());
-                rs.setString(2,IdInterventionField.getText());
+                rs.setString(1, i.getMatricule());
+                rs.setString(2, IdInterventionField.getText());
+                rs.execute();
+            }
+            System.out.println(T);
+            for (int i = 0; i < V.size(); i++) {
+                System.out.println(V.get(i)[0] + " " + V.get(i)[1]);
+                rs = connection.prepareStatement("UPDATE MATERIEL set QTE=QTE - ? where DESIGNATION=?");
+                rs.setString(1, V.get(i)[1]);
+                rs.setString(2, V.get(i)[0]);
                 rs.execute();
             }
 //            for(Materiel i:table_info_Mat.getItems()){
@@ -373,10 +401,10 @@ public class InterventionAddController implements Initializable {
 //                rs.setInt(3,i.getQte());
 //                rs.execute();
 //            }
-            for(Engin i:table_info_Eng.getItems()){
+            for (Engin i : table_info_Eng.getItems()) {
                 rs = connection.prepareStatement("INSERT INTO interENG values(?,?)");
-                rs.setString(1,i.getID());
-                rs.setString(2,IdInterventionField.getText());
+                rs.setString(1, i.getID());
+                rs.setString(2, IdInterventionField.getText());
                 rs.execute();
             }
 
@@ -384,13 +412,17 @@ public class InterventionAddController implements Initializable {
             alert.initStyle(StageStyle.TRANSPARENT);
             alert.setHeaderText(null);
             alert.setContentText("Ajout avec succés");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/icons8-receipt-approved-64.png").toURI().toString() ));
+            alert.setGraphic(new ImageView(getClass().getResource("../../../images/icons8-receipt-approved-64.png").toURI().toString()));
             alert.showAndWait();
             stage = (Stage) anchorpane.getScene().getWindow();
             stage.close();
         }
     }
+
+    ArrayList<String[]> T;
     private Personnel percheff;
+    ArrayList<String[]> V;
+
     @FXML
     void handleClicksTabOutils(ActionEvent event) throws IOException, SQLException {
         Parent root = FXMLLoader.load(getClass().getResource("../../view/interIAddMateriel.fxml"));
@@ -399,42 +431,59 @@ public class InterventionAddController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        idCol1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        consCol1.setCellValueFactory(new PropertyValueFactory<>("consom"));
         typeCol1.setCellValueFactory(new PropertyValueFactory<>("designation"));
-        ArrayList<Integer> qtelist=new ArrayList<>();
+        ArrayList<Integer> qtelist = new ArrayList<>();
+        V = new ArrayList<>();
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-            if (!stage.isShowing()){
+            if (!stage.isShowing()) {
+
                 table_info_Mat.setItems(AddMatCon.oblist2);
-                    vbox_outils.getChildren().clear();
-                    ImageView img=new ImageView();
-                    img.fitHeightProperty().set(76);
-                    vbox_outils.getChildren().add(img);
-                    if(table_info_Mat.getItems()!=null){
-                for (int i=0;i<table_info_Mat.getItems().size();i++){
-                    Label l=new Label();
-                    l.setStyle("-fx-text-fill:red");
-                    l.setText("* Remplir la quantite de "+table_info_Mat.getItems().get(i).getDesignation());
-                    vbox_outils.getChildren().add(l);}
+                vbox_outils.getChildren().clear();
+                ImageView img = new ImageView();
+                img.fitHeightProperty().set(76);
+                vbox_outils.getChildren().add(img);
+                if (table_info_Mat.getItems() != null) {
+                    for (int i = 0; i < table_info_Mat.getItems().size(); i++) {
+                        Label l = new Label();
+                        l.setStyle("-fx-text-fill:red");
+                        l.setText("* Remplir la quantite de " + table_info_Mat.getItems().get(i).getDesignation());
+                        vbox_outils.getChildren().add(l);
+                    }
                     qtelist.clear();
-                    for(int i=0;i<table_info_Mat.getItems().size();i++){
+                    V.clear();
+                    for (int i = 0; i < table_info_Mat.getItems().size(); i++) {
+
                         try {
-                            int s=0;
-                            Connection connection=getOracleConnection();
-                            PreparedStatement rs1 = connection.prepareStatement("select QTEUSED from interMAT WHERE ID=?");
-                            rs1.setString(1,table_info_Mat.getItems().get(i).getDesignation());
-                            ResultSet rc=rs1.executeQuery();
-                            while(rc.next()){
-                                s+=rc.getInt("QTEUSED");
+                            int s = 0;
+                            Connection connection = getOracleConnection();
+                            PreparedStatement rs1 = connection.prepareStatement("select QTEUSED from interMAT,intervention WHERE interMAT.ID=? and intervention.IDMAT=interMAT.IDMAT and (dateD BETWEEN ? and ? or dateF BETWEEN ? and ? )");
+                            rs1.setString(1, table_info_Mat.getItems().get(i).getDesignation());
+                            rs1.setDate(2, InterventionAddController.dD);
+                            rs1.setDate(3, InterventionAddController.dF);
+                            rs1.setDate(4, InterventionAddController.dD);
+                            rs1.setDate(5, InterventionAddController.dF);
+                            ResultSet rc = rs1.executeQuery();
+                            while (rc.next()) {
+                                s += rc.getInt("QTEUSED");
                             }
-                            qtelist.add(table_info_Mat.getItems().get(i).getQte()-s);
-                            System.out.println(qtelist.get(i)+" non utilisé");
+                            if (table_info_Mat.getItems().get(i).getConsom().equals("Oui")) {
+                                String[] c = new String[2];
+                                c[0] = table_info_Mat.getItems().get(i).getDesignation();
+                                c[1] = "0";
+                                V.add(c);
+                            }
+                            qtelist.add(table_info_Mat.getItems().get(i).getQte() - s);
+                            System.out.println(qtelist.get(i) + " non utilisé");
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
+
+                    }
                 }
-            }}
+            }
         });
-        AddMatCon.matricule= IdInterventionField.getText();
+        AddMatCon.matricule = IdInterventionField.getText();
         //drag it here
         root.setOnMousePressed(event1 -> {
             x = event1.getSceneX();
@@ -446,6 +495,8 @@ public class InterventionAddController implements Initializable {
             stage.setY(event1.getScreenY() - y);
 
         });
+
+
         //add cell of button edit
         Callback<TableColumn<Materiel, String>, TableCell<Materiel, String>> cellFoctory = (TableColumn<Materiel, String> param) -> {
             // make cell containing buttons
@@ -455,39 +506,39 @@ public class InterventionAddController implements Initializable {
                     super.updateItem(item, empty);
                     //that cell created only on non-empty rows
                     if (!empty) {
-                        TextField text=new TextField();
-                        text.setStyle("-fx-text-fill : #000000");
-                        text.setOnKeyReleased((KeyEvent event) -> {
-                            Label l=new Label();
+                        TextField text1 = new TextField();
+                        text1.setStyle("-fx-text-fill : #000000");
+                        TextField text2 = new TextField();
+                        text2.setStyle("-fx-text-fill : #000000");
+                        text1.setOnKeyReleased((KeyEvent event) -> {
+                            Label l = new Label();
                             l.setStyle("-fx-text-fill:red");
-                            if(text.getText()!=null&&isNumeric(text.getText())&&Integer.valueOf(text.getText())>0){
-                                if(Integer.valueOf(text.getText())>qtelist.get(this.getTableRow().getIndex())){
-                                    l.setText("* La quantité de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+" est superieur à la quantite disponible");
-                                    vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);
-                                }
-                                else{
+                            if (text1.getText() != null && isNumeric(text1.getText()) && Integer.valueOf(text1.getText()) > 0) {
+                                if (Integer.valueOf(text1.getText()) > qtelist.get(this.getTableRow().getIndex())) {
+                                    l.setText("* La quantité de " + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation() + " est superieur à la quantite disponible");
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                                } else {
                                     l.setText("✓");
                                     l.setStyle("-fx-text-fill: #32CD32");
-                                    vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);
-                                    Connection connection=null;
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                                    Connection connection = null;
                                     try {
-                                        connection=getOracleConnection();
-                                        String place1=IdInterventionField.getText();
-                                        String place2=table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation();
+                                        connection = getOracleConnection();
+                                        String place1 = IdInterventionField.getText();
+                                        String place2 = table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation();
                                         PreparedStatement rs1 = connection.prepareStatement("select * from interMAT WHERE IDMAT=? AND ID=?");
-                                        rs1.setString(1,place1);
-                                        rs1.setString(2,place2);
-                                        ResultSet rs=rs1.executeQuery();
-                                        if (rs.next()==false){
-                                        rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
-                                        rs1.setString(1,table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
-                                        rs1.setString(2,IdInterventionField.getText());
-                                        rs1.setInt(3, Integer.parseInt(text.getText()));
-                                        rs1.execute();}
-                                        else
-                                        {
-                                            rs1 = connection.prepareStatement("UPDATE interMAT set qteUsed=? where IDMAT='" + IdInterventionField.getText() + "' AND ID='"+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()+"'");
-                                            rs1.setInt(1, Integer.parseInt(text.getText()));
+                                        rs1.setString(1, place1);
+                                        rs1.setString(2, place2);
+                                        ResultSet rs = rs1.executeQuery();
+                                        if (rs.next() == false) {
+                                            rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
+                                            rs1.setString(1, table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                            rs1.setString(2, IdInterventionField.getText());
+                                            rs1.setInt(3, Integer.parseInt(text1.getText()));
+                                            rs1.execute();
+                                        } else {
+                                            rs1 = connection.prepareStatement("UPDATE interMAT set qteUsed=? where IDMAT='" + IdInterventionField.getText() + "' AND ID='" + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation() + "'");
+                                            rs1.setInt(1, Integer.parseInt(text1.getText()));
                                             rs1.execute();
                                         }
                                         connection.close();
@@ -496,16 +547,69 @@ public class InterventionAddController implements Initializable {
                                     }
                                     //table_info_Mat.getItems().get(this.getTableRow().getIndex()).setQte(Integer.parseInt(text.getText()));
                                     //System.out.println(table_info_Mat.getItems().get(this.getTableRow().getIndex()).getQte());
-                                }}
-                                else{
-                                l.setText("* Remplir la quantite de "+table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
-                                vbox_outils.getChildren().set(this.getTableRow().getIndex()+1,l);}
+                                }
+                            } else {
+                                l.setText("* Remplir la quantite de " + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                            }
                         });
-                        setGraphic(text);
+                        text2.setOnKeyReleased((KeyEvent event) -> {
+                            Label l = new Label();
+                            l.setStyle("-fx-text-fill:red");
+                            if (text2.getText() != null && isNumeric(text2.getText()) && Integer.valueOf(text2.getText()) > 0) {
+                                if (Integer.valueOf(text2.getText()) > qtelist.get(this.getTableRow().getIndex())) {
+                                    l.setText("* La quantité de " + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation() + " est superieur à la quantite disponible");
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                                } else {
+                                    l.setText("✓");
+                                    l.setStyle("-fx-text-fill: #32CD32");
+                                    vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                                    Connection connection = null;
+                                    try {
+                                        connection = getOracleConnection();
+                                        String place1 = IdInterventionField.getText();
+                                        String place2 = table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation();
+                                        PreparedStatement rs1 = connection.prepareStatement("select * from interMAT WHERE IDMAT=? AND ID=?");
+                                        rs1.setString(1, place1);
+                                        rs1.setString(2, place2);
+                                        ResultSet rs = rs1.executeQuery();
+                                        if (rs.next() == false) {
+                                            rs1 = connection.prepareStatement("INSERT INTO interMAT values(?,?,?)");
+                                            rs1.setString(1, table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                            rs1.setString(2, IdInterventionField.getText());
+                                            rs1.setInt(3, Integer.parseInt(text2.getText()));
+                                            rs1.execute();
+                                        } else {
+                                            rs1 = connection.prepareStatement("UPDATE interMAT set qteUsed=? where IDMAT='" + IdInterventionField.getText() + "' AND ID='" + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation() + "'");
+                                            rs1.setInt(1, Integer.parseInt(text2.getText()));
+                                            rs1.execute();
+                                        }
+                                        connection.close();
+                                    } catch (SQLException throwables) {
+                                        throwables.printStackTrace();
+                                    }
+                                    for (int i = 0; i < V.size(); i++) {
+                                        if (V.get(i)[0].equals(table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation()))
+                                            V.get(i)[1] = text2.getText();
+                                    }
+                                }
+                            } else {
+                                l.setText("* Remplir la quantite de " + table_info_Mat.getItems().get(this.getTableRow().getIndex()).getDesignation());
+                                vbox_outils.getChildren().set(this.getTableRow().getIndex() + 1, l);
+                            }
+                            for (int i = 0; i < V.size(); i++)
+                                System.out.println(V.get(i)[0] + " " + V.get(i)[1]);
+                        });
+
+                        if (table_info_Mat.getItems().get(this.getTableRow().getIndex()).getConsom().equals("Non")) {
+                            setGraphic(text1);
+
+                        } else {
+                            setGraphic(text2);
+                        }
                         setText(null);
 
-                    }
-                    else
+                    } else
                         setGraphic(null);
                 }
 
@@ -516,9 +620,11 @@ public class InterventionAddController implements Initializable {
         qteCol1.setCellFactory(cellFoctory);
         stage.show();
     }
+
     @FXML
+//here too you should look
     void handleClicksTabPersonnel(ActionEvent event) throws IOException {
-        vercheff=false;
+        vercheff = false;
         Parent root = FXMLLoader.load(getClass().getResource("../../view/interIAddPersonnel.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -529,6 +635,8 @@ public class InterventionAddController implements Initializable {
         col_nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         col_prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
 
+
+/*
         Callback<TableColumn<Personnel, String>, TableCell<Personnel, String>> cellFoctory = (TableColumn<Personnel, String> param) -> {
             final TableCell<Personnel, String> cell = new TableCell<Personnel, String>() {
                 @Override
@@ -554,11 +662,14 @@ public class InterventionAddController implements Initializable {
             return cell;
         };
 
+
         col_select.setCellFactory(cellFoctory);
         col_cheff.setCellValueFactory(new PropertyValueFactory<>("cheff"));
-        AddPerCon.oblist2=null;
+
+ */
+        AddPerCon.oblist2 = null;
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-            if (!stage.isShowing()){
+            if (!stage.isShowing()) {
                 table_info_Per.setItems(AddPerCon.oblist2);
             }
         });
@@ -574,6 +685,7 @@ public class InterventionAddController implements Initializable {
 
         });
         stage.show();
+
     }
 
     @FXML
@@ -587,9 +699,9 @@ public class InterventionAddController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
         markCol.setCellValueFactory(new PropertyValueFactory<>("Marque"));
-        AddEngCon.oblist2=null;
+        AddEngCon.oblist2 = null;
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-            if (!stage.isShowing()){
+            if (!stage.isShowing()) {
                 table_info_Eng.setItems(AddEngCon.oblist2);
             }
 
@@ -610,196 +722,210 @@ public class InterventionAddController implements Initializable {
     }
 
 
-
     @FXML
     void verifDomain(ActionEvent event) {
-        verDomaine=false;
+        verDomaine = false;
         voletController();
-        if(DomainField.getValue()==null){
+        if (DomainField.getValue() == null) {
             DomainLabel.setText("🠔 Selectionner Domaine");
             DomainLabel1.setText("");
-            verDomaine=false;
+            verDomaine = false;
             VoletField.setDisable(true);
             DomainLabel.setStyle("-fx-text-fill: red");
-            DomainField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
-        else{
+            DomainField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+        } else {
             DomainLabel1.setStyle("-fx-text-fill: #32CD32");
             DomainLabel.setText("");
             VoletField.setDisable(false);
-            verDomaine=true;
+            verDomaine = true;
             DomainLabel1.setText("✓");
-            DomainField.setStyle("-fx-background-color:white;");}
+            DomainField.setStyle("-fx-background-color:white;");
+        }
     }
-    private void voletController(){
+
+    private void voletController() {
         list2.clear();
         VoletField.getItems().removeAll(VoletField.getItems());
         if ("Social".equals(DomainField.getValue())) {
-            list2.addAll("Loisirs","Sports","Santé","Sécurité","Culture","Education","Gouvernace","Vie Communautaire");
+            list2.addAll("Loisirs", "Sports", "Santé", "Sécurité", "Culture", "Education", "Gouvernace", "Vie Communautaire");
         }
         if ("Territorial".equals(DomainField.getValue())) {
-            list2.addAll("Environnement physique","Transport","Habitation","Aménagement");
+            list2.addAll("Environnement physique", "Transport", "Habitation", "Aménagement");
         }
         if ("Economique".equals(DomainField.getValue())) {
-            list2.addAll("Vitalité économique","Emploi");
+            list2.addAll("Vitalité économique", "Emploi");
         }
         VoletField.getItems().setAll(list2);
     }
+
     @FXML
     void verifVolet(ActionEvent event) {
-        verVolet=false;
-        if(VoletField.getValue()==null){
+        verVolet = false;
+        if (VoletField.getValue() == null) {
             VoletLabel1.setText("");
             VoletLabel.setText("");
-            verVolet=false;
+            verVolet = false;
 //            VoletLabel.setText("🠔 Selectionner Volet");
 //            VoletLabel1.setText("");
 //            VoletLabel.setStyle("-fx-text-fill: red");
 //            VoletField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }
-        else{
+        } else {
             VoletLabel1.setStyle("-fx-text-fill: #32CD32");
             VoletLabel1.setText("✓");
-            verVolet=true;
+            verVolet = true;
             VoletLabel.setText("");
-            VoletField.setStyle("-fx-background-color:white;");}
+            VoletField.setStyle("-fx-background-color:white;");
+        }
     }
 
     @FXML
     void verifGouvernerat(ActionEvent event) {
-        verGouvernerat=false;
-        verDelegation=false;
+        verGouvernerat = false;
+        verDelegation = false;
         delegationController();
-        if(GouverneratField.getValue()==null){
+        if (GouverneratField.getValue() == null) {
             GouverneratLabel.setText("🠔 Selectionner Gouvernerat");
-            verGouvernerat=false;
+            verGouvernerat = false;
             DelegationField.setDisable(true);
             GouverneratLabel.setStyle("-fx-text-fill: red");
-            GouverneratField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");}
-        else{
+            GouverneratField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
+        } else {
             GouverneratLabel.setStyle("-fx-text-fill: #32CD32");
             DelegationField.setDisable(false);
-            verGouvernerat=true;
+            verGouvernerat = true;
             GouverneratLabel.setText("✓");
-            GouverneratField.setStyle("-fx-background-color:white;");}
+            GouverneratField.setStyle("-fx-background-color:white;");
+        }
     }
 
-    private void delegationController(){
+    private void delegationController() {
         list4.clear();
         DelegationField.getItems().removeAll(DelegationField.getItems());
         if ("Ariana".equals(GouverneratField.getValue())) {
-            list4.addAll("Ariana Ville","Ettadhamen","Kalaat Landlous","La Soukra","Mnihla","Raoued","Sidi Thabet");
+            list4.addAll("Ariana Ville", "Ettadhamen", "Kalaat Landlous", "La Soukra", "Mnihla", "Raoued", "Sidi Thabet");
         }
         if ("Beja".equals(GouverneratField.getValue())) {
-            list4.addAll("Amdoun","Beja Nord","Beja Sud","Goubellat","Mejez El Bab","Nefza","Teboursouk","Testour","Thibar");
+            list4.addAll("Amdoun", "Beja Nord", "Beja Sud", "Goubellat", "Mejez El Bab", "Nefza", "Teboursouk", "Testour", "Thibar");
         }
         if ("Ben arous".equals(GouverneratField.getValue())) {
-            list4.addAll("Ben Arous","Bou Mhel El Bassatine","El Mourouj","Ezzahra","Fouchana","Hammam Chatt","Hammam Lif","Megrine","Mohamadia","Mornag","Nouvelle Medina","Rades");
+            list4.addAll("Ben Arous", "Bou Mhel El Bassatine", "El Mourouj", "Ezzahra", "Fouchana", "Hammam Chatt", "Hammam Lif", "Megrine", "Mohamadia", "Mornag", "Nouvelle Medina", "Rades");
         }
         if ("Bizerte".equals(GouverneratField.getValue())) {
-            list4.addAll("Bizerte Nord","Bizerte Sud","El Alia","Ghar El Melh","Ghezala","Jarzouna","Joumine","Mateur","Menzel Bourguiba","Menzel Jemil","Ras Jebel","Sejnane","Tinja","Utique");
+            list4.addAll("Bizerte Nord", "Bizerte Sud", "El Alia", "Ghar El Melh", "Ghezala", "Jarzouna", "Joumine", "Mateur", "Menzel Bourguiba", "Menzel Jemil", "Ras Jebel", "Sejnane", "Tinja", "Utique");
         }
         if ("Gabes".equals(GouverneratField.getValue())) {
-            list4.addAll("El Hamma","El Metouia","Gabes Medina","Gabes Ouest","Gabes Sud","Ghannouche","Mareth","Matmata","Menzel Habib","Nouvelle Matmata");
+            list4.addAll("El Hamma", "El Metouia", "Gabes Medina", "Gabes Ouest", "Gabes Sud", "Ghannouche", "Mareth", "Matmata", "Menzel Habib", "Nouvelle Matmata");
         }
         if ("Gafsa".equals(GouverneratField.getValue())) {
-            list4.addAll("Belkhir","El Guettar","El Ksar","El Mdhilla","Gafsa Nord","Gafsa Sud","Metlaoui","Moulares","Redeyef","Sidi Aich","Sned");
+            list4.addAll("Belkhir", "El Guettar", "El Ksar", "El Mdhilla", "Gafsa Nord", "Gafsa Sud", "Metlaoui", "Moulares", "Redeyef", "Sidi Aich", "Sned");
         }
         if ("Jendouba".equals(GouverneratField.getValue())) {
-            list4.addAll("Ain Draham","Balta Bou Aouene","Bou Salem","Fernana","Ghardimaou","Jendouba","Jendouba Nord","Oued Mliz","Tabarka");
+            list4.addAll("Ain Draham", "Balta Bou Aouene", "Bou Salem", "Fernana", "Ghardimaou", "Jendouba", "Jendouba Nord", "Oued Mliz", "Tabarka");
         }
         if ("Kairouan".equals(GouverneratField.getValue())) {
-            list4.addAll("Bou Hajla","Chebika","Cherarda","El Ala","Haffouz","Hajeb El Ayoun","Kairouan Nord","Kairouan Sud","Nasrallah","Oueslatia","Sbikha");
+            list4.addAll("Bou Hajla", "Chebika", "Cherarda", "El Ala", "Haffouz", "Hajeb El Ayoun", "Kairouan Nord", "Kairouan Sud", "Nasrallah", "Oueslatia", "Sbikha");
         }
         if ("Kasserine".equals(GouverneratField.getValue())) {
-            list4.addAll("El Ayoun","Ezzouhour (Kasserine)","Feriana","Foussana","Haidra","Hassi El Frid","Jediliane","Kasserine Nord","Kasserine Sud","Mejel Bel Abbes","Sbeitla","Sbiba","Thala");
+            list4.addAll("El Ayoun", "Ezzouhour (Kasserine)", "Feriana", "Foussana", "Haidra", "Hassi El Frid", "Jediliane", "Kasserine Nord", "Kasserine Sud", "Mejel Bel Abbes", "Sbeitla", "Sbiba", "Thala");
         }
         if ("Kebili".equals(GouverneratField.getValue())) {
-            list4.addAll("Douz","El Faouar","Kebili Nord","Kebili Sud","Souk El Ahad");
+            list4.addAll("Douz", "El Faouar", "Kebili Nord", "Kebili Sud", "Souk El Ahad");
         }
         if ("Le Kef".equals(GouverneratField.getValue())) {
-            list4.addAll("Dahmani","El Ksour","Jerissa","Kalaa El Khasba","Kalaat Sinane","Le Kef Est","Le Kef Ouest","Le Sers","Nebeur","Sakiet Sidi Youssef","Tajerouine","Touiref");
+            list4.addAll("Dahmani", "El Ksour", "Jerissa", "Kalaa El Khasba", "Kalaat Sinane", "Le Kef Est", "Le Kef Ouest", "Le Sers", "Nebeur", "Sakiet Sidi Youssef", "Tajerouine", "Touiref");
         }
         if ("Mahdia".equals(GouverneratField.getValue())) {
-            list4.addAll("Bou Merdes","Chorbane","El Jem","Hbira","Ksour Essaf","La Chebba","Mahdia","Melloulech","Ouled Chamakh","Sidi Alouene","Souassi");
+            list4.addAll("Bou Merdes", "Chorbane", "El Jem", "Hbira", "Ksour Essaf", "La Chebba", "Mahdia", "Melloulech", "Ouled Chamakh", "Sidi Alouene", "Souassi");
         }
         if ("Mannouba".equals(GouverneratField.getValue())) {
-            list4.addAll("Borj El Amri","Douar Hicher","El Battan","Jedaida","Mannouba","Mornaguia","Oued Ellil","Tebourba");
+            list4.addAll("Borj El Amri", "Douar Hicher", "El Battan", "Jedaida", "Mannouba", "Mornaguia", "Oued Ellil", "Tebourba");
         }
         if ("Medenine".equals(GouverneratField.getValue())) {
-            list4.addAll("Ajim","Ben Guerdane","Beni Khedache","Djerba - Houmet Essouk","Djerba - Midoun","Medenine Nord","Medenine Sud","Sidi Makhlouf","Zarzis");
+            list4.addAll("Ajim", "Ben Guerdane", "Beni Khedache", "Djerba - Houmet Essouk", "Djerba - Midoun", "Medenine Nord", "Medenine Sud", "Sidi Makhlouf", "Zarzis");
         }
         if ("Monastir".equals(GouverneratField.getValue())) {
-            list4.addAll("Bekalta","Bembla","Beni Hassen","Jemmal","Ksar Helal","Ksibet El Mediouni","Moknine","Monastir","Ouerdanine","Sahline","Sayada Lamta Bou Hajar","Teboulba","Zeramdine");
+            list4.addAll("Bekalta", "Bembla", "Beni Hassen", "Jemmal", "Ksar Helal", "Ksibet El Mediouni", "Moknine", "Monastir", "Ouerdanine", "Sahline", "Sayada Lamta Bou Hajar", "Teboulba", "Zeramdine");
         }
         if ("Nabeul".equals(GouverneratField.getValue())) {
-            list4.addAll("Beni Khalled","Beni Khiar","Bou Argoub","Dar Chaabane Elfehri","El Haouaria","El Mida","Grombalia","Hammam El Ghezaz","Hammamet","Kelibia","Korba","Menzel Bouzelfa","Menzel Temime","Nabeul","Soliman","Takelsa");
+            list4.addAll("Beni Khalled", "Beni Khiar", "Bou Argoub", "Dar Chaabane Elfehri", "El Haouaria", "El Mida", "Grombalia", "Hammam El Ghezaz", "Hammamet", "Kelibia", "Korba", "Menzel Bouzelfa", "Menzel Temime", "Nabeul", "Soliman", "Takelsa");
         }
         if ("Sfax".equals(GouverneratField.getValue())) {
-            list4.addAll("Agareb","Bir Ali Ben Khelifa","El Amra","El Hencha","Esskhira","Ghraiba","Jebeniana","Kerkenah","Mahras","Menzel Chaker","Sakiet Eddaier","Sakiet Ezzit","Sfax Est","Sfax Sud","Sfax Ville");
+            list4.addAll("Kerkennah", "Agareb", "Bir Ali Ben Khelifa", "El Amra", "El Hencha", "Esskhira", "Ghraiba", "Jebeniana", "Mahras", "Menzel Chaker", "Sakiet Eddaier", "Sakiet Ezzit", "Sfax Est", "Sfax Sud", "Sfax Ville");
         }
         if ("Sidi bouzid".equals(GouverneratField.getValue())) {
-            list4.addAll("Ben Oun","Bir El Haffey","Cebbala","Jilma","Maknassy","Menzel Bouzaiene","Mezzouna","Ouled Haffouz","Regueb","Sidi Bouzid Est","Sidi Bouzid Ouest","Souk Jedid");
+            list4.addAll("Ben Oun", "Bir El Haffey", "Cebbala", "Jilma", "Maknassy", "Menzel Bouzaiene", "Mezzouna", "Ouled Haffouz", "Regueb", "Sidi Bouzid Est", "Sidi Bouzid Ouest", "Souk Jedid");
         }
         if ("Siliana".equals(GouverneratField.getValue())) {
-            list4.addAll("Bargou","Bou Arada","El Aroussa","Gaafour","Kesra","Le Krib","Makthar","Rohia","Sidi Bou Rouis","Siliana Nord","Siliana Sud");
+            list4.addAll("Bargou", "Bou Arada", "El Aroussa", "Gaafour", "Kesra", "Le Krib", "Makthar", "Rohia", "Sidi Bou Rouis", "Siliana Nord", "Siliana Sud");
         }
         if ("Sousse".equals(GouverneratField.getValue())) {
-            list4.addAll("Akouda","Bou Ficha","Enfidha","Hammam Sousse","Hergla","Kalaa El Kebira","Kalaa Essghira","Kondar","Msaken","Sidi Bou Ali","Sidi El Heni","Sousse Jaouhara","Sousse Riadh","Sousse Ville");
+            list4.addAll("Akouda", "Bou Ficha", "Enfidha", "Hammam Sousse", "Hergla", "Kalaa El Kebira", "Kalaa Essghira", "Kondar", "Msaken", "Sidi Bou Ali", "Sidi El Heni", "Sousse Jaouhara", "Sousse Riadh", "Sousse Ville");
         }
         if ("Tataouine".equals(GouverneratField.getValue())) {
-            list4.addAll("Bir Lahmar","Dhehiba","Ghomrassen","Remada","Smar","Tataouine Nord","Tataouine Sud");
+            list4.addAll("Bir Lahmar", "Dhehiba", "Ghomrassen", "Remada", "Smar", "Tataouine Nord", "Tataouine Sud");
         }
         if ("Tozeur".equals(GouverneratField.getValue())) {
-            list4.addAll("Degueche","Hezoua","Nefta","Tameghza","Tozeur");
+            list4.addAll("Degueche", "Hezoua", "Nefta", "Tameghza", "Tozeur");
         }
         if ("Tunis".equals(GouverneratField.getValue())) {
-            list4.addAll("Ain Zaghouan","Bab Bhar","Bab Souika","Carthage","Cite El Khadra","El Hrairia","El Kabbaria","El Kram","El Menzah","El Omrane","El Omrane Superieur","El Ouerdia","Essijoumi","Ettahrir","Ezzouhour (Tunis)","Jebel Jelloud","La Goulette","La Marsa","La Medina","Le Bardo","Sidi El Bechir","Sidi Hassine");
+            list4.addAll("Ain Zaghouan", "Bab Bhar", "Bab Souika", "Carthage", "Cite El Khadra", "El Hrairia", "El Kabbaria", "El Kram", "El Menzah", "El Omrane", "El Omrane Superieur", "El Ouerdia", "Essijoumi", "Ettahrir", "Ezzouhour (Tunis)", "Jebel Jelloud", "La Goulette", "La Marsa", "La Medina", "Le Bardo", "Sidi El Bechir", "Sidi Hassine");
         }
         if ("Zaghouan".equals(GouverneratField.getValue())) {
-            list4.addAll("Bir Mcherga","El Fahs","Ennadhour","Hammam Zriba","Saouef","Zaghouan");
+            list4.addAll("Bir Mcherga", "El Fahs", "Ennadhour", "Hammam Zriba", "Saouef", "Zaghouan");
         }
         DelegationField.getItems().setAll(list4);
     }
+
     @FXML
     void verifDelegation(ActionEvent event) {
-        verDelegation=false;
-        if(DelegationField.getValue()==null) {
+        verDelegation = false;
+        if (DelegationField.getValue() == null) {
             DelegationLabel.setText("");
-            verDelegation=false;
+            verDelegation = false;
 //            DelegationLabel.setText("🠔 Selectionner Delegation");
 //            DelegationLabel.setStyle("-fx-text-fill: red");
 //            DelegationField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        }else{
+        } else {
             DelegationLabel.setStyle("-fx-text-fill: #32CD32");
             DelegationLabel.setText("✓");
-            verDelegation=true;
-            DelegationField.setStyle("-fx-background-color:white;");}
+            verDelegation = true;
+            DelegationField.setStyle("-fx-background-color:white;");
+        }
     }
+
     @FXML
-    void verifdateDebut(ActionEvent event) {
+    void verifdateDebut(ActionEvent event) throws SQLException {
+        table_info_Mat.setItems(null);
+        table_info_Per.setItems(null);
+        table_info_Eng.setItems(null);
+        Connection connection = null;
+        connection = getOracleConnection();
+        PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+        rs1.setString(1, IdInterventionField.getText());
+        rs1.execute();
         verdateDebut = false;
         verdateFin = false;
-        if (!dateFinField.isDisable()){
+        if (!dateFinField.isDisable()) {
             dateFinLabel1.setText("");
-            dateDebutLabel.setText(""); }
-        if (validDate(dateDebutField.getValue(), LocalDate.now()) >0) {
+            dateDebutLabel.setText("");
+        }
+        if (validDate(dateDebutField.getValue(), LocalDate.now()) > 0) {
             dateDebutLabel.setText("🠔 Date de Debut invalide");
             verdateDebut = false;
             dateDebutLabel1.setText("");
             dateDebutLabel.setStyle("-fx-text-fill: red");
             dateFinField.setDisable(true);
             dateDebutField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        } else if (validDate(dateDebutField.getValue(), LocalDate.now()) <=0 && dateDebutField.getValue()!=null){
+        } else if (validDate(dateDebutField.getValue(), LocalDate.now()) <= 0 && dateDebutField.getValue() != null) {
             dateDebutLabel1.setStyle("-fx-text-fill: #32CD32");
             verdateDebut = true;
             dateDebutLabel.setText("");
             dateFinField.setDisable(false);
             dateDebutLabel1.setText("✓");
             dateDebutField.setStyle("-fx-background-color:transparent;");
-            if(dateFinField.getValue()!=null)
+            if (dateFinField.getValue() != null)
                 verifdateFin(event);
-        }
-        else{
+        } else {
             dateDebutLabel.setText("🠔 Date de Debut invalide");
             verdateDebut = false;
             dateDebutLabel1.setText("");
@@ -810,21 +936,28 @@ public class InterventionAddController implements Initializable {
     }
 
     @FXML
-    void verifdateFin(ActionEvent event) {
-        if (validDate(dateFinField.getValue(), dateDebutField.getValue()) >0) {
+    void verifdateFin(ActionEvent event) throws SQLException {
+        table_info_Mat.setItems(null);
+        table_info_Per.setItems(null);
+        table_info_Eng.setItems(null);
+        Connection connection = null;
+        connection = getOracleConnection();
+        PreparedStatement rs1 = connection.prepareStatement("DELETE from interMAT WHERE IDMAT=?");
+        rs1.setString(1, IdInterventionField.getText());
+        rs1.execute();
+        if (validDate(dateFinField.getValue(), dateDebutField.getValue()) > 0) {
             dateFinLabel.setText("🠔 Date de Fin invalide");
             verdateFin = false;
             dateFinLabel1.setText("");
             dateFinLabel.setStyle("-fx-text-fill: red");
             dateFinField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-        } else if (validDate(dateFinField.getValue(), LocalDate.now()) <=0 && dateFinField.getValue()!=null) {
+        } else if (validDate(dateFinField.getValue(), LocalDate.now()) <= 0 && dateFinField.getValue() != null) {
             dateFinLabel1.setStyle("-fx-text-fill: #32CD32");
             verdateFin = true;
             dateFinLabel.setText("");
             dateFinLabel1.setText("✓");
             dateFinField.setStyle("-fx-background-color:transparent;");
-        }
-        else{
+        } else {
             dateFinLabel.setText("🠔 Date de Fin invalide");
             verdateFin = false;
             dateFinLabel1.setText("");
@@ -832,99 +965,108 @@ public class InterventionAddController implements Initializable {
             dateFinField.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
         }
     }
+
     @FXML
     void verifLoc(KeyEvent event) {
-        verLocation=false;
+        verLocation = false;
         String Loc = LocalisationField.getText();
-        if(!Loc.isEmpty()){
-            if ( !isAlphaNum(Loc)) {
-                    verLocation=false;
-                    LocationLabel.setText("🠔 La localisation est incorrect !");
-                    LocalisationField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                    LocationLabel.setStyle("-fx-text-fill: red");}
-             else {
+        if (!Loc.isEmpty()) {
+            if (!isAlphaNum(Loc)) {
+                verLocation = false;
+                LocationLabel.setText("🠔 La localisation est incorrect !");
+                LocalisationField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+                LocationLabel.setStyle("-fx-text-fill: red");
+            } else {
                 LocalisationField.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                verLocation=true;
+                verLocation = true;
                 LocationLabel.setText("✓");
-                LocationLabel.setStyle("-fx-text-fill: #32CD32");}}
-        else{
+                LocationLabel.setStyle("-fx-text-fill: #32CD32");
+            }
+        } else {
             LocalisationField.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
             LocationLabel.setText("");
-            verLocation=false;
+            verLocation = false;
         }
     }
 
     @FXML
     void verifNom(KeyEvent event) {
-        vernom=false;
+        vernom = false;
         String nom = NomFiled.getText();
-        if(!nom.isEmpty()){
+        if (!nom.isEmpty()) {
             if (!isAlpha(nom)) {
                 NomLabel.setText("🠔 Le nom est composé de lettres alphabétiques!");
                 NomFiled.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-                vernom=false;
+                vernom = false;
                 NomLabel.setStyle("-fx-text-fill: red");
             } else {
                 NomFiled.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
                 NomLabel.setText("✓");
-                vernom=true;
-                NomLabel.setStyle("-fx-text-fill: #32CD32");}}
-        else{
+                vernom = true;
+                NomLabel.setStyle("-fx-text-fill: #32CD32");
+            }
+        } else {
             NomFiled.setStyle("-fx-text-box-border: red;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
-            vernom=false;
+            vernom = false;
             NomLabel.setText("");
         }
     }
 
-    ObservableList list1= FXCollections.observableArrayList();
-    ObservableList list2= FXCollections.observableArrayList();
-    ObservableList list3= FXCollections.observableArrayList();
-    ObservableList list4= FXCollections.observableArrayList();
+    ObservableList list1 = FXCollections.observableArrayList();
+    ObservableList list2 = FXCollections.observableArrayList();
+    ObservableList list3 = FXCollections.observableArrayList();
+    ObservableList list4 = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dateFinField.setDisable(true);
         VoletField.setDisable(true);
         DelegationField.setDisable(true);
-        list1.addAll("Social","Territorial","Economique");
-        list3.addAll("Ariana","Beja","Ben arous","Bizerte","Gabes","Gafsa","Jendouba","Kairouan","Kasserine","Kebili","Le Kef","Mahdia","Mannouba","Medenine","Monastir","Nabeul","Sfax","Sidi bouzid","Siliana","Sousse","Tataouine","Tozeur","Tunis","Zaghouan");
+        list1.addAll("Social", "Territorial", "Economique");
+        list3.addAll("Ariana", "Beja", "Ben arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Le Kef", "Mahdia", "Mannouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
         GouverneratField.getItems().setAll(list3);
         DomainField.getItems().setAll(list1);
         random8(IdInterventionField);
-
     }
+
     public static char randomCharacter() {
-        int rand = (int)(Math.random()*36);
-        if(rand <= 9) {
+        int rand = (int) (Math.random() * 36);
+        if (rand <= 9) {
             int number = rand + 48;
-            return (char)(number);
+            return (char) (number);
         } else {
             int uppercase = rand + 55;
-            return (char)(uppercase);}
+            return (char) (uppercase);
+        }
     }
-    public void random8(Label label){
+
+    public void random8(Label label) {
         String randomPassword;
         boolean b;
-        do{
-            b=false;
+        do {
+            b = false;
             randomPassword = "";
-            for(int j = 0; j < 8; j++) {
-                randomPassword += randomCharacter();}
+            for (int j = 0; j < 8; j++) {
+                randomPassword += randomCharacter();
+            }
             try {
-                Connection connection= getOracleConnection();
+                Connection connection = getOracleConnection();
                 ResultSet rs = connection.createStatement().executeQuery("select * from intervention");
-                while(rs.next()){
-                    if(randomPassword.equals(rs.getString("idMat"))) {
+                while (rs.next()) {
+                    if (randomPassword.equals(rs.getString("idMat"))) {
                         b = true;
                         break;
                     }
                 }
-                connection.close();} catch (SQLException e) {
+                connection.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             System.out.println(randomPassword);
-        }while(b);
+        } while (b);
         label.setText(randomPassword);
     }
+
     @FXML
     public void handleClicks(ActionEvent actionEvent) {
         if (actionEvent.getSource() == btnPage1) {
@@ -933,10 +1075,10 @@ public class InterventionAddController implements Initializable {
         if (actionEvent.getSource() == btnPage2) {
             anchorpane2.toFront();
         }
-        if(actionEvent.getSource() == btnPage3){
+        if (actionEvent.getSource() == btnPage3) {
             anchorpane3.toFront();
         }
-        if(actionEvent.getSource() == btnPage4){
+        if (actionEvent.getSource() == btnPage4) {
             anchorpane4.toFront();
         }
     }

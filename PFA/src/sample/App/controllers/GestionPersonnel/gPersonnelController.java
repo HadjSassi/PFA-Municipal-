@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import sample.App.Main;
+import sample.App.model.Materiel;
 import sample.App.model.Personnel;
 
 
@@ -84,11 +85,6 @@ public class gPersonnelController implements Initializable {
    @FXML
    private TableColumn<Personnel, String> col_edit;
 
-   @FXML
-   private TableColumn<Personnel, CheckBox> col_select;
-
-   @FXML
-   private CheckBox check_selAll;
 
    @FXML
    private TextField  filterField;
@@ -127,57 +123,50 @@ public class gPersonnelController implements Initializable {
     void handleClicksRefresh(ActionEvent event) {
         loadData();
         filter();
-        check_selAll.setSelected(false);
         filterField.setText(null);
     }
    @FXML
    void handleClicksDeleteSelected(ActionEvent event) throws URISyntaxException {
        String s="";
-       for(Personnel per:oblist){
-            if(per.getCheck().isSelected()){
-                s+=per.getMatricule()+"///";
-       }}int so=0;
-       AtomicBoolean del = new AtomicBoolean(true);
-       for(Personnel per:oblist){
-
-           if(per.getCheck().isSelected() && so==0){
-               Alert alert = new Alert(Alert.AlertType.INFORMATION);
-               alert.initStyle(StageStyle.UNDECORATED);
-               alert.setHeaderText(null);
-               ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-               ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-               alert.getButtonTypes().setAll(okButton, noButton);
-               alert.setContentText("Etes-vous sure de supprimer le personnel  de n°: ///"+s);
-               alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
-               alert.showAndWait().ifPresent(type -> {
-                   if (type == okButton) {
-                       del.set(true);
-                   } else if (type == noButton) {
-                       del.set(false);
+       String s1 = null;
+       ObservableList<Personnel>  ob = table_info.getSelectionModel().getSelectedItems();
+       if (ob.toArray().length != 0) {
+           for (Personnel per : ob){
+               s+=per.getMatricule()+"///";
+               s1+=per.getMatricule();
+           }
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           alert.initStyle(StageStyle.UNDECORATED);
+           alert.setHeaderText(null);
+           ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+           ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+           alert.getButtonTypes().setAll(okButton, noButton);
+           alert.setContentText("Etes-vous sure de supprimer Personnel n°: ///"+s);
+           alert.setGraphic(new ImageView(getClass().getResource("../../../images/delete.png").toURI().toString() ));
+           alert.showAndWait().ifPresent(type -> {
+               if (type == okButton) {
+                   for (Personnel per : ob) {
+                       try {
+                           Connection connection = getOracleConnection();
+                           connection.createStatement().executeQuery("delete from Personnel where " + "\'" + per.getMatricule() + "\'" + "=matricule");
+                           connection.close();
+                       } catch (SQLException throwables) {
+                           throwables.printStackTrace();
+                       }
                    }
-               });
-               so++;
-           }
-           if(per.getCheck().isSelected() && del.get()){
-               try {
-                   Connection connection= getOracleConnection();
-                   ResultSet rs = connection.createStatement().executeQuery("delete from PERSONNEL where "+per.getMatricule()+"=matricule");
-                   connection.close();
-               }catch (SQLException throwables) {
-                   throwables.printStackTrace();
+
                }
-           }
+           });
        }
        loadData();
-       check_selAll.setSelected(false);
    }
 
     ObservableList<Personnel> oblist;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        table_info.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         initTable();
         loadData();
-        checkAll();
     }
     private void filter(){
         FilteredList<Personnel> filteredData = new FilteredList<>(oblist,b -> true);
@@ -213,19 +202,6 @@ public class gPersonnelController implements Initializable {
         sortedData.comparatorProperty().bind(table_info.comparatorProperty());
         table_info.setItems(sortedData);
     }
-    private void checkAll(){
-        check_selAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                oblist = table_info.getItems();
-                for (Personnel item : oblist){
-                    if(check_selAll.isSelected())
-                        item.getCheck().setSelected(true);
-                   else
-                       item.getCheck().setSelected(false);
-                }}});
-    }
-
     private void initTable(){
         initCols();
     }
@@ -239,8 +215,6 @@ public class gPersonnelController implements Initializable {
         col_sex.setCellValueFactory(new PropertyValueFactory<>("sex"));
         col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         col_naissance.setCellValueFactory(new PropertyValueFactory<>("naissance"));
-        col_select.setCellValueFactory(new PropertyValueFactory<>("check"));
-
         //add cell of button edit
         Callback<TableColumn<Personnel, String>, TableCell<Personnel, String>> cellFoctory = (TableColumn<Personnel, String> param) -> {
             // make cell containing buttons

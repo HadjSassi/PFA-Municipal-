@@ -1,0 +1,28 @@
+private void filter(){
+        FilteredList<Evenement> filteredData = new FilteredList<>(oblist, b -> true);
+
+        filterField.textProperty().addListener((observable ,oldValue, newValue)->{filteredData.setPredicate(Evenement -> {
+
+            if(newValue == null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            if (Evenement.getIdI().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;
+            }else if (Evenement.getNom().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;
+            }else if(Evenement.getDateDeb().toLowerCase().indexOf(lowerCaseFilter)!= -1){
+                return true;
+            }else if(Evenement.getDateFin().toLowerCase().indexOf(lowerCaseFilter)!= -1) {
+                return true;
+            }else if(Evenement.getEtat().toLowerCase().indexOf(lowerCaseFilter)!= -1) {
+                return true;
+            }else
+                return false;//doesn't match
+        });});
+        SortedList<Evenement> sortedData= new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(table_info.comparatorProperty());
+        table_info.setItems(sortedData);
+    }

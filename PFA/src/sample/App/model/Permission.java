@@ -1,6 +1,5 @@
 package sample.App.model;
 
-import javafx.scene.control.CheckBox;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,7 +19,6 @@ public class Permission {
     private final String status;
     private final String dates;
     private final String description ;
-    private final CheckBox check;
 
 
 
@@ -35,7 +33,6 @@ public class Permission {
         this.nom = nom;
         this.prenom = prenom;
         this.description = description;
-        this.check = new CheckBox();
         this.tel = tel ;
         this.mail = mail;
         this.status= status;
@@ -80,10 +77,6 @@ public class Permission {
 
     public String getDescription() {
         return description;
-    }
-
-    public CheckBox getCheck() {
-        return check;
     }
 
     public String getStatus() {
