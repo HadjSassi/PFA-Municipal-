@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -336,7 +337,7 @@ public class InterventionAddController implements Initializable {
         } else
             anchorpane5.toFront();
     }
-
+    private boolean insert=false;
     @FXML
     void handleClicksInsert(ActionEvent event) throws URISyntaxException, SQLException {
         boolean ver = true;
@@ -378,7 +379,12 @@ public class InterventionAddController implements Initializable {
             rs.setString(9, LocalisationField.getText());
             rs.setString(10, DescriptionField.getText());
             rs.setString(11, percheff.getMatricule());
-            rs.setString(12, "Initial");
+            System.out.println(dateDebutField.getValue());
+            System.out.println(LocalDate.now());
+            if(dateDebutField.getValue().equals(LocalDate.now()))
+                rs.setString(12, "EnCours");
+            else
+                rs.setString(12, "Initial");
             rs.execute();
             for (Personnel i : table_info_Per.getItems()) {
                 rs = connection.prepareStatement("INSERT INTO interPER values(?,?)");
@@ -416,9 +422,9 @@ public class InterventionAddController implements Initializable {
             alert.showAndWait();
             stage = (Stage) anchorpane.getScene().getWindow();
             stage.close();
+            insert= true;
         }
     }
-
     ArrayList<String[]> T;
     private Personnel percheff;
     ArrayList<String[]> V;
@@ -988,7 +994,6 @@ public class InterventionAddController implements Initializable {
             verLocation = false;
         }
     }
-
     @FXML
     void verifNom(KeyEvent event) {
         vernom = false;
@@ -1082,5 +1087,15 @@ public class InterventionAddController implements Initializable {
             anchorpane4.toFront();
         }
     }
-
+    public void setTextField(String nom,String description){
+        NomFiled.setText(nom);
+        NomFiled.setStyle("-fx-text-box-border: #32CD32;  -fx-border-width: 2px  ;-fx-background-insets: 0, 0 0 3 0 ; -fx-background-radius: 0.7em ;");
+        NomLabel.setText("✓");
+        NomLabel.setStyle("-fx-text-fill: #32CD32");
+        vernom=true;
+        DescriptionField.setText(description);
+    }
+    public boolean inserted(){
+        return insert;
+    }
 }

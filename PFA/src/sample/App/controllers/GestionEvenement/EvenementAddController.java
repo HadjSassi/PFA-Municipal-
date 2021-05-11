@@ -370,7 +370,10 @@ public class EvenementAddController implements Initializable {
             rs.setString(9, LocalisationField.getText());
             rs.setString(10, DescriptionField.getText());
             rs.setString(11, percheff.getMatricule());
-            rs.setString(12, "Initial");
+            if(dateDebutField.getValue().equals(LocalDate.now()))
+                rs.setString(12, "EnCours");
+            else
+                rs.setString(12, "Initial");
             rs.execute();
             for (Personnel i : table_info_Per.getItems()) {
                 rs = connection.prepareStatement("INSERT INTO EVENPER values(?,?)");

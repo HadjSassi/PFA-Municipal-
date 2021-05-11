@@ -362,9 +362,11 @@ public class ControllerCreationDoleance implements Initializable {
                 try {
                     connection = getOracleConnection();
 
-                    String insertion = "INSERT INTO doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getText()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'Initiale',"+"\'"+DescriptionFiled.getText()+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+")";
+                    String insertion = "INSERT INTO doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getText()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'Initiale',"+"\'"+DescriptionFiled.getText()+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+",?)";
+
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
+                    rs.setDate(1, Date.valueOf(datefield.getValue()));
                     System.out.println(insertion);
                     rs.execute();
                     //lbl.setText("Ajout avec succés");

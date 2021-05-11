@@ -139,7 +139,18 @@ public class EvenementController implements Initializable {
                     for (Evenement inter : ob) {
                         try {
                             Connection connection= getOracleConnection();
-                            PreparedStatement rs1 = connection.prepareStatement("DELETE from EVENMAT WHERE IDMAT=?");
+                            PreparedStatement rs1;
+                            if(!inter.getEtat().equals("Terminé")){
+                                rs1 = connection.prepareStatement("select EVENMAT.ID,QTEUSED from EVENMAT,MATERIEL where ID=DESIGNATION and IDMAT=? and CONSOMABLE='Oui'");
+                                rs1.setString(1,inter.getIdI());
+                                ResultSet rs=rs1.executeQuery();
+                                while(rs.next()){
+                                    rs1 = connection.prepareStatement("UPDATE MATERIEL set QTE=QTE + ? where DESIGNATION='" + rs.getString(1) + "'");
+                                    rs1.setString(1,rs.getString(2));
+                                    rs1.execute();
+                                }
+                            }
+                            rs1 = connection.prepareStatement("DELETE from EVENMAT WHERE IDMAT=?");
                             rs1.setString(1,inter.getIdI());
                             rs1.execute();
                             rs1 = connection.prepareStatement("DELETE from EVENPER WHERE IDMAT=?");
