@@ -15,10 +15,10 @@ public class TestConnection {
     public static void main(String[] args)throws SQLException {
         try {
         Connection connection= getOracleConnection();
-        ResultSet rs = connection.createStatement().executeQuery("select * from TACHE ");
+        ResultSet rs = connection.createStatement().executeQuery("select * from COMPTE ");
         while(rs.next()){
             // oblist.add(new Compte(rs.getString("cin"),rs.getString("pass"),""));
-            System.out.println(rs.getString("IdTache")+" "+rs.getString("NomTache")+" "+rs.getString("Description")+" "+rs.getString("Debut")+" "+rs.getString("fin"));
+            System.out.println(rs.getString("MATRICULE"));
         }
         rs.close();
     } catch (SQLException throwables) {

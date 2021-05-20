@@ -11,11 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.*;
-import java.io.File;
-import java.net.URL;
-import java.util.Scanner;
-
 public class Main extends Application {
 
     public static void main(String[] args) {

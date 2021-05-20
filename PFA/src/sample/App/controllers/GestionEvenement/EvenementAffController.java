@@ -164,7 +164,8 @@ public class EvenementAffController implements Initializable {
         Personnel p=null;
         try {
             Connection connection = getOracleConnection();
-            PreparedStatement rs = connection.prepareStatement("select cheff from EVENEMENT");
+            PreparedStatement rs = connection.prepareStatement("select cheff from EVENEMENT where IDMAT=?");
+            rs.setString(1, EvenementLabel.getText());
             ResultSet rc = rs.executeQuery();
             while (rc.next()) {
                 for (int i = 0; i < Evenement.getEquipe().size(); i++) {

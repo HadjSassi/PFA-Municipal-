@@ -35,7 +35,7 @@ public class OracleConnection {
             connection = DriverManager.getConnection(URL,Username,Password);
         }
         catch (SQLException e){
-            System.out.println("error 1000");
+            System.out.println(e);
             System.out.println(e.getErrorCode());
         }
 

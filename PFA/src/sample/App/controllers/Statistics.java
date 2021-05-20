@@ -13,6 +13,7 @@ import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +31,12 @@ import java.util.Map;
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class Statistics implements Initializable {
+
+    @FXML
+    private TextField rapDD;
+
+    @FXML
+    private TextField rapDF;
 
     @FXML
     private PieChart pieChart;
@@ -69,13 +76,41 @@ public class Statistics implements Initializable {
             Connection connect = getOracleConnection();
             map = new HashMap<String, Object>();
 
-//            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Wissal\\JaspersoftWorkspace\\MyReports\\exemple.jasper"));
-            InputStream initialStream = new FileInputStream(new File("D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jasper"));
+            String query = "select  \n" +
+                    "'Intervention' as type,\n" +
+                    "\"INTERVENTION\".\"NOM\" as interventions,\n" +
+                    "'-' as evenements,\n" +
+                    "\"INTERVENTION\".\"DATED\" ,\n" +
+                    "\"INTERVENTION\".\"DATEF\" ,\n" +
+                    "\"INTERVENTION\".\"DOMAINE\" ,\n" +
+                    "\"INTERVENTION\".\"DESCRIPTION\" ,\n" +
+                    "\"INTERVENTION\".\"ETAT\",\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from \"INTERVENTION\",settings \n" +
+                    "where\n" +
+                    "DATED BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "union\n" +
+                    "select  \n" +
+                    "'Evenement' as type,\n" +
+                    "'-' as interventions,\n" +
+                    "\"EVENEMENT\".\"NOM\" as evenements,\n" +
+                    "\"EVENEMENT\".\"DATED\" ,\n" +
+                    "\"EVENEMENT\".\"DATEF\" ,\n" +
+                    "\"EVENEMENT\".\"DOMAINE\" ,\n" +
+                    "\"EVENEMENT\".\"DESCRIPTION\" ,\n" +
+                    "\"EVENEMENT\".\"ETAT\" ,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from \"EVENEMENT\",settings\n" +
+                    "where\n" +
+                    "DATED BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "order by type,etat,DATED";
 
-            Rapport.createReport(connect, map, initialStream);
-            Rapport.showReport();
+            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jrxml";
+
+            Rapport.genReport(connect, null, query,filename);
+            //Rapport.showReport();
         }
-        catch(SQLException e)
+        catch(SQLException | ClassNotFoundException e)
         {
             System.out.println(e);
         }
@@ -89,7 +124,47 @@ public class Statistics implements Initializable {
             Connection connect = getOracleConnection();
             map = new HashMap<String, Object>();
 
-//            InputStream initialStream = new FileInputStream(new File("C:\\Users\\Wissal\\JaspersoftWorkspace\\MyReports\\exemple.jasper"));
+            String query = "select\n" +
+                    "revenu.ID as ID,\n" +
+                    "TYPE,\n" +
+                    "PRIX as revenus,\n" +
+                    "0 as depenses,\n" +
+                    "DATES,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from revenu,settings\n" +
+                    "where\n" +
+                    "DATES BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "\n" +
+                    "union\n" +
+                    "select\n" +
+                    "depense.ID as ID,\n" +
+                    "TYPE,\n" +
+                    "0 as revenus,\n" +
+                    "PRIX*(-1) as depenses,\n" +
+                    "DATES,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from depense,settings\n" +
+                    "where\n" +
+                    "DATES BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "order by DATES";
+
+            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jrxml";
+
+            Rapport.genReport(connect, null, query,filename);
+            //Rapport.showReport();
+        }
+        catch(SQLException | ClassNotFoundException e)
+        {
+            System.out.println(e);
+        }
+
+
+/*
+        try {
+
+            Connection connect = getOracleConnection();
+            map = new HashMap<String, Object>();
+
             InputStream initialStream = new FileInputStream(new File("src/rapports/rapportF.jasper"));
 
             Rapport.createReport(connect, map, initialStream);
@@ -99,6 +174,8 @@ public class Statistics implements Initializable {
         {
             System.out.println(e);
         }
+*/
+
     }
 
     @Override
