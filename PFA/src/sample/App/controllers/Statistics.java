@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,20 +24,27 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import javafx.util.StringConverter;
 
 import static sample.OracleConnection.OracleConnection.getOracleConnection;
 
 public class Statistics implements Initializable {
 
     @FXML
-    private TextField rapDD;
+    private DatePicker datefieldDD;
 
     @FXML
-    private TextField rapDF;
+    private DatePicker datefieldDF;
 
     @FXML
     private PieChart pieChart;
@@ -69,7 +77,6 @@ public class Statistics implements Initializable {
         return Integer.parseInt(date.charAt(5)+date.charAt(6)+"");
     }
 
-
     @FXML
     void rapportActiviteBouton(ActionEvent event) throws  FileNotFoundException {
         try {
@@ -88,7 +95,7 @@ public class Statistics implements Initializable {
                     "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
                     "from \"INTERVENTION\",settings \n" +
                     "where\n" +
-                    "DATED BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "union\n" +
                     "select  \n" +
                     "'Evenement' as type,\n" +
@@ -102,13 +109,13 @@ public class Statistics implements Initializable {
                     "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
                     "from \"EVENEMENT\",settings\n" +
                     "where\n" +
-                    "DATED BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by type,etat,DATED";
 
             String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jrxml";
 
+
             Rapport.genReport(connect, null, query,filename);
-            //Rapport.showReport();
         }
         catch(SQLException | ClassNotFoundException e)
         {
@@ -133,7 +140,7 @@ public class Statistics implements Initializable {
                     "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
                     "from revenu,settings\n" +
                     "where\n" +
-                    "DATES BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "\n" +
                     "union\n" +
                     "select\n" +
@@ -145,13 +152,12 @@ public class Statistics implements Initializable {
                     "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
                     "from depense,settings\n" +
                     "where\n" +
-                    "DATES BETWEEN to_date( '"+rapDD.getText()+"', 'MM/DD/YYYY') and to_date( '"+rapDF.getText()+"', 'MM/DD/YYYY')\n" +
+                    "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by DATES";
 
             String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jrxml";
 
             Rapport.genReport(connect, null, query,filename);
-            //Rapport.showReport();
         }
         catch(SQLException | ClassNotFoundException e)
         {
