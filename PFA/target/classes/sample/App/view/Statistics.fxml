@@ -56,6 +56,12 @@
                         </Button>
                      </children>
                   </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="boutonRapportFinancierPDF" mnemonicParsing="false" onAction="#rapportFinancierBoutonPDF" prefHeight="30.0" text="Enreg PDF" />
+                        <Button fx:id="boutonRapportActivitePDF" mnemonicParsing="false" onAction="#rapportActiviteBoutonPDF" prefHeight="30.0" text="Enreg PDF" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
                 <Label layoutX="24.0" layoutY="10.0" prefHeight="30.0" prefWidth="305.0" text="Informations" textFill="#f2f0f0">

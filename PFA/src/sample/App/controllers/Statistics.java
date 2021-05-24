@@ -55,6 +55,12 @@ public class Statistics implements Initializable {
     @FXML
     private Button boutonRapportFinancier;
 
+    @FXML
+    private Button boutonRapportFinancierPDF;
+
+    @FXML
+    private Button boutonRapportActivitePDF;
+
 
     @FXML
     private LineChart<String, Number> lineChart;
@@ -182,6 +188,95 @@ public class Statistics implements Initializable {
         }
 */
 
+    }
+
+
+    @FXML
+    void rapportActiviteBoutonPDF(ActionEvent event)  throws  FileNotFoundException {
+        try {
+            Connection connect = getOracleConnection();
+            map = new HashMap<String, Object>();
+
+            String query = "select  \n" +
+                    "'Intervention' as type,\n" +
+                    "\"INTERVENTION\".\"NOM\" as interventions,\n" +
+                    "'-' as evenements,\n" +
+                    "\"INTERVENTION\".\"DATED\" ,\n" +
+                    "\"INTERVENTION\".\"DATEF\" ,\n" +
+                    "\"INTERVENTION\".\"DOMAINE\" ,\n" +
+                    "\"INTERVENTION\".\"DESCRIPTION\" ,\n" +
+                    "\"INTERVENTION\".\"ETAT\",\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from \"INTERVENTION\",settings \n" +
+                    "where\n" +
+                    "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
+                    "union\n" +
+                    "select  \n" +
+                    "'Evenement' as type,\n" +
+                    "'-' as interventions,\n" +
+                    "\"EVENEMENT\".\"NOM\" as evenements,\n" +
+                    "\"EVENEMENT\".\"DATED\" ,\n" +
+                    "\"EVENEMENT\".\"DATEF\" ,\n" +
+                    "\"EVENEMENT\".\"DOMAINE\" ,\n" +
+                    "\"EVENEMENT\".\"DESCRIPTION\" ,\n" +
+                    "\"EVENEMENT\".\"ETAT\" ,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from \"EVENEMENT\",settings\n" +
+                    "where\n" +
+                    "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
+                    "order by type,etat,DATED";
+
+            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jrxml";
+
+
+            Rapport.genpdf (connect, null, query,filename,"Activity");
+        }
+        catch(SQLException | ClassNotFoundException e)
+        {
+            System.out.println(e);
+        }
+
+
+    }
+
+    @FXML
+    void rapportFinancierBoutonPDF(ActionEvent event)  throws  FileNotFoundException {
+        try {
+            Connection connect = getOracleConnection();
+            map = new HashMap<String, Object>();
+
+            String query = "select\n" +
+                    "revenu.ID as ID,\n" +
+                    "TYPE,\n" +
+                    "PRIX as revenus,\n" +
+                    "0 as depenses,\n" +
+                    "DATES,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from revenu,settings\n" +
+                    "where\n" +
+                    "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
+                    "\n" +
+                    "union\n" +
+                    "select\n" +
+                    "depense.ID as ID,\n" +
+                    "TYPE,\n" +
+                    "0 as revenus,\n" +
+                    "PRIX*(-1) as depenses,\n" +
+                    "DATES,\n" +
+                    "LOGO,NOM_MUNI,ADRESSE,GOUVERNORAT,REGION,TEL,EMAIL,MAIRE_ACTUEL\n" +
+                    "from depense,settings\n" +
+                    "where\n" +
+                    "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
+                    "order by DATES";
+
+            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jrxml";
+
+            Rapport.genpdf(connect, null, query,filename,"Financier");
+        }
+        catch(SQLException | ClassNotFoundException e)
+        {
+            System.out.println(e);
+        }
     }
 
     @Override
