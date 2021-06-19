@@ -15,6 +15,7 @@ import sample.App.model.Etat;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -391,9 +392,10 @@ public class UpdatePermissionSuper implements Initializable {
                     try {
                         //String insertion = "INSERT INTO permission values(" + "\'" + id + "\'" + "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'" + ")";
                         String insertion = "update permission set " +
-                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
+                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = ?,tel = "+"\'"+(telfield.getText())+"\'"+", STATUS = "+"\'"+EtatEnum.getValue()+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
                                 "where id = "+"\'"+ids+"\'";
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         //System.out.println(insertion);
                         rs.execute();
 

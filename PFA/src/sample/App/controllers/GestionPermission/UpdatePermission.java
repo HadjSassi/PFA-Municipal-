@@ -392,9 +392,10 @@ public class UpdatePermission implements Initializable {
                     try {
                         //String insertion = "INSERT INTO permission values(" + "\'" + id + "\'" + "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'" + ")";
                         String insertion = "update permission set " +
-                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
+                                " type = "+"\'"+type+"\'"+", cin = "+"\'"+cin+"\'"+",nom = "+"\'"+nom+"\'"+", prenom ="+"\'"+prenom+"\'"+", description = "+"\'"+desc+"\'"+",dates = ?,tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+
                                 "where id = "+"\'"+ids+"\'";
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         //System.out.println(insertion);
                         rs.execute();
 

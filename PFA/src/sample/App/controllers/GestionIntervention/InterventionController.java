@@ -339,6 +339,15 @@ public class InterventionController implements Initializable {
 //        col_select.setCellFactory(cellfact);
     }
     private void loadData(){
+        try {
+            Connection connection= getOracleConnection();
+            PreparedStatement rs1 =connection.prepareStatement("update INTERVENTION set ETAT='EnCours' where ? BETWEEN dateD and dateF");
+            rs1.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
+            rs1.execute();
+            rs1 =connection.prepareStatement("update INTERVENTION set ETAT='Terminé' where ? > dateF");
+            rs1.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
+            rs1.execute();}
+        catch(SQLException throwables){throwables.printStackTrace();};
         oblist = FXCollections.observableArrayList();
         try {
             Connection connection= getOracleConnection();

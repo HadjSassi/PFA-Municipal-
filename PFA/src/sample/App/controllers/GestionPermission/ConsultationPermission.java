@@ -20,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,6 +28,7 @@ import javafx.util.Callback;
 import sample.App.controllers.Authentification;
 import sample.App.model.Doleance;
 import sample.App.model.Engin;
+import sample.App.model.Intervention;
 import sample.App.model.Permission;
 
 import java.io.IOException;
@@ -79,10 +81,10 @@ public class ConsultationPermission implements Initializable {
     TableColumn <Permission,String> modifierCol ;
 
     @FXML
-    TableColumn <Doleance,String> datecol ;
+    TableColumn <Permission,String> datecol ;
 
     @FXML
-    TableColumn <Doleance,String> StatusCol ;
+    TableColumn <Permission,String> StatusCol ;
 
 
     @FXML
@@ -115,6 +117,7 @@ public class ConsultationPermission implements Initializable {
         loadData();
         filter();
         stats();
+        EtatColorTable();
     }
     private void stats(){
         try {
@@ -428,7 +431,60 @@ public class ConsultationPermission implements Initializable {
         loadData();
     }
 
+    private void EtatColorTable() {
+        loadData();
+        StatusCol.setCellFactory(new Callback<TableColumn<Permission, String>,
+                TableCell<Permission, String>>()
+        {
+            @Override
+            public TableCell<Permission, String> call(
+                    TableColumn<Permission, String> param) {
+                return new TableCell<Permission, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        if (!empty) {
+                            int currentIndex = indexProperty()
+                                    .getValue() < 0 ? 0
+                                    : indexProperty().getValue();
+                            String clmStatus = param
+                                    .getTableView().getItems()
+                                    .get(currentIndex).getStatus();
+//                            if (clmStatus != null) {
+                            if (clmStatus.equals("Terminé")) {
+                                setStyle("-fx-text-fill : #4CAF50");
+                                setFont(Font.font("Impact", 20));
+                                setText(clmStatus);
+                            } else if (clmStatus.equals("EnCours")) {
+                                setStyle("-fx-text-fill : #FFC107");
+                                setFont(Font.font("Impact", 20));
+                                setText(clmStatus);
+                            } else if (clmStatus.equals("Initial")) {
+                                setStyle("-fx-text-fill : #26bfbc");
+                                setFont(Font.font("Impact", 20));
+                                setText(clmStatus);
+                            } else if (clmStatus.equals("Refusé")) {
+                                setStyle("-fx-text-fill : #fb3232");
+                                setFont(Font.font("Impact", 20));
+                                setText(clmStatus);
+                            } else if (clmStatus.equals("Initiale")) {
+                            setStyle("-fx-text-fill : #48c7c7");
+                            setFont(Font.font("Impact", 20));
+                            setText(clmStatus);
+                        }
+                            else if (clmStatus.equals("Approuvé")) {
+                                setStyle("-fx-text-fill : #2a73ff");
+                                setFont(Font.font("Impact", 20));
+                                setText(clmStatus);
+                            }
+                        } else {
+                            setText(null);
+                            setStyle(null);
+                        }
 
+                    }
+                };
+            }
+        }); }
 
 
 }

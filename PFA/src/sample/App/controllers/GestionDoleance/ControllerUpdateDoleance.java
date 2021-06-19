@@ -362,10 +362,11 @@ public class ControllerUpdateDoleance implements Initializable {
                     //String insertion = "UPDATE doleance values("+Integer.parseInt(lblId.getText())+","+"\'"+TypeEnum.getValue()+"\'"+","+"\'"+nameTextField.getText()+"\'"+","+"\'"+CinTextField.getText()+"\'"+",'initiale',"+"\'"+DescriptionFiled.getText()+"\'"+")";
 
                     String insertion = "Update doleance set " +
-                            "Type = "+"\'"+TypeEnum.getText()+"\'"+", Nom ="+"\'"+nameTextField.getText()+"\'"+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", Cin = "+"\'"+CinTextField.getText()+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+", Description = "+"\'"+DescriptionFiled.getText()+"\'"+"where ID = "+Integer.parseInt(lblId.getText())+"";
+                            "Type = "+"\'"+TypeEnum.getText()+"\'"+", Nom ="+"\'"+nameTextField.getText()+"\'"+",dates = ?, Cin = "+"\'"+CinTextField.getText()+"\'"+",tel = "+"\'"+(telfield.getText())+"\'"+", mail = "+"\'"+mailfield.getText()+"\'"+", adr = "+"\'"+adrfield.getText()+"\'"+", Description = "+"\'"+DescriptionFiled.getText()+"\'"+"where ID = "+Integer.parseInt(lblId.getText())+"";
 
 
                     PreparedStatement rs = connection.prepareStatement(insertion);
+                    rs.setDate(1, Date.valueOf(datefield.getValue()));
                     System.out.println(insertion);
                     rs.execute();
                     //lbl.setText("Ajout avec succés");

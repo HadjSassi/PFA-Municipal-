@@ -318,23 +318,24 @@ public class InterventionAddController implements Initializable {
         } else
             anchorpane4.toFront();
     }
-
+    private Boolean engVer=false;
     @FXML
     void handleClicksPage5(ActionEvent event) throws URISyntaxException {
         Label label = new Label();
         if (vbox_vehicule.getChildren().size() == 2)
             vbox_vehicule.getChildren().remove(1);
         if (table_info_Eng.getItems() == null || table_info_Eng.getItems().isEmpty()) {
-            label.setText("* Selectionner les vehicule qui vont être utilisées");
-            vbox_vehicule.getChildren().add(label);
-            label.setStyle("-fx-text-fill:red");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.initStyle(StageStyle.TRANSPARENT);
-            alert.setHeaderText(null);
-            alert.setContentText("Un des champs n'est pas correctement inserer");
-            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
-            alert.showAndWait();
-        } else
+                engVer=true;}
+//            label.setText("* Selectionner les vehicule qui vont être utilisées");
+//            vbox_vehicule.getChildren().add(label);
+//            label.setStyle("-fx-text-fill:red");
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.initStyle(StageStyle.TRANSPARENT);
+//            alert.setHeaderText(null);
+//            alert.setContentText("Un des champs n'est pas correctement inserer");
+//            alert.setGraphic(new ImageView(getClass().getResource("../../../images/errorinsert.png").toURI().toString()));
+//            alert.showAndWait();
+//        } else
             anchorpane5.toFront();
     }
     private boolean insert=false;
@@ -407,12 +408,13 @@ public class InterventionAddController implements Initializable {
 //                rs.setInt(3,i.getQte());
 //                rs.execute();
 //            }
+            if (!engVer) {
             for (Engin i : table_info_Eng.getItems()) {
                 rs = connection.prepareStatement("INSERT INTO interENG values(?,?)");
                 rs.setString(1, i.getID());
                 rs.setString(2, IdInterventionField.getText());
                 rs.execute();
-            }
+            }}
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.initStyle(StageStyle.TRANSPARENT);

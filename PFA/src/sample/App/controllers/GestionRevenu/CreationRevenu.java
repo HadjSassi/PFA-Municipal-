@@ -198,8 +198,9 @@ public class CreationRevenu implements Initializable {
                     connection = getOracleConnection();
                     try {
 
-                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getText()+"\'"+","+""+prixfield.getText()+""+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
+                        String insertion = "insert into revenu values (null,"   +"\'"+Typefield.getText()+"\'"+","+""+prixfield.getText()+""+",?,"+"\'"+descfield.getText() +"\'"+" )";
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         //System.out.println(insertion);
                         rs.execute();
 

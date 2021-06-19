@@ -224,7 +224,7 @@ public class CreationMateriel implements Initializable {
                             t1=tnon.getText();
                         System.out.println(qtefield.getText()+" "+des);
                         int tot = Integer.parseInt(qtefield.getText());
-                        tot += Integer.parseInt(des) ;
+//                        tot += Integer.parseInt(des) ;
 
                         String insertion = "update MATERIEL set DESIGNATION = "+"\'"+fara8(designationfield.getText().toString())+"\'"+", qte = "+tot+",CONSOMABLE ="+"\'"+t1+"\'"+" where DESIGNATION =  "+"\'"+fara8(designationfield.getText().toString())+"\'";
 

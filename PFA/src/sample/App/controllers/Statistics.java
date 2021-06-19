@@ -118,7 +118,7 @@ public class Statistics implements Initializable {
                     "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by type,etat,DATED";
 
-            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jrxml";
+            String filename ="C:\\Users\\ghazo\\Desktop\\New folder (6)\\PFA\\src\\rapports\\rapportActiv.jrxml";
 
 
             Rapport.genReport(connect, null, query,filename);
@@ -161,7 +161,7 @@ public class Statistics implements Initializable {
                     "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by DATES";
 
-            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jrxml";
+            String filename ="C:\\Users\\ghazo\\Desktop\\New folder (6)\\PFA\\src\\rapports\\rapportF.jrxml";
 
             Rapport.genReport(connect, null, query,filename);
         }
@@ -226,7 +226,7 @@ public class Statistics implements Initializable {
                     "DATED BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by type,etat,DATED";
 
-            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportActiv.jrxml";
+            String filename ="C:\\Users\\ghazo\\Desktop\\New folder (6)\\PFA\\src\\rapports\\rapportActiv.jrxml";
 
 
             Rapport.genpdf (connect, null, query,filename,"Activity");
@@ -269,7 +269,7 @@ public class Statistics implements Initializable {
                     "DATES BETWEEN to_date( '"+datefieldDD.getValue().toString()+"', 'YYYY-MM-DD') and to_date( '"+datefieldDF.getValue().toString()+"', 'YYYY-MM-DD')\n" +
                     "order by DATES";
 
-            String filename ="D:\\git\\PFA-Municipal-\\PFA\\src\\rapports\\rapportF.jrxml";
+            String filename ="C:\\Users\\ghazo\\Desktop\\New folder (6)\\PFA\\src\\rapports\\rapportF.jrxml";
 
             Rapport.genpdf(connect, null, query,filename,"Financier");
         }

@@ -193,8 +193,9 @@ public class UpdateRevenu implements Initializable {
                     try {
 
                         String insertion = "Update revenu set " +
-                                "Type = "+"\'"+Typefield.getText()+"\'"+", prix = "+""+prixfield.getText()+""+",dates = "+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+", description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
+                                "Type = "+"\'"+Typefield.getText()+"\'"+", prix = "+""+prixfield.getText()+""+",dates = ?, description ="+"\'"+descfield.getText()+"\'"+" where ID = "+"\'"+id+"\'"+"";
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         //System.out.println(insertion);
                         rs.execute();
 

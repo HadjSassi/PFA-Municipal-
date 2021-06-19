@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="576.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane style="-fx-background-color: #464646;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.accueilController">
    <children>
-      <AnchorPane layoutY="510.0" prefHeight="67.0" prefWidth="794.0" style="-fx-background-color: #464646;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Label layoutX="642.0" layoutY="9.0" prefHeight="50.0" prefWidth="138.0" text=" Version Alpha 0.8" textFill="WHITE" AnchorPane.rightAnchor="14.0">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <VBox prefHeight="576.0" prefWidth="906.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="547.0" fitWidth="906.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/municipalité-tunisie-640x411.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </VBox>
+      <Pagination fx:id="p" layoutY="-12.0" maxPageIndicatorCount="3" pageCount="5" prefHeight="588.0" prefWidth="793.0" style="-fx-background-color: transparent;" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0" />
+      <Label layoutX="621.0" layoutY="519.0" prefHeight="50.0" prefWidth="138.0" text=" Version Alpha 0.8" textFill="WHITE" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="34.0">
+         <font>
+            <Font name="Arial Italic" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

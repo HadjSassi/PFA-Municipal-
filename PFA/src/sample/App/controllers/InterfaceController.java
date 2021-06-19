@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.App.FxmlLoader;
@@ -70,21 +71,24 @@ public class InterfaceController implements Initializable {
         Stage primaryStage = new Stage();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../view/Authentification.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../view/Authentification1.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         window=primaryStage;
         this.stage=primaryStage;
-        window.setScene(new Scene(root));
+        Scene scene =new Scene(root);
+        window.setScene(scene);
         //set stage borderless
-        window.initStyle(StageStyle.UNDECORATED);
+        window.initStyle(StageStyle.TRANSPARENT);
         try {
             primaryStage.getIcons().add((new Image( getClass().getResource("../../images/municipalite-tunis.png").toURI().toString())));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
         primaryStage.show();
+        scene.setFill(Color.TRANSPARENT);
     }
 
     @FXML

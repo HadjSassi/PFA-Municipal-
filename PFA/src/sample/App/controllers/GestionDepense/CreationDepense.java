@@ -149,7 +149,7 @@ public class CreationDepense implements Initializable {
         String year = ""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
         String month= ""+d.charAt(5)+d.charAt(6);
         String day=""+d.charAt(8)+d.charAt(9) ;
-        return ""+day+"/"+month+"/"+year;
+        return ""+month+"/"+day+"/"+year;
     }
 
     @FXML
@@ -193,8 +193,9 @@ public class CreationDepense implements Initializable {
                     connection = getOracleConnection();
                     try {
 
-                        String insertion = "insert into depense values (null,"   +"\'"+Typefield.getText()+"\'"+","+""+prixfield.getText()+""+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+","+"\'"+descfield.getText() +"\'"+" )";
+                        String insertion = "insert into depense values (null,"   +"\'"+Typefield.getText()+"\'"+","+""+prixfield.getText()+""+",?,"+"\'"+descfield.getText() +"\'"+" )";
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         System.out.println(insertion);
                         rs.execute();
 

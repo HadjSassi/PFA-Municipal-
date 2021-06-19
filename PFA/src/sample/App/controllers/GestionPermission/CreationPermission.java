@@ -385,8 +385,10 @@ public class CreationPermission implements Initializable {
                 try {
                     connection = getOracleConnection();
                     try {
-                        String insertion = "INSERT INTO PERMISSION values(" + "null "+ "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+","+"\'"+convertDate(String.valueOf(datefield.getValue()))+"\'"+",'Initiale'"+")";
+                        String insertion = "INSERT INTO PERMISSION values(" + "null "+ "," + "\'" + type + "\'" + "," + "\'" + cin + "\'" + "," + "\'" + nom + "\'" + ","+"\'" + prenom + "\'" + "," +"\'" +desc+"\'"+","+"\'"+(telfield.getText())+"\'"+","+"\'"+mailfield.getText()+"\'"+","+"\'"+adrfield.getText()+"\'"+",?,'Initiale'"+")";
+
                         PreparedStatement rs = connection.prepareStatement(insertion);
+                        rs.setDate(1, Date.valueOf(datefield.getValue()));
                         System.out.println(insertion);
                             rs.execute();
 

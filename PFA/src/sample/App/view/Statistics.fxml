@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="794.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.Statistics">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.App.controllers.Statistics">
     <children>
         <AnchorPane prefHeight="607.0" prefWidth="794.0" style="-fx-background-color: linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b) linear-gradient(to right bottom, #000000, #090909, #111111, #161616, #1b1b1b, #212026, #272631, #2c2c3c, #303552, #304069, #274b82, #01579b);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <HBox layoutY="490.0" prefHeight="64.0" prefWidth="793.0">
+            <HBox layoutY="490.0" prefHeight="64.0" prefWidth="793.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <Pagination fx:id="page" pageCount="4" prefHeight="94.0" prefWidth="329.0" />
                   <VBox prefHeight="20.0" prefWidth="130.0">
@@ -64,12 +64,12 @@
                   </VBox>
                </children>
             </HBox>
-                <Label layoutX="24.0" layoutY="10.0" prefHeight="30.0" prefWidth="305.0" text="Informations" textFill="#f2f0f0">
+                <Label layoutX="24.0" layoutY="10.0" prefHeight="30.0" prefWidth="305.0" text="Informations" textFill="#f2f0f0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="28.0" />
                     </font>
                 </Label>
-            <AnchorPane layoutY="60.0" prefHeight="406.0" prefWidth="794.0">
+            <AnchorPane layoutY="60.0" prefHeight="406.0" prefWidth="794.0" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
                <children>
                   <HBox layoutX="6.0" prefHeight="406.0" prefWidth="794.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
